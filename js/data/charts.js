@@ -7,10 +7,10 @@
   PK.data.charts = {
     pf10: {
       title: 'Nyitó all-in 10bb-vel',
-      setup: '9 fős asztal, 10bb effektív, ante nélkül, chipEV (Nash-közeli)',
+      setup: '9 fős asztal, 10bb effektív, chipEV, Nash-közeli; a forrás ante nélkülinek közli, de a tartományok a big blind ante-s szakaszhoz illenek',
       source: 'Dara O’Kearney – Barry Carter: Poker Satellite Strategy (a pokerskill.com közlésében)',
       note:
-        'A 10 fős asztalon az UTG egy fokkal szűkebb, mint a 9 fős UTG. Big blind ante mellett több a holt pénz, ezért a chart ilyenkor alsó határ: lehet szélesebben tolni.',
+        'Saját chipEV-Nash-ellenőrzésünk szerint (9 fős asztal, 10bb) ante nélkül az UTG kb. 9%-ot, a BTN kb. 32%-ot, az SB kb. 58%-ot tolna, big blind ante mellett kb. 15%-ot, 43%-ot és 72%-ot. A chart ez utóbbihoz áll közel, a korai pozíciókban egy kicsit lazább is annál. Ante nélkül, a verseny első szintjein korai pozícióból jóval szűkebben told. A 10 fős asztalon az UTG egy fokkal szűkebb, mint a 9 fős UTG.',
       rows: [
         { pos: 'UTG', ten: 'UTG és UTG+1', pct: 17.9, range: '22+, A4s+, ATo+, K9s+, KJo+, Q9s+, J9s+, T8s+, 98s' },
         { pos: 'UTG+1', ten: 'UTG+2', pct: 17.5, range: '33+, A3s+, ATo+, K9s+, KJo+, Q9s+, J9s+, T9s, 98s' },
@@ -24,7 +24,7 @@
     },
     call10: {
       title: 'Hívás 10bb-s UTG all-in ellen',
-      setup: '9 fős asztal, 10bb effektív, ante nélkül, chipEV',
+      setup: '9 fős asztal, 10bb effektív, chipEV; a forrás ante nélkülinek közli, de a BB-sor csak big blind ante mellett közel nullszaldós: a határkezek (A7o, A2s, KJo, JTs) a chart UTG-range-e ellen kb. 41%-osak, BB ante mellett 41,9%, ante nélkül 43,9% kell',
       source: 'Dara O’Kearney – Barry Carter: Poker Satellite Strategy (a pokerskill.com közlésében)',
       rows: [
         { pos: 'UTG+1', ten: 'UTG+2 körül', pct: 7.8, range: '77+, ATs+, AJo+, KQs' },

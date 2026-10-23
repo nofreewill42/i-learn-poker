@@ -321,7 +321,7 @@
     check: { eff: 22 },
     q: 'Mindenki dob hozzád. Mit lépsz a CO-ról?',
     opts: [
-      { id: 'fold', t: 'Fold', g: 'blunder', why: 'Még a buborék-üzemmódban vagy: a KTs a CO-ról 25bb-vel egyértelmű nyitás. Árulkodó: „most már pénzben vagyok, nem kockáztatok”.' },
+      { id: 'fold', t: 'Fold', g: 'minor', why: 'Még a buborék-üzemmódban vagy: a KTs a CO-ról 25bb-vel egyértelmű nyitás, és a fold ezt a nyereséget dobja el. Árulkodó: „most már pénzben vagyok, nem kockáztatok”.' },
       { id: 'open', t: 'Open 2,2bb', g: 'best' },
       { id: 'jam', t: 'All-in 25bb', g: 'good', why: 'ICM-ben is enyhén nyereséges, mert a mögötted lévők szűken hívnak, de feleslegesen nagy kockázat: a 2,2bb-s nyitás ugyanezt olcsóbban hozza.' },
     ],

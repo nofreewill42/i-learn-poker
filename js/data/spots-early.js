@@ -74,7 +74,7 @@
       { id: 'limp', t: 'Limp 1bb', g: 'minor', why: 'A 77 nyitó kéz: a limp feladja a kezdeményezést, és olcsó multiway potot hív be, ahol a flopon csak kb. 12%-ban találsz drillt. Árulkodó: „párral limpelek, set miningre”.' },
       { id: 'o2', t: 'Open 2bb', g: 'minor', why: 'A min-raise túl olcsó: a BB-nek 1bb-t kell hívnia egy 5bb-s végső potért (20% equity elég), és élőben, mélyen mögötted is sokan beszállnak. Árulkodó: online, ante-s méretet hozol át egy ante nélküli élő szintre.' },
       { id: 'o3', t: 'Open 2,5–3bb', g: 'best' },
-      { id: 'o5', t: 'Open 5bb', g: 'minor', why: 'A 77-tel nem kell preflop nagy pot: 5bb-re főleg a jobb kezek folytatnak, és ha csak egyes kezeket nyitsz ekkorára, az élőben olvasható méret-tell. Árulkodó: „nagyot emelek, hogy ne hívjanak”.' },
+      { id: 'o5', t: 'Open 5bb', g: 'minor', why: '5bb-vel kétszer annyit kockáztatsz ugyanazért a 2bb-ért, egy 77-tel felfújt potot építesz, és ha csak egyes kezeket nyitsz ekkorára, az élőben olvasható méret-tell. Árulkodó: „nagyot emelek, hogy ne hívjanak”.' },
     ],
     ans: 'Open 2,5–3bb: a 77 UTG+2-ről nyitó kéz, és élőben, mélyen, ante nélkül ez a standard méret.',
     exp:
@@ -133,7 +133,7 @@
       { c: 'profile', t: 'A recek limp-range-e széles és többnyire capped: a prémium kezeket általában emelik.' },
     ],
     markers: [{ re: '(^|[^m] |[^e]m |[^n]em )(limpelek (en is|moge)|moge(juk)? limpelek|overlimpelek)', msg: 'Overlimp egy value-kézzel: a heads-up iso helyett multiway potot választasz.' }],
-    src: 'Iso-méret ökölszabály (open + 1bb limperenként, OOP +1bb; blackrain79, pokerskill); GTO Wizard: How to Handle Loose-Passive Limpers (raise-or-fold, overlimp csak gyenge spekulatív kezekkel); Monte Carlo equity',
+    src: 'Iso-méret ökölszabály (open + 1bb limperenként, OOP +1bb; blackrain79, pokerskill); GTO Wizard: How to Handle Loose-Passive Limpers (a BTN-en overlimp csak az emeléshez túl gyenge, multiwayben jól játszható kezekkel); Monte Carlo equity',
   });
 
   S.push({
@@ -251,7 +251,7 @@
     ],
     ans: 'Call: 250bb mélyen a 99 a drill implied oddsáért hív; a 4-betre csak a jobb kezek és az AK folytatnak.',
     exp:
-      'A potban 13bb van, neked 5,5bb a hívás, ez nyersen 29,7% equityt kér. A ritkán 3-betelő rec value-túlsúlyos range-e (kb. QQ+, AK) ellen a 99 kb. 36%-os, de OOP ezt nem tudja teljesen realizálni, csak QQ+ ellen pedig kb. 19%-os. A döntést a mélység viszi: a hívás az effektív stack kb. 1/45-e, a flopon kb. 12%-ban drillt kapsz, és a rec az overpairjével gyakran sokat fizet. A 4-bet 20bb-re hiba, mert csak a jobb kezek és az AK folytatnak; ha valaki tényleg csak AA–KK-val 3-betel, és drill ellen sem fizet, a fold is rendben.',
+      'A potban 13bb van, neked 5,5bb a hívás, ez nyersen 29,7% equityt kér. A ritkán 3-betelő rec value-túlsúlyos range-e (kb. QQ+, AK) ellen a 99 kb. 36%-os, de OOP ezt nem tudja teljesen realizálni, csak QQ+ ellen pedig kb. 19%-os. A döntést a mélység viszi: a hívás az effektív stack kb. 1/45-e, a flopon kb. 12%-ban drillt kapsz, és a rec az overpairjével gyakran sokat fizet. A 4-bet 20bb-re hiba, mert csak a jobb kezek és az AK folytatnak. A fold akkor jó, ha eltűnik az implied odds: ha ez a rec egy drill ellen sem fizetne ki az overpárjával.',
     mist: 'Tipikus hiba az „információszerző” 4-bet, és a nyers pot odds alapján hozott fold mélyen, ahol a drill implied oddsa a lényeg.',
     factors: [
       { c: 'range', t: 'A ritkán 3-betelő rec range-e value-túlsúlyos (kb. QQ+, AK): ez ellen a 99 kb. 36%-os, csak QQ+ ellen kb. 19%.' },
@@ -340,7 +340,7 @@
     mist: 'Tipikus hiba a „nem talált, feladom” reflex range-előnyös boardon, és a nagy c-bet száraz boardon.',
     factors: [
       { c: 'board', t: 'K♣7♦2♥ száraz, szivárvány: kevés a draw, a következő lapok ritkán fordítják meg a helyzetet.' },
-      { c: 'range', t: 'Range-előny: a BTN-nél több az AK és a KK; TPGK vagy jobb kb. 12% nálad, kb. 8% a BB-nél.' },
+      { c: 'range', t: 'Range-előny: a BTN-nél több az AK és a KK; TPGK vagy jobb kb. 11–12% nálad, kb. 8% a BB-nél.' },
       { c: 'sizing', t: 'Száraz boardon kicsi c-bet: kb. 2bb (25–33%) a 6,5bb-s potba; a nagy méret itt csak többet kockáztat.' },
       { c: 'init', t: 'Preflop emelőként nálad a kezdeményezés: a BB check után a c-bet a range-ed nagy részével működik.' },
       { c: 'fe', t: 'Az AQ most ász-magas, egy overkártyával és backdoor broadway-húzóval: a kis bet dobatja a BB gyenge kezeit.' },
@@ -376,13 +376,13 @@
       { id: 'b5', t: 'C-bet 5bb (kb. 75%)', g: 'minor', why: 'Nagy potot építesz pár nélkül egy olyan boardon, amely a BB-nek kedvez: egy check-raise-re dobnod kell, a hívó range-e pedig tele van párral és drawval. Árulkodó: „erősnek kell mutatnom”.' },
       { id: 'check', t: 'Check', g: 'best' },
     ],
-    ans: 'Check: a 876 két színnel a BB range-ének kedvez, az AK pedig pozícióban ingyen látja a turnt; ha mégis betelsz, csak kicsit és ritkán.',
+    ans: 'Check: a 876 két színnel a BB range-ét találja, az AK pedig pozícióban ingyen látja a turnt; ha mégis betelsz, csak kicsit és ritkán.',
     exp:
-      'A flopon 6,5bb a pot. A 8♥7♥6♣ összekötött, két színű board a BB-nek kedvez: nála vannak a sorok (T9s, 54s), a két párok (87s, 86s, 76s) és a szettek nagy része, két pár vagy jobb kb. 13% nála és kb. 8% nálad, a range vs range előnyöd pedig a preflop kb. 64–65%-ról kb. 56%-ra esik. Az AK-nak nincs párja, és backdoor flush-húzója sincs (nincs pikk a boardon), csak hat outja; a BB range-e ellen így is kb. 44%-os, de egy check-raise után ezt nem tudja realizálni. Pozícióban a check ingyen hozza a turnt, és kicsiben tartja a potot; a kis bet ritkán belefér, a 75% viszont nagy potot épít egy olyan kézzel, amely egy raise-re dobni fog.',
+      'A flopon 6,5bb a pot. A 8♥7♥6♣ összekötött, két színű board a BB range-ét találja: csak nála vannak sorok (T9s, 54s) és két párok (87s, 86s, 76s), két pár vagy jobb kb. 13% nála és kb. 8% nálad, a range vs range előnyöd pedig a preflop kb. 64–65%-ról kb. 56%-ra esik. Az AK-nak nincs párja, és backdoor flush-húzója sincs (nincs pikk a boardon), csak hat outja; a BB range-e ellen így is kb. 44%-os, de egy check-raise után ezt nem tudja realizálni. Pozícióban a check ingyen hozza a turnt, és kicsiben tartja a potot; a kis bet ritkán belefér, a 75% viszont nagy potot épít egy olyan kézzel, amely egy raise-re dobni fog.',
     mist: 'Tipikus hiba az automatikus c-bet („AK-val mindig c-betelek”), főleg nagy mérettel egy olyan boardon, amely a hívó range-ét találja.',
     factors: [
       { c: 'board', t: '8♥7♥6♣: összekötött, két színű, középső lapok — a BB hívó range-ét találja, nem az UTG-range-et.' },
-      { c: 'range', t: 'A BB-nél vannak a sorok (T9s, 54s), a két párok és a szettek nagy része: két pár+ kb. 13% nála, kb. 8% nálad.' },
+      { c: 'range', t: 'Csak a BB-nél vannak sorok (T9s, 54s) és két párok (87s, 86s, 76s): két pár+ kb. 13% nála, kb. 8% nálad.' },
       { c: 'odds', t: 'Az AK pár nélkül kb. 44%-os a BB range-e ellen (6 out, backdoor flush nincs), de egy check-raise után ezt nem realizálja.' },
       { c: 'pos', t: 'Pozícióban vagy: a check ingyen hozza a turnt, és a pot kicsi marad; egy A vagy K a turnön top párt ad.' },
     ],
@@ -419,7 +419,7 @@
     ],
     ans: 'Check: két ellenfél ellen, egy őket találó boardon az A♣K♣ tiszta blöffje nem működik.',
     exp:
-      'A flopon 9bb a pot, két ellenfeled van, és középen ülsz: a BB már checkelt, mögötted még a BTN dönt. Az A♣K♣-nak itt se párja, se húzója nincs (a boardon nincs treff), csak hat outja, és két hívó ellen kb. 23%-os. A 3bb-s c-betnek nagyjából 25%-ban, a 6bb-snek 40%-ban kellene egyszerre mindkét ellenfelet dobatnia, de a tipikus range-ekkel kb. 76%-ban legalább egyiküknek van párja vagy jobb keze, és csak kb. 7%-ban nincs egyiküknek se párja, se húzója. A GTO Wizard multiway-tippjei szerint a tiszta blöff kockázat/nyereség aránya multiwayben nagyon rossz, a c-bet gyakoriságát pedig a nut-előny szabja meg, ami itt nincs nálad.',
+      'A flopon 9bb a pot, két ellenfeled van, és középen ülsz: a BB már checkelt, mögötted még a BTN dönt. Az A♣K♣-nak itt se párja, se húzója nincs (a boardon nincs treff), csak hat outja, és két hívó ellen kb. 21–23%-os. A 3bb-s c-betnek nagyjából 25%-ban, a 6bb-snek 40%-ban kellene egyszerre mindkét ellenfelet dobatnia, de a tipikus range-ekkel kb. 76%-ban legalább egyiküknek van párja vagy jobb keze, és csak kb. 7%-ban nincs egyiküknek se párja, se húzója. A GTO Wizard multiway-tippjei szerint a tiszta blöff kockázat/nyereség aránya multiwayben nagyon rossz, a c-bet gyakoriságát pedig a nut-előny szabja meg, ami itt nincs nálad.',
     mist: 'Tipikus hiba a heads-up c-bet-szokás átvitele multiway potba („nyitottam, tehát c-betelek”), és a blöff két vagy több ellenfél ellen.',
     factors: [
       { c: 'mw', t: 'Két ellenfél: a blöffnek mindkettőjüket egyszerre kell dobatnia; a tipikus range-ekkel kb. 76%-ban legalább egyiküknek van párja vagy jobb keze.' },
@@ -458,19 +458,19 @@
     opts: [
       { id: 'fold', t: 'Fold', g: 'good', why: 'Egy nagyon passzív rec ellen, aki csak szettel és két párral emel, ez is jó; átlagos rec ellen viszont a 24,6%-os ár mellett túl korán adod fel az overpárt. Árulkodó: „check-raise, biztosan szett”.' },
       { id: 'call', t: 'Call 8,5bb', g: 'best' },
-      { id: '3b', t: '3-bet 30bb-re', g: 'minor', why: 'A 3-betre a rec a gyengébb kezeit eldobja, a szettjeivel és két párjaival pedig all-in megy, és akkor kb. 41% equityvel kellene hívnod. Árulkodó: „megnézem, mit csinál a 3-betre”.' },
+      { id: '3b', t: '3-bet 30bb-re', g: 'minor', why: 'A 3-betre a rec a gyengébb kezeit eldobja, a szettjeivel és két párjaival all-in megy: akkor 166bb-t kellene hívnod, ehhez kb. 41% equity kell, a QQ pedig ez ellen kb. 23–38%-os. Árulkodó: „megnézem, mit csinál a 3-betre”.' },
       { id: 'jam', t: 'All-in 193,5bb', g: 'blunder', why: 'Kb. 194bb-t teszel egy 26bb-s potba egy egy-páros kézzel: csak a szettek, a két párok és a legerősebb drawok hívnak, ezek ellen a QQ kb. 23–38%-os. Árulkodó: „QQ, all-in”.' },
     ],
     ans: 'Call: 24,6% equity elég, a QQ egy rec check-raise range-e ellen kb. 39%-os, de 200bb mélyen nem stackelsz vele, a turnt kis potban nézed meg.',
     exp:
-      'A potban 26bb van, neked 8,5bb a hívás, a végső pot 34,5bb, tehát 24,6% equity elég. Egy rec check-raise range-e ezen a boardon főleg szettekből és két párokból áll (JJ, TT, 66, JT, J6s, T6s — ez ellen a QQ kb. 23%-os), plusz a legerősebb drawokból (KQ, Q9, 98, káró flush-húzók); a teljes range ellen kb. 39%-os. A flop SPR kb. 18,8: ilyen mélyen az egy pár nem stack-off kéz egy nedves boardon, a 3-bet vagy az all-in csak a jobb kezeket és a legerősebb drawokat tartja bent. Hívj, és a turnön dönts újra: egy káró, egy K vagy egy 9 után inkább check-fold, egy üres lapnál check-call.',
+      'A potban 26bb van, neked 8,5bb a hívás, a végső pot 34,5bb, tehát 24,6% equity elég. Egy rec check-raise range-e ezen a boardon főleg szettekből és két párokból áll (JJ, TT, 66, JT, J6s, T6s — ez ellen a QQ kb. 23%-os), plusz a legerősebb drawokból (KQ, Q9, 98, káró flush-húzók); a teljes range ellen kb. 39%-os. A flop SPR kb. 18,8: ilyen mélyen az egy pár nem stack-off kéz egy nedves boardon, a 3-bet vagy az all-in csak a jobb kezeket és a legerősebb drawokat tartja bent. Hívj, és a turnön dönts újra; ott a BB lép először: ha egy káró vagy egy sort hozó lap (A, K, 9, 8, 7) után újra betel, inkább dobd, üres lapra még hívhatsz, ha pedig checkel, checkelj te is.',
     mist: 'Tipikus hiba az „overpárral nem dobok” reflex 200bb mélyen, és az all-in egy rec check-raise-ére, amit csak jobb kezek fizetnek ki.',
     factors: [
       { c: 'spr', t: 'Flop SPR kb. 18,8 (kb. 197bb mögött / 10,5bb pot): ennyire mélyen egy pár nem stackelési kéz.' },
       { c: 'odds', t: '8,5bb hívás 34,5bb-s végső potért: 24,6% kell; a QQ a rec range-e ellen kb. 39%-os, csak a value ellen kb. 23%.' },
       { c: 'range', t: 'A rec check-raise-e value-túlsúlyos: JJ, TT, 66, JT, J6s, T6s, plusz KQ, Q9, 98 és káró flush-húzók.' },
       { c: 'board', t: 'J♦T♦6♠: nedves board, sok sorhúzóval és káró flush-húzóval — a QQ a turnön sok lapra gyengül.' },
-      { c: 'plan', t: 'Terv: hívás, a turnön check; káró, K vagy 9 után inkább check-fold, üres lapra check-call.' },
+      { c: 'plan', t: 'Terv: hívás; a turnön a BB lép először — káró vagy sort hozó lap (A, K, 9, 8, 7) után egy újabb betjére fold, üres lapra call, checkre check.' },
     ],
     markers: [{ re: '\\b(qq|damapar|ket dama|dupla dama)(val|ral)?,? (all-? ?in|betol|tolok|shove|push|nem dobom)', msg: 'Overpár-szerelem: 200bb mélyen egy pár nem stack-off kéz egy rec check-raise-ére.' }],
     src: 'SPR-elköteleződés (Miller–Mehta–Flynn: Professional No-Limit Hold\'em); GTO Wizard: 10 Tips for Multiway Pots (az overpárt multiwayben több check-raise támadja); pot odds a motor számaival; Monte Carlo equity',
@@ -501,13 +501,13 @@
     q: 'BTN-ről nyitottál, a BB (calling station) hívott. Flop K♣8♦4♠: c-bet 2,5bb, call. Turn 3♥: check-check. River 2♣, a BB checkel. Mit lépsz?',
     opts: [
       { id: 'check', t: 'Check', g: 'minor', why: 'Ingyen showdownt adsz egy hívogatónak, aki a rosszabb Kx-ét, a 8x-ét és a 4x-ét is kifizetné. Árulkodó: „úgyis csak jobb hív”.' },
-      { id: 'b4', t: 'Bet 4bb (kb. 33%)', g: 'good', why: 'Jó value-bet, csak kicsit kevesebbet hoz: a station a 6–7bb-t is ugyanazokkal a kezekkel hívná.' },
+      { id: 'b4', t: 'Bet 4bb (kb. 35%)', g: 'good', why: 'Jó value-bet, csak kicsit kevesebbet hoz: a station a 6–7bb-t is ugyanazokkal a kezekkel hívná.' },
       { id: 'b7', t: 'Bet 7bb (kb. 60%)', g: 'best' },
       { id: 'jam', t: 'All-in 95bb', g: 'blunder', why: 'Kb. 95bb-t kockáztatsz egy 11,5bb-s potért: erre csak a jobb kezek hívnak, a rosszabb párok dobnak. Árulkodó: „ha hív, hív” — a value a hívó range-en múlik.' },
     ],
     ans: 'Bet kb. 7bb (50–66%): a station a rosszabb Kx-szel, 8x-szel és 4x-szel is fizet, a KJ ezek ellen bőven előnyben van.',
     exp:
-      'A riveren 11,5bb a pot, és a K♣8♦4♠3♥2♣ boardon a KJ top pár, közepes kickerrel. A station a flopon bármilyen párral hívott, és a turn check után is ott vannak nála a rosszabb Kx-ek (KT, K9, K7–K5), a 8x és a 4x; jobb keze (AK, KQ, két pár, szett, 5x-sor) jóval kevesebb van. Ha a hívó range-e Kx, 8x, 4x és a jobb kezek, a KJ ez ellen kb. 67%-os; ha csak Kx-szel és jobbal hívna, csak kb. 34% — a value azon múlik, hogy a station a 8x-et és a 4x-et is kifizeti. Egy hívogató a méretre kevéssé érzékeny, ezért a 6–7bb többet hoz a 33%-nál, az all-in viszont csak jobbat hívat.',
+      'A riveren 11,5bb a pot, és a K♣8♦4♠3♥2♣ boardon a KJ top pár, közepes kickerrel. A station a flopon bármilyen párral hívott, és a turn check után is ott vannak nála a rosszabb Kx-ek (KT, K9, K7–K5), a 8x és a 4x; jobb keze (AK, KQ, két pár, szett, 5x-sor) jóval kevesebb van. Ha a hívó range-e Kx, 8x, 4x és a jobb kezek, a KJ ez ellen kb. 67%-os; ha csak Kx-szel és jobbal hívna, csak kb. 34% — a value azon múlik, hogy a station a 8x-et és a 4x-et is kifizeti. Egy hívogató a méretre kevéssé érzékeny, ezért a 6–7bb többet hoz a 4bb-nél, az all-in viszont csak jobbat hívat.',
     mist: 'Tipikus hiba a „csak jobb hív” check egy calling station ellen, és a túl kicsi méret, ami ugyanazokkal a kezekkel kevesebbet hoz.',
     factors: [
       { c: 'profile', t: 'Calling station: bármilyen párral hív a riverig, ritkán emel és ritkán blöfföl.' },
@@ -549,7 +549,7 @@
     ],
     ans: 'Fold: 33,3% equity kell, de egy passzív rec potméretű river-leadje ezen a boardon szinte csak flush, sor vagy szett, ezeket a két pár nem veri.',
     exp:
-      'A riveren 33,5bb-s pot-betet kapsz egy 33,5bb-s potba: a hívás 33,5bb, a végső pot 100,5bb, tehát 33,3% equity kell. A 8♥ betöltötte a kőr flusht és a J9-es sort, és egy passzív rec, aki két utcán csak hívott, ilyenkor nagyon ritkán lead-el blöffel: a range-e főleg flush (Ah-x, Kh-x, JhTh…), J9 és szett (QQ, TT, 88, 44, 22). Ezek ellen a Q-T két pár semmit sem ér; ha a range-ét néhány rosszabb két pár (Q8s, T8s) és QT-holtverseny egészíti ki, akkor is csak kb. 13%, és még hat KJ-blöff mellett is csak kb. 21% az equityd. A két pár itt bluff-catcher, és ez a játékos nem blöfföl eleget.',
+      'A riveren 33,5bb-s pot-betet kapsz egy 33,5bb-s potba: a hívás 33,5bb, a végső pot 100,5bb, tehát 33,3% equity kell. A 8♥ betöltötte a kőr flusht és a J9-es sort, és egy passzív rec, aki két utcán csak hívott, ilyenkor nagyon ritkán lead-el blöffel: a range-e főleg flush (A♥x, K♥x, J♥T♥…), J9 és szett (QQ, TT, 88, 44, 22). Ezek ellen a Q-T két pár semmit sem ér; ha a range-ét néhány rosszabb két pár (Q8s, T8s, Q4s, Q2s) és QT-holtverseny egészíti ki, akkor is csak kb. 13%, és még hat KJ-blöff mellett is csak kb. 21% az equityd. A két pár itt bluff-catcher, és ez a játékos nem blöfföl eleget.',
     mist: 'Tipikus hiba a két pár abszolút erejéből dönteni („két párt nem dobhatok el”), és nem megnézni, mi teljesült a riveren, és ki betel.',
     factors: [
       { c: 'odds', t: '33,5bb hívás 100,5bb-s végső potért: 33,3% equity kell.' },
@@ -565,7 +565,7 @@
     id: 'A14',
     title: 'Bad beat után: UTG KJo',
     stage: 'mental',
-    cats: ['MEN', 'PRE'],
+    cats: ['MEN'],
     diff: 1,
     basis: 'mental',
     conf: 'high',
@@ -584,13 +584,13 @@
     check: { pot: 2.5 },
     q: 'UTG-ről KJo-val te kezdesz. Mit lépsz?',
     opts: [
-      { id: 'open', t: 'Open 2,5bb — vissza kell szerezni a zsetonokat', g: 'blunder', why: 'Az érzelem döntött, nem a kéz: UTG-ről a KJo 10 fős asztalon fold, és a „vissza kell szerezni” cél egy kézre sem ad jobb árat. Árulkodó: „vissza kell nyernem”.' },
+      { id: 'open', t: 'Open 2,2bb — vissza kell szerezni a zsetonokat', g: 'blunder', why: 'Az érzelem döntött, nem a kéz: UTG-ről a KJo 10 fős asztalon fold, és a „vissza kell szerezni” cél egy kézre sem ad jobb árat. Árulkodó: „vissza kell nyernem”.' },
       { id: 'fold', t: 'Fold, és most egy perc reset', g: 'best' },
       { id: 'foldplay', t: 'Fold, és játszol tovább, mintha mi sem történt volna', g: 'minor', why: 'A döntés jó, de az érzelem bent marad, és a következő marginális kéznél dönt helyetted. Árulkodó: „semmi bajom, megyünk tovább”.' },
     ],
     ans: 'Fold, és egy perc reset: UTG-ről a KJo fold, a bad beat után pedig előbb a fejedet állítsd vissza, mielőtt a következő kezet játszod.',
     exp:
-      'Tíz fős asztalon UTG-ről kilenc játékos van mögötted, a range még 60bb-n is csak kb. 13–15%, és a KJo nincs benne: a jobb ászok és a KQ dominálják. A beat nem a te hibád volt: az AA all-in előtt kb. 88%-os volt a 72o ellen, a flopon is kb. 82%. Ez a running bad és az injustice tilt (Tendler): a „vissza kell szereznem” érzés a hiányzó zsetonokról szól, nem az előtted lévő kézről. A 60bb még mindig 60bb, és pontosan annyit ér, mint bármelyik 60bb-s stack; a következő kezeket ugyanúgy kell játszanod, mint a beat előtt. Foldolj, vegyél három mély levegőt, és mondd ki: „jól játszottam, a pakli döntött”.',
+      'Tíz fős asztalon UTG-ről kilenc játékos van mögötted: a range 60bb-n is csak kb. 13–15%, és a király-magas offsuit kezekből legfeljebb a KQo fér bele, a KJo nem — a mögötted ülők AK-, AJ- és KQ-kezei dominálják. A beat nem a te hibád volt: az AA preflop kb. 88%-os volt a 72o ellen, az all-in pillanatában, a flopon is kb. 82%. Ez a running bad és az injustice tilt (Tendler): a „vissza kell szereznem” érzés a hiányzó zsetonokról szól, nem az előtted lévő kézről. A 60bb még mindig 60bb, és pontosan annyit ér, mint bármelyik 60bb-s stack; a következő kezeket ugyanúgy kell játszanod, mint a beat előtt. Foldolj, vegyél három mély levegőt, és mondd ki: „jól játszottam, a pakli döntött”.',
     mist: 'Tipikus hiba a beat után a range kitágítása („most már jár nekem”), és az, hogy az érzelmet a következő kezekbe viszed reset nélkül.',
     factors: [
       { c: 'tilt', t: 'Running bad / injustice tilt: a „vissza kell szereznem” érzés a hiányzó zsetonokról szól, nem az előtted lévő kézről.' },
@@ -614,7 +614,7 @@
     basis: 'mental',
     conf: 'high',
     ctx: { entrants: 70, left: 62, paid: 7, level: 3, blinds: '100/200', ante: 'nincs', avgBb: 160, note: 'Second Chance típusú verseny 1× rebuy-jal; a late reg még nyitva van.' },
-    scene: 'A 3. szinten kiestél egy coinflipen. A havi pókerkeretedből még 2 buy-in maradt. A verseny előtt nem döntötted el, hány belépőt vállalsz ma.',
+    scene: 'A 3. szinten kiestél egy coinflipen. A versenyen 1× rebuy van, és a late reg még nyitva. A havi pókerkeretedből még 2 buy-in maradt.',
     q: 'Mit csinálsz?',
     opts: [
       { id: 'now', t: 'Azonnal rebuy, amíg még benne vagy a ritmusban', g: 'blunder', why: 'A kiesés érzelmét viszed a következő belépőbe, és a keret felét költöd egy pillanatnyi döntéssel. Árulkodó: „úgyis csak 25 ezer”.' },
@@ -623,7 +623,7 @@
     ],
     ans: 'Rebuy csak akkor, ha a verseny előtti terved szerint belefér, és nyugodt vagy; tervből, nem a kiesés érzéséből döntesz.',
     exp:
-      'A rebuy pénzügyi és mentális döntés is. Ha a havi keretből 2 buy-in maradt, egy rebuy a hátralévő keret fele: ezt nem a kiesés pillanatában kellene eldöntened, hanem előre (például „ma 1 belépő + legfeljebb 1 rebuy”). Ha most nem volt terv, két kérdés dönt: belefér a havi keretbe, és nyugodt vagy-e? Ha bármelyikre nem a válasz, nincs rebuy. Tiltben a döntéseid rosszabbak, ezért egy feszült rebuy rosszabb belépő, mint ugyanez nyugodtan: sétálj egyet, és csak utána dönts. A „soha” nem hiba, csak felesleges merevség, ha a keret bírja.',
+      'A rebuy pénzügyi és mentális döntés is. Ha a havi keretből 2 buy-in maradt, egy rebuy a hátralévő keret fele: ezt nem a kiesés pillanatában kellene eldöntened, hanem előre, a verseny előtti tervben (például „ma 1 belépő + legfeljebb 1 rebuy”). Ha a terv megengedi, még egy kérdés marad: nyugodt vagy? Tiltben a döntéseid rosszabbak, ezért egy feszült rebuy rosszabb belépő, mint ugyanez nyugodtan: sétálj egyet, és csak utána dönts. Ha nem volt terv, ugyanez a két kérdés dönt: belefér a havi keretbe, és nyugodt vagy-e? A „soha” kis hiba: felesleges merevség, ha a keret bírja, és jól játszol.',
     mist: 'Tipikus hiba a pénz lekicsinylése („úgyis csak 25 ezer”) és a kiesés utáni azonnali, érzelemből jövő újravásárlás.',
     factors: [
       { c: 'bankroll', t: 'A havi keretből 2 buy-in maradt: egy rebuy a hátralévő keret fele, ezt előre kell eldönteni.' },

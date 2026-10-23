@@ -56,7 +56,7 @@ Minden adat a böngésződben marad (localStorage és IndexedDB); nincs szerver,
 ## A tartalom alapja és korlátai
 
 - A spotok és a technikák egy 2026 októberi kutatásra épülnek (GTO Wizard, Upswing, Red Chip Poker, PokerCoaching, O’Kearney–Carter, Tendler, Elwood és mások); minden spot jelzi a forrását és az ajánlás bizonyosságát.
-- A 10bb-s push/fold chart 9 fős, ante nélküli, chipEV-táblázat — BB ante mellett alsó határ. A 10 fős nyitási arányok 9 fős chartokból számolt közelítések, nem solver-kimenetek.
+- A 10bb-s push/fold chart (O’Kearney–Carter) a forrás szerint ante nélküli chipEV-tábla, de saját Nash-számításunk szerint a tartományai a big blind ante-s értékekhez állnak közel (UTG kb. 15%, BTN kb. 43%, SB kb. 72%; ante nélkül kb. 9%, 32% és 58% lenne). A korai, ante nélküli szinteken ezért korai pozícióból szűkebben told. A 10 fős nyitási arányok 9 fős chartokból számolt közelítések, nem solver-kimenetek.
 - Az ICM-számítás Malmuth–Harville-modell; a Duna kifizetési táblája nem nyilvános, ezért a spotok egy feltételezett, kb. 10%-ot fizető struktúrával számolnak. A közeli ICM-spotokat érdemes HRC-vel vagy ICMIZER-rel is ellenőrizni.
 - A gondolkodás automatikus felismerése kulcsszavas: javaslat, nem ítélet — a végső jelölés a tiéd.
 - A Duna-menetrend és -struktúra változhat; kérdezd meg a floort a kifizetésről, a deal-szabályról, a telefonhasználatról és a bounty arányáról.
@@ -81,7 +81,7 @@ docs/           a spotformátum leírása
 ```
 
 ```bash
-npm test                                            # range-ek és chartok, ICM, equity, spot-motor, pontozás, a spotbank ellenőrzése
+npm test                                            # range-ek és chartok, ICM, equity, spot-motor, pontozás, ismétlés és tárolás, a spotbank ellenőrzése
 node tools/check-spots.js js/data/spots-*.js -v     # spotok számai a motor szerint
 node tools/equity.js Kc Jd "77+, ATs+, AJo+, KQs"   # equity kéz vs range
 ```

@@ -211,7 +211,7 @@
       what:
         'Kb. 12bb alatt a push/fold (all-in vagy fold) közel optimális: egy kis nyitás után úgysem tudnál dobni egy reshove-ra. 10–15bb között vegyes zóna jön, ahol a min-raise és az SB-limp is a stratégia része.',
       when: 'Ha 12–15bb vagy kevesebb a stacked, és előtted mindenki dobott. Egy all-in hívása más kérdés: hívásnál nincs fold equityd, ezért jellemzően erősebb kéz kell, mint amivel ugyanonnan nyitó all-int tolnál.',
-      live: 'BB ante mellett több a holt pénz, ezért a 10bb-s chartok alsó határok: szélesebben tolhatsz és hívhatsz. Hogy melyik szinttől megy a BB ante, azt a struktúrán nézd meg.',
+      live: 'BB ante mellett több a holt pénz: 10bb-n a Nash-tartomány az UTG-n kb. 9%-ról 15%-ra, a BTN-on 32%-ról 43%-ra, az SB-ben 58%-ról 72%-ra nő. A Chartok fül 10bb-s chartja nagyjából a BB ante-s tartományokat adja, ezért ante nélkül, a korai szinteken korai pozícióból szűkebben told. Hogy melyik szinttől megy a BB ante, azt a struktúrán nézd meg.',
       mistake: 'Túl szűk shove BTN-ről és SB-ből („megvárom a jobb lapot”), túl széles hívás all-in ellen, és az ICM figyelmen kívül hagyása a buborékon.',
       stage: 'Késői szakasz, 15bb alatt',
       cats: ['PF'],

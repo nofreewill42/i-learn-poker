@@ -135,7 +135,7 @@
     h += '<p class="num" style="font-size:2rem;margin:0">' + PK.util.num(pf.pct, 1) + '%</p><p class="muted">' + esc(pf.pos) + ' (10 fős asztalon: ' + esc(pf.ten) + ')</p><p><code>' + esc(pf.range) + '</code></p>';
     h += '<p class="small faint">Forrás: ' + esc(C.pf10.source) + '</p><a class="btn btn--sm" href="#/drill/pushfold">Gyakorlom a drillben</a></div></div></div>';
 
-    h += '<div class="section"><h2>' + esc(C.call10.title) + '</h2><p class="small muted">' + esc(C.call10.setup) + '</p><div class="grid-2">';
+    h += '<div class="section"><h2>' + esc(C.call10.title) + '</h2><p class="small muted">' + esc(C.call10.setup) + '.</p><div class="grid-2">';
     C.call10.rows.forEach((r) => (h += '<div><h3>' + esc(r.pos) + ', ' + PK.util.num(r.pct, 1) + '%</h3><p class="small"><code>' + esc(r.range) + '</code></p>' + PK.ui.viz.rangeGrid(PK.ranges.parse(r.range), null, r.pos + ' hívási range') + '</div>'));
     h += '</div></div>';
 
