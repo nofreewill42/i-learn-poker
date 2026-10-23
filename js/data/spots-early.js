@@ -560,4 +560,80 @@
     markers: [{ re: '\\bket par(t|ral)? (nem|sosem|soha) (dob|lehet)|\\btul eros( kez)?,? (hogy|ahhoz|eldob)', msg: 'A kéz abszolút erejéből döntesz: a river után a két pár bluff-catcher lett.' }],
     src: 'Pot odds a motor számaival; exploit: a passzív kis tétű élő játékosok ritkán blöffölnek a riveren (feltevés, a Tudástár river-blöff technikája alapján); Monte Carlo equity a lead-range ellen',
   });
+
+  S.push({
+    id: 'A14',
+    title: 'Bad beat után: UTG KJo',
+    stage: 'mental',
+    cats: ['MEN', 'PRE'],
+    diff: 1,
+    basis: 'mental',
+    conf: 'high',
+    ctx: { entrants: 70, left: 55, paid: 7, level: 4, blinds: '200/400', ante: 'BBA 400', avgBb: 85, note: 'Az előző kéz után 150bb-ről 60bb-re estél.' },
+    scene: 'Az előző kézben AA-val mentél all-in egy rec 72o-ja ellen, aki a K♠7♦4♣ flopon hívott egy 7-es párral, és a riveren jött a 2-es: két pár. A szíved még dobog, és ott jár a fejedben: „ez nem igazság”. A következő kézben UTG vagy.',
+    table: {
+      players: 10,
+      ante: 1,
+      anteType: 'bba',
+      stacks: { default: 85, UTG: 60 },
+      hero: 'UTG',
+      cards: ['Kc', 'Jd'],
+      board: [],
+      actions: [],
+    },
+    check: { pot: 2.5 },
+    q: 'UTG-ről KJo-val te kezdesz. Mit lépsz?',
+    opts: [
+      { id: 'open', t: 'Open 2,5bb — vissza kell szerezni a zsetonokat', g: 'blunder', why: 'Az érzelem döntött, nem a kéz: UTG-ről a KJo 10 fős asztalon fold, és a „vissza kell szerezni” cél egy kézre sem ad jobb árat. Árulkodó: „vissza kell nyernem”.' },
+      { id: 'fold', t: 'Fold, és most egy perc reset', g: 'best' },
+      { id: 'foldplay', t: 'Fold, és játszol tovább, mintha mi sem történt volna', g: 'minor', why: 'A döntés jó, de az érzelem bent marad, és a következő marginális kéznél dönt helyetted. Árulkodó: „semmi bajom, megyünk tovább”.' },
+    ],
+    ans: 'Fold, és egy perc reset: UTG-ről a KJo fold, a bad beat után pedig előbb a fejedet állítsd vissza, mielőtt a következő kezet játszod.',
+    exp:
+      'Tíz fős asztalon UTG-ről kilenc játékos van mögötted, a range még 60bb-n is csak kb. 13–15%, és a KJo nincs benne: a jobb ászok és a KQ dominálják. A beat nem a te hibád volt: az AA all-in előtt kb. 88%-os volt a 72o ellen, a flopon is kb. 82%. Ez a running bad és az injustice tilt (Tendler): a „vissza kell szereznem” érzés a hiányzó zsetonokról szól, nem az előtted lévő kézről. A 60bb még mindig 60bb, és pontosan annyit ér, mint bármelyik 60bb-s stack; a következő kezeket ugyanúgy kell játszanod, mint a beat előtt. Foldolj, vegyél három mély levegőt, és mondd ki: „jól játszottam, a pakli döntött”.',
+    mist: 'Tipikus hiba a beat után a range kitágítása („most már jár nekem”), és az, hogy az érzelmet a következő kezekbe viszed reset nélkül.',
+    factors: [
+      { c: 'tilt', t: 'Running bad / injustice tilt: a „vissza kell szereznem” érzés a hiányzó zsetonokról szól, nem az előtted lévő kézről.' },
+      { c: 'pos', t: 'UTG, 10 fős asztal: kilenc játékos van mögötted, a range kb. 13–15%, a KJo nincs benne.' },
+      { c: 'dom', t: 'A KJo-t a mögötted lévők jobb kezei (AK, AJ, KQ) dominálják.' },
+      { c: 'stack', t: 'A 60bb ugyanúgy 60bb, mint bárki másé: nem kell gyorsan visszaszerezni, elég jól játszani.' },
+    ],
+    markers: [
+      { re: '\\bvisszaszere?z|\\bvisszahoz(om|ni)', msg: 'Tilt-jel: a „vissza kell szerezni” cél egy kézre sem ad jobb árat.' },
+      { re: '\\bnem igazsag|\\bigazsagtalan|\\bjar(na)? nekem|\\bmindig (engem|nekem|en) (vernek|kapok|jarok)', msg: 'Injustice tilt: az igazságérzet dönt, nem a helyzet.' },
+    ],
+    src: 'Jared Tendler: The Mental Game of Poker (running bad és injustice tilt); 10 fős UTG nyitási arányok (charts.js); equity: tools/equity.js',
+  });
+
+  S.push({
+    id: 'A15',
+    title: 'Rebuy a 3. szinten',
+    stage: 'mental',
+    cats: ['MEN'],
+    diff: 1,
+    basis: 'mental',
+    conf: 'high',
+    ctx: { entrants: 70, left: 62, paid: 7, level: 3, blinds: '100/200', ante: 'nincs', avgBb: 160, note: 'Second Chance típusú verseny 1× rebuy-jal; a late reg még nyitva van.' },
+    scene: 'A 3. szinten kiestél egy coinflipen. A havi pókerkeretedből még 2 buy-in maradt. A verseny előtt nem döntötted el, hány belépőt vállalsz ma.',
+    q: 'Mit csinálsz?',
+    opts: [
+      { id: 'now', t: 'Azonnal rebuy, amíg még benne vagy a ritmusban', g: 'blunder', why: 'A kiesés érzelmét viszed a következő belépőbe, és a keret felét költöd egy pillanatnyi döntéssel. Árulkodó: „úgyis csak 25 ezer”.' },
+      { id: 'plan', t: 'Rebuy csak akkor, ha belefér a mai tervbe, és nyugodt vagy; különben hazamész', g: 'best' },
+      { id: 'never', t: 'Soha nem rebuy-olok', g: 'minor', why: 'Biztonságos, de nem a helyzetből indul: ha a keretbe belefér, és jól játszol, a rebuy egy jó verseny új belépője. Árulkodó: „a rebuy mindig rossz”.' },
+    ],
+    ans: 'Rebuy csak akkor, ha a verseny előtti terved szerint belefér, és nyugodt vagy; tervből, nem a kiesés érzéséből döntesz.',
+    exp:
+      'A rebuy pénzügyi és mentális döntés is. Ha a havi keretből 2 buy-in maradt, egy rebuy a hátralévő keret fele: ezt nem a kiesés pillanatában kellene eldöntened, hanem előre (például „ma 1 belépő + legfeljebb 1 rebuy”). Ha most nem volt terv, két kérdés dönt: belefér a havi keretbe, és nyugodt vagy-e? Ha bármelyikre nem a válasz, nincs rebuy. Tiltben a döntéseid rosszabbak, ezért egy feszült rebuy rosszabb belépő, mint ugyanez nyugodtan: sétálj egyet, és csak utána dönts. A „soha” nem hiba, csak felesleges merevség, ha a keret bírja.',
+    mist: 'Tipikus hiba a pénz lekicsinylése („úgyis csak 25 ezer”) és a kiesés utáni azonnali, érzelemből jövő újravásárlás.',
+    factors: [
+      { c: 'bankroll', t: 'A havi keretből 2 buy-in maradt: egy rebuy a hátralévő keret fele, ezt előre kell eldönteni.' },
+      { c: 'tilt', t: 'Közvetlenül a kiesés után vagy: nyugodt vagy? Tiltben a rebuy rosszabb belépő.' },
+      { c: 'plan', t: 'A verseny előtti terv dönt (pl. „1 belépő + max. 1 rebuy”); ha nincs terv, a keret és a nyugalom.' },
+    ],
+    markers: [
+      { re: '(^|[^s] )csak (\\d+ ?(ezer|e|k)|huszonot ?ezer)\\b|\\bnem (olyan )?(nagy|sok) penz', msg: 'Bankroll-jel: a pénz lekicsinylése.' },
+      { re: '\\b(azonnal|most rogton|rogton|gyorsan) (rebuy|ujravasarol|visszaul|beszall)', msg: 'Azonnali, érzelemből jövő rebuy.' },
+    ],
+    src: 'Bankroll- és mentálgyakorlat (Tudástár: Rebuy és re-entry, Bankroll; saját ajánlás, nem szabály); Jared Tendler: The Mental Game of Poker (tilt)',
+  });
 })(typeof window !== 'undefined' ? window : globalThis);

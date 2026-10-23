@@ -172,7 +172,7 @@
       { c: 'pos', t: 'OOP a teljes kézben: a nyers equity jelentős részét nem tudod realizálni.' },
       { c: 'profile', t: 'Szűk reg, ritkán blöfföl — postflop nehéz ellene blöffölni.' },
     ],
-    markers: [{ re: '\\bjo (a )?(pot ?odds|ar)\\b|\\bmindig hiv|\\bolcso(n)?,? (hivok|megnezem)|\\bcsak 1[.,]2', msg: 'Csak az árat nézed: a realizáció és a dominancia is számít.' }],
+    markers: [{ re: '\\bjo az? (pot ?odds|odds|ar)\\b|\\bmindig hiv|\\bolcso(n)?,? (hivok|megnezem)|\\bcsak 1[.,]2', msg: 'Csak az árat nézed: a realizáció és a dominancia is számít.' }],
     src: 'BB ante-s pot odds; 10 fős UTG nyitási arányok (charts.js, 25–60bb: 13–15%); MTT-s BB-védelmi solver-konszenzus (GTO Wizard); equity: tools/equity.js',
   });
 
@@ -216,7 +216,7 @@
       { c: 'stack', t: '45bb-n a 3-bet/fold még működik: 4-bet all-inre kb. 30%-os vagy, 42,2% kellene, tehát dobsz.' },
       { c: 'plan', t: 'Ha hív, pozícióban c-betelsz; 4-bet all-inre fold.' },
     ],
-    markers: [{ re: '\\bcsak (premium|eros|jo) ?(kez|lap)?(pal|pel|bol|rel)? 3-?bet|\\b3-?betre (ez )?(gyenge|keves)', msg: 'Túl szűk, csak value-ra épülő 3-bet-logika.' }],
+    markers: [{ re: '\\bcsak (premium|eros|jo|nagy)\\w*( (kez|lap)\\w*)? 3-?bet|\\b3-?betre (ez )?(gyenge|keves)', msg: 'Túl szűk, csak value-ra épülő 3-bet-logika.' }],
     src: 'MTT-s 40–50bb-s 3-bet-stratégiák (GTO Wizard: suited Ax blöff-3-betek blockerrel); pot odds a motor számaival; equity: tools/equity.js',
   });
 
@@ -301,7 +301,7 @@
       { c: 'board', t: 'J♣7♦3♠ szivárvány, száraz board: kevés a draw, a TPGK messze a range-ed erős végén van.' },
       { c: 'plan', t: 'Előre döntsd el: raise-re all-in, a turnön pedig folytatod a value-t.' },
     ],
-    markers: [{ re: '\\bha (vissza ?)?(raise|emel)[\\w-]*,? (akkor )?(majd )?(meg|el)?(gondolkod|latom|latjuk|dontom)|\\bkontrollal(om|ni) a potot', msg: 'Alacsony SPR-nél előre kell döntened a stack-offról.' }],
+    markers: [{ re: '\\bha (vissza ?)?(raise|emel)[\\w-]*,? (akkor )?(majd )?(meg|el)?(gondol|lat|dont)|\\bkontrollal(om|ni) a potot', msg: 'Alacsony SPR-nél előre kell döntened a stack-offról.' }],
     src: 'SPR-elköteleződés (Miller–Mehta–Flynn: Professional No-Limit Hold\'em); pot odds a motor számaival; equity: tools/equity.js',
   });
 
@@ -677,7 +677,7 @@
       { c: 'tells', t: 'A bet utáni laza, beszédes viselkedés inkább erőre utal (Elwood) — de csak döntetlenhelyzet-eldöntő.', kw: ['\\bellazul', '\\blazan\\b'] },
       { c: 'board', t: 'A♦T♥6♠ 2♣ 7♦: a 7♦ befejezi a 98-at; a T9 csak második pár, egyik value-kezet sem veri.' },
     ],
-    markers: [{ re: '\\b(blof|bluff|blef)\\w*,? mert (beszel|nevet|laza|poenkod)|\\bbeszel,? (tehat|szoval|ugyhogy|biztos) (blof|bluff|blef)', msg: '„Blöfföl, mert beszél” — a bet utáni laza beszéd inkább erőt jelez.' }],
+    markers: [{ re: '\\b(blof|bluff|blef)\\w*,? mert (beszel|nevet|laza|poenkod)|\\bbeszel\\w*,? (tehat|szoval|ugyhogy)( (biztos|tuti))? (blof|bluff|blef)', msg: '„Blöfföl, mert beszél” — a bet utáni laza beszéd inkább erőt jelez.' }],
     src: 'Zachary Elwood: Reading Poker Tells (2012) — a bet utáni ellazult, beszédes viselkedés jellemzően erős kezet jelez; élő rec-poolok river-underbluff tendenciája (feltevés, ld. a Duna-oldal pool-feltevéseit); pot odds a motor számaival; equity: tools/equity.js',
   });
 
