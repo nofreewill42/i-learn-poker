@@ -80,17 +80,17 @@
     opts: [
       { id: 'fold', t: 'Fold', g: 'minor', why: 'Túl óvatos vagy nagy stackként: a buborék nem rád nyomás, hanem fegyver. Árulkodó: „buborék van, óvatos vagyok”.' },
       { id: 'open', t: 'Open 2bb', g: 'best' },
-      { id: 'jam', t: 'All-in', g: 'good', why: 'ICM-ben ez is nyereséges, mert a vakok csak nagyon erős kezekkel hívnak — de 50bb-t kockáztatsz 2,5bb-ért, míg a 2bb-s nyitás ugyanazt a fold equityt olcsóbban hozza.' },
+      { id: 'jam', t: 'All-in', g: 'good', why: 'ICM-ben ez is nyereséges, mert a vakok csak nagyon erős kezekkel hívnak — de akár 19bb-t kockáztatsz a 2,5bb-s potért, míg a 2bb-s nyitás ugyanazt a fold equityt olcsóbban hozza.' },
     ],
     ans: 'Open 2bb: a vakok bubble factora ellened 2,5 felett van, alig tudnak védekezni, a tiéd ellenük csak 1,2 körüli.',
     exp:
-      'A feltételezett kifizetéssel a 15bb-s SB bubble factora ellened 2,52, a 20bb-s BB-é 2,68: egy all-in hívásához 70% körüli equity kellene nekik, ezért csak kb. 99+ kezekkel tudnak beszállni (vagy reshove-olni). A te BF-ed ellenük csak 1,17–1,24, mert egy elvesztett kéz után is bent maradsz. A 2bb-s nyitás így nagyon gyakran elviszi a 2,5bb-s potot; ha reshove jön, a J4s-sel könnyű a fold, és csak 2bb-t veszítettél. Az ICM-modell szerint a jam is nyereséges (a vakok kb. 3%-ot hívnak), de ugyanazt a fold equityt drágábban veszi meg.',
+      'A feltételezett kifizetéssel a 15bb-s SB bubble factora ellened 2,52, a 20bb-s BB-é 2,68: egy all-in hívásához 70% körüli equity kellene nekik, ezért csak kb. 88+ kezekkel hívhatnak, és reshove-olni is csak szűken tudnak. A te BF-ed ellenük csak 1,17–1,24, mert egy elvesztett kéz után is bent maradsz. A 2bb-s nyitás így nagyon gyakran elviszi a 2,5bb-s potot; ha reshove jön, a J4s-sel könnyű a fold, és csak 2bb-t veszítettél. Az ICM-modell szerint a jam is nyereséges (a vakok kb. 3%-ot hívnak), de akár 19bb-t kockáztat ugyanazért a 2,5bb-ért, és ha a vakok szélesebben hívnak, gyorsan veszít.',
     mist: 'Tipikus hiba, hogy a nagy stack is „buborék-óvatos”. A buborékon a közepes stackek a legnyomottabbak — ellenük kell nyitni.',
     factors: [
       { c: 'icm', t: 'A vakok BF-je ellened 2,52 (SB) és 2,68 (BB): egy all-in hívásához kb. 70% equity kellene nekik.' },
       { c: 'stack', t: 'Te 50bb-vel mindkettőt fedezed: a te BF-ed csak 1,17–1,24, egy elvesztett kéz nem ejt ki.', kw: ['fedez', 'chip ?leader'] },
-      { c: 'fe', t: 'A vakok csak kb. 99+ kezekkel védekeznek: a nyitás nagyon gyakran elviszi a 2,5bb-s potot.' },
-      { c: 'pos', t: 'BTN: csak a két vak van mögötted, és posztflop is pozícióban vagy.' },
+      { c: 'fe', t: 'A vakok egy all-int csak kb. 88+ kezekkel hívhatnak: a nyitásod nagyon gyakran elviszi a 2,5bb-s potot.' },
+      { c: 'pos', t: 'BTN: csak a két vak van mögötted, és postflop is pozícióban vagy.' },
       { c: 'plan', t: 'Terv: open 2bb; reshove-ra fold, híváskor pozícióban folytatod.' },
     ],
     markers: [{ re: '\\bbuborek van,? (ovatos|vigyaz|nem kockaztat)|\\bnem kockaztatok', msg: 'Nagy stackkel is óvatos vagy: a buborék a közepes stackekre nyomás, nem rád.' }],
@@ -174,7 +174,7 @@
     factors: [
       { c: 'icm', t: 'A te BF-ed a BB ellen 2,00 (RP 16,7%), a BB-é ellened 2,38: mindkettőtök drágán veszít.' },
       { c: 'stack', t: '40bb vs 35bb: szinte fedezitek egymást, egy nagy pot bárkit kiejthet.', kw: ['fedez'] },
-      { c: 'sizing', t: 'A raise után a BB reshove-jára 62,4% kellene: a Q7s-sel fold, a 2,5bb elveszik.' },
+      { c: 'reshove', t: 'A raise után a BB reshove-jára 62,4% kellene: a Q7s-sel fold, a 2,5bb elveszik.' },
       { c: 'range', t: 'A BB-nek a jamedre 68,8% kellene: csak kb. 88+ hív; ha 8%-nál szélesebben, a jam veszít.' },
       { c: 'plan', t: 'Terv: limp, és ha a BB emel, a Q7s-sel általában fold; flopon kis potot játszol.' },
     ],
@@ -207,7 +207,7 @@
     factors: [
       { c: 'math', t: 'Szükséges equity = BF / (1 + BF) = 2,06 / 3,06 = 67,3%.', kw: ['67', '2,06', '3,06'] },
       { c: 'icm', t: 'Risk premium = 67,3% − 50% = 17,3%: ennyivel több equity kell, mint chipEV-ben.' },
-      { c: 'stack', t: 'A pénzbuborékon a rövid stackek a legnyomottabbak: kiesve semmit nem visznek, a min-cash egy kiesésnyire van.' },
+      { c: 'stack', t: '9bb-vel a pénzbuborékon egy elvesztett all-in mindent visz, a min-cash pedig egy kiesésnyire van: ezért ilyen magas a BF.' },
       { c: 'odds', t: 'Egyenlő tétes all-innél chipEV-ben 50% elég — ehhez képest kell a többlet.' },
     ],
     src: 'GTO Wizard: Money Bubble vs Final Table Bubble (BF 2,06 → +17,3%); képlet: szükséges equity = BF / (1 + BF)',
@@ -236,17 +236,17 @@
     check: { eff: 6 },
     q: 'Az 1bb-s UTG dob. Mit lépsz UTG+1-ről 6bb-vel?',
     opts: [
-      { id: 'jam', t: 'All-in 6bb', g: 'good', why: 'ChipEV-ben jó lépés, és a modell nem számol azzal, hogy két kéz múlva a BB-ben 2bb-t teszel be — de ha a mögötted lévők a kezek 5%-ánál szélesebben hívnak, ICM-ben veszít. Árulkodó: „6bb-vel bármit tolok, ami jó”, a mikrostack említése nélkül.' },
+      { id: 'jam', t: 'All-in 6bb', g: 'good', why: 'ChipEV-ben jó lépés, és a modell nem számol azzal, hogy két kéz múlva a BB-ben 2bb-t teszel be — de ha a mögötted lévők 88+-nál szélesebben hívnak (pl. 77+, AJs+, AKo), ICM-ben veszít. Árulkodó: „6bb-vel bármit tolok, ami jó”, a mikrostack említése nélkül.' },
       { id: 'fold', t: 'Fold', g: 'best' },
     ],
     ans: 'Fold (közeli): chipEV-ben a K9s jam lenne, de a mikrostack küszöbön álló kiesése ICM-ben többet ér, mint amit a jam hoz.',
     exp:
-      'ChipEV-ben a K9s 6bb-vel itt jam (kb. +0,9bb). A buborékon viszont a mikrostack a következő kézben biztosan all-in, és nagy eséllyel kiesik: a feltételezett kifizetéssel az ICM-értéked ettől kb. 7,5-ről 8,2%-ra nőne. Ha tolsz, és valaki hív, a K9s csak 32–35%-os, pedig ICM-ben kb. 70% kellene (chipEV-ben 44%). A modell szerint a jam csak akkor jobb, ha mind a hat játékos csak kb. 88+ kezekkel hív; ha a kezek 5%-ával (77+, AJs+, AKo), már veszít, 8%-nál a díjalap kb. 0,7%-át. Közeli döntés: a modell nem számol azzal, hogy két kéz múlva a BB-ben 2bb-t teszel be, ez a jam felé billenti.',
+      'ChipEV-ben a K9s 6bb-vel itt jam (kb. +0,9bb). A buborékon viszont a mikrostack a következő kézben biztosan all-in, és nagy eséllyel kiesik: a feltételezett kifizetéssel az ICM-értéked ettől kb. 7,5-ről 8,2%-ra nőne. Ha tolsz, és valaki hív, a K9s csak 32–35%-os, pedig ICM-ben 68–70% kellene (chipEV-ben 41–44%). A modell szerint a jam csak akkor jobb, ha mind a hat játékos csak kb. 88+ kezekkel hív; ha a kezek 5%-ával (77+, AJs+, AKo), már veszít, 8%-nál a díjalap kb. 0,7%-át. Közeli döntés: a modell nem számol azzal, hogy két kéz múlva a BB-ben 2bb-t teszel be, ez a jam felé billenti.',
     mist: 'Tipikus hiba, hogy 6bb-vel „bármi, ami jó, mehet” — a mikrostack ladder idején a fold is pénzt hoz.',
     factors: [
-      { c: 'icm', t: 'A mikrostack kiesése a feltételezett kifizetéssel kb. 7,5-ről 8,2%-ra emeli az ICM-értékedet.', kw: ['mikro', '1 ?bb', 'ladder', 'letra'] },
+      { c: 'icm', t: 'A mikrostack kiesése a feltételezett kifizetéssel kb. 7,5-ről 8,2%-ra emeli az ICM-értékedet.', kw: ['mikro', '\\b1 ?bb', 'ladder', 'letra'] },
       { c: 'stack', t: 'A mikro a következő kézben a BB-ben all-in, te csak két kéz múlva leszel a BB-ben: előbb ő kerül sorra.' },
-      { c: 'odds', t: 'Ha hívnak, ICM-ben kb. 70% equity kellene (chipEV-ben 44%); a K9s egy hívó range ellen 32–35%-os.' },
+      { c: 'odds', t: 'Ha hívnak, ICM-ben 68–70% equity kellene (chipEV-ben 41–44%); a K9s egy hívó range ellen 32–35%-os.' },
       { c: 'range', t: 'A jam csak akkor nyer, ha mindenki csak kb. 88+ kezekkel hív; 77+, AJs+, AKo hívásoknál már veszít.' },
       { c: 'pos', t: 'UTG+1: a mikro után elsőként döntesz, hat nagy stack van mögötted.' },
     ],
@@ -262,13 +262,13 @@
     diff: 3,
     basis: 'gto',
     conf: 'med',
-    ctx: { entrants: 70, left: 45, paid: 7, level: 10, blinds: '1000/2000', ante: 'BBA 2000', avgBb: 30, note: 'A késői nevezés utolsó szintje: most ültél le egy 44 000-es stackkel (22bb).' },
+    ctx: { entrants: 70, left: 45, paid: 7, level: 10, blinds: '1000/2000', ante: 'BBA 2000', avgBb: 34, note: 'A késői nevezés utolsó szintje: most ültél le a kezdőstackkel, ami ezen a szinten 22bb.' },
     scene: 'Most ültél le az asztalhoz. A CO-ról már láttad, hogy laza: az elmúlt orbitban háromszor nyitott.',
     table: {
       players: 10,
       ante: 1,
       anteType: 'bba',
-      stacks: { default: 30, CO: 45, BTN: 22 },
+      stacks: { default: 34, CO: 45, BTN: 22 },
       profiles: { CO: 'lag' },
       reads: { CO: 'Laza, late pozícióból a kezek kb. harmadát nyitja.' },
       hero: 'BTN',
@@ -280,21 +280,21 @@
     q: 'A laza CO 2,2bb-re nyit. Mit lépsz a BTN-ról 22bb-vel?',
     opts: [
       { id: 'fold', t: 'Fold', g: 'minor', why: 'Túl szűken játszol: egy laza nyitás ellen az ATo a range-e felső részében van. Árulkodó: „várok egy jobb lapra”.' },
-      { id: 'call', t: 'Call 2,2bb', g: 'minor', why: 'Hívással a vakoknak squeeze-lehetőséget adsz, és 22bb-vel nehéz posztflop játszani. A 3-bet jam fold equityje elveszik.' },
+      { id: 'call', t: 'Call 2,2bb', g: 'minor', why: 'Nem nagy hiba, de hívással a vakoknak squeeze-lehetőséget adsz, és 22bb-vel postflop nehéz realizálni az equityt. A 3-bet jam fold equityje elveszik.' },
       { id: 'jam', t: '3-bet all-in 22bb', g: 'best' },
     ],
     ans: 'Jam: a 22bb pontosan 10× a nyitás, és a laza CO sokat dob; ha hív, akkor is van equityd.',
     exp:
-      'A Red Chip Poker heurisztikája szerint a 3-bet jam akkor hatékony, ha legfeljebb 10× a nyitás pozícióban (12× pozíción kívül): itt 22 / 2,2 = 10×. A CO-nak 19,8bb-t kell hívnia egy 46,5bb-s potért, ehhez 42,6% kell, így chipEV-ben csak kb. 66+, ATo+, KQs hív — a nyitásainak kb. negyede. A maradék háromnegyedben a 4,7bb-s pot a tiéd; ha hív, az ATo kb. 34%-os. Összességében a jam kb. +1,3bb, és többet ér, mint a hívás, amivel 22bb-vel nehéz posztflop játszani.',
+      'A Red Chip Poker heurisztikája szerint a 3-bet jam akkor hatékony, ha legfeljebb 10× a nyitás pozícióban (12× pozíción kívül): itt 22 / 2,2 = 10×. A CO-nak 19,8bb-t kell hívnia egy 46,5bb-s potért, ehhez 42,6% kell, így chipEV-ben csak kb. 66+, ATs+, ATo+, KQs hív — a nyitásainak kb. negyede. Az esetek kb. 70%-ában mindenki dob, és a 4,7bb-s pot a tiéd; ha a CO hív, az ATo kb. 34%-os. Összességében a jam kb. +1,3bb; a hívás után viszont a vakok squeeze-elhetnek, és 22bb-vel postflop nehéz játszani.',
     mist: 'Tipikus hiba a late reg után a „melegítő” szűk játék, vagy a hívás 22bb-vel, ami a fold equityt dobja el.',
     factors: [
       { c: 'reshove', t: 'A 22bb-s jam pontosan 10× a 2,2bb-s nyitás: a Red Chip-heurisztika határán belül.' },
       { c: 'profile', t: 'A CO laza: a kezek kb. harmadát nyitja, ezért gyakran kell dobnia.' },
-      { c: 'fe', t: 'A CO csak kb. 66+, ATo+, KQs-sel hív (a nyitásai kb. negyede): az esetek kb. 70%-ában a pot a tiéd.' },
+      { c: 'fe', t: 'A CO csak kb. 66+, ATs+, ATo+, KQs-sel hív (a nyitásai kb. negyede): az esetek kb. 70%-ában a pot a tiéd.' },
       { c: 'odds', t: 'Ha hív, az ATo kb. 34%-os a hívó range ellen; a jam így is kb. +1,3bb.' },
-      { c: 'stack', t: '22bb-vel a hívás és posztflop játék nehéz: a jam a stackméret természetes lépése.' },
+      { c: 'stack', t: '22bb-vel a hívás és a postflop játék nehéz: a jam a stackméret természetes lépése.' },
     ],
-    markers: [{ re: '\\bvarok (egy )?jobb|\\bmeg csak most (ultem|jottem)|\\bbemelegit', msg: 'Túl szűk late reg után: a stackméret és az ellenfél dönt, nem a melegítés.' }],
+    markers: [{ re: '\\bmeg csak most (ultem|jottem|kezdtem)|\\bbemelegit|\\belobb (megnezem|kiismerem|figyelem) (az asztalt|oket)', msg: 'Late reg után nincs bemelegítés: a 22bb-s stack és a laza nyitó dönt.' }],
     src: 'Red Chip Poker (Kat Martin): MTT Secrets: 3-Bet Shoves (legfeljebb 10× az open IP, 12× OOP); chipEV-becslés range-equityvel',
   });
 
@@ -307,7 +307,7 @@
     basis: 'icm',
     conf: 'high',
     ctx: { entrants: 70, left: 7, paid: 7, level: 18, blinds: '6000/12000', ante: 'BBA 12000', avgBb: 25, note: 'A buborék az előző kézben kipattant: mindenki pénzben van. ' + PAY7 },
-    scene: 'Az előző kézben kiesett a buborékfiú, mindenki fellélegzett. Te 25bb-vel ülsz a CO-n.',
+    scene: 'Az előző kézben a BTN kiejtette a 8bb-s buborékfiút, mindenki fellélegzett. Te 25bb-vel ülsz a CO-n.',
     table: {
       players: 7,
       ante: 1,
@@ -327,7 +327,7 @@
     ],
     ans: 'Open 2,2bb: a buborék után a risk premium kb. a felére esik, a KTs a CO-ról egyértelmű nyitás.',
     exp:
-      'Amíg 8-an voltatok, a feltételezett kifizetéssel a bubble factorod a 38bb-s HJ ellen 2,57 volt (RP 22%); most, hogy mindenki pénzben van, 1,74 (RP 13,5%). Az ICM-nyomás nem tűnt el, mert a díjak lépcsőzetesen nőnek, de a min-cash már biztos, és a buborék-üzemmód helyett vissza kell térni a normál nyitásokhoz. A KTs 25bb-vel a CO-ról egyértelmű 2,2bb-s nyitás; a jam is nyereséges, de ugyanazt a fold equityt drágábban veszi meg.',
+      'Egy kézzel korábban, 8-an (a 8bb-s stackkel együtt) a feltételezett kifizetéssel a bubble factorod a 38bb-s HJ ellen 2,57 volt (RP 22%); most, hogy mindenki pénzben van, 1,74 (RP 13,5%). Az ICM-nyomás nem tűnt el, mert a díjak lépcsőzetesen nőnek, de a min-cash már biztos, és a buborék-üzemmód helyett vissza kell térni a normál nyitásokhoz. A KTs 25bb-vel a CO-ról egyértelmű 2,2bb-s nyitás; a jam is nyereséges, de ugyanazt a fold equityt drágábban veszi meg.',
     mist: 'Tipikus hiba, hogy a pénzbe érés után is buborék-üzemmódban maradunk, és a jó nyitásokat is eldobjuk.',
     factors: [
       { c: 'icm', t: 'A BF-ed a HJ ellen 2,57-ről 1,74-re esett (RP 22% → 13,5%): a min-cash már biztos.' },
@@ -467,7 +467,7 @@
     diff: 3,
     basis: 'icm',
     conf: 'med',
-    ctx: { entrants: 70, left: 7, paid: 7, level: 19, blinds: '8000/16000', ante: 'BBA 16000', avgBb: 25, note: 'Döntőasztal, mindenki pénzben. ' + PAY7 },
+    ctx: { entrants: 70, left: 7, paid: 7, level: 18, blinds: '6000/12000', ante: 'BBA 12000', avgBb: 25, note: 'Döntőasztal, mindenki pénzben. ' + PAY7 },
     scene: 'A döntőn 12bb-vel te vagy a második legrövidebb (a BTN-nak 10bb van). A BB-ben a 60bb-s chip leader ül.',
     table: {
       players: 7,
@@ -484,7 +484,7 @@
     q: 'Mindenki dob hozzád. Mit lépsz az SB-ből?',
     opts: [
       { id: 'fold', t: 'Fold', g: 'minor', why: 'Úgy játszol, mintha a pénzbuborékon lennél. A döntőn a rövid stack a legkevésbé nyomott. Árulkodó: „megvárom, amíg más kiesik”.' },
-      { id: 'limp', t: 'Limp', g: 'minor', why: '12bb-vel a limp a CL-nek ad pozícióelőnyt és emelési lehetőséget; az ász után a jam fold equityje sokkal többet ér.' },
+      { id: 'limp', t: 'Limp', g: 'minor', why: '12bb-vel a limp után a CL pozícióból emelhet vagy olcsón megnézi a flopot; az A2o-val a jam fold equityje többet ér. Fedezett rövid stackként az SB-ből főleg jam vagy fold a jó.' },
       { id: 'jam', t: 'All-in 12bb', g: 'best' },
     ],
     ans: 'Jam: a döntőn a rövid stack kevésbé nyomott, az A2o jam a CL ICM-hívási range-e ellen is nyereséges.',
@@ -496,7 +496,7 @@
       { c: 'range', t: 'A CL ICM-ben csak a kezek kb. 29%-ával hív (46,3% kell neki); az A2o ez ellen kb. 41%-os.' },
       { c: 'fe', t: 'A CL az esetek kb. 74%-ában dob: a 2,5bb-s pot gyakran a tiéd.' },
       { c: 'stack', t: '12bb-vel a push/fold zónában vagy: a limp és a kis emelés rossz fold equityt ad.' },
-      { c: 'blockers', t: 'Az ász blokkolja a CL legerősebb hívó kezeit (AA, AK, AQ).', kw: ['asz'] },
+      { c: 'blockers', t: 'Az ász blokkolja a CL legerősebb hívó kezeit (AA, AK, AQ).' },
     ],
     markers: [{ re: '\\bmegvarom,? (amig|hogy) (mas|valaki|o) (kiesik|kiessen)|\\bkivarok', msg: '„Megvárom, amíg más kiesik” — a döntőn a rövid stacknek támadnia kell.' }],
     src: 'ICM-számítás (Malmuth–Harville) feltételezett 7 helyes kifizetéssel, jam/hívás-egyensúly közelítéssel; GTO Wizard: Money Bubble vs Final Table Bubble',
@@ -583,7 +583,7 @@
     diff: 5,
     basis: 'icm',
     conf: 'med',
-    ctx: { entrants: 70, left: 7, paid: 7, level: 18, blinds: '6000/12000', ante: 'BBA 12000', avgBb: 25, note: 'Döntőasztal, mindenki pénzben; két rövid stack (8bb és 11bb) van. ' + PAY7 },
+    ctx: { entrants: 70, left: 7, paid: 7, level: 18, blinds: '6000/12000', ante: 'BBA 12000', avgBb: 25, note: 'Döntőasztal, mindenki pénzben; négy rövid stack (8–15bb) van. ' + PAY7 },
     scene: 'HJ-ből 2bb-re nyitottál J♠J♣-vel, a 65bb-s chip leader a BB-ből hívott. A flop J♦3♥2♦, a CL checkel. A CL agresszív: ha betelsz, gyakran check-raise-szel válaszol.',
     table: {
       players: 7,
@@ -606,16 +606,16 @@
     ],
     ans: 'Check: ICM-nyomás alatt a CL ellen a solver a teljes range-ével checkel, a settel is — a pot kontrollja itt többet ér a gyors növelésnél.',
     exp:
-      'A feltételezett kifizetéssel a te BF-ed a CL ellen 2,23 (egy all-in hívásához 69% kellene), az övé ellened csak 1,26: ő olcsón nyomhat, te drágán veszítesz. Egy GTO Wizard-elemzésben (PokerNews: „Flopping Top Set vs the Chip Leader”) a solver ilyen helyzetben a teljes range-ével checkelt, a top settel is, mert ICM alatt a nyert zseton kevesebbet ér, mint amennyibe a vesztett kerül. A J32 flopon a set egy széles BB-védő range ellen kb. 93%-os, ezért nem kell sietni: a CL turnön és riveren gyakran maga betel vagy blöfföl. A c-bet nem nagy hiba, de a check a jobb — és erősíti a checkelő range-edet.',
+      'A feltételezett kifizetéssel a te BF-ed a CL ellen 2,23 (egy all-in hívásához 69% kellene), az övé ellened csak 1,26: ő olcsón nyomhat, te drágán veszítesz. Egy hasonló kézben (8 fős döntő, JJ a J♦3♥2♦ flopon a BB-ből védő chip leader ellen) a GTO Wizard-elemzés (PokerNews: „Flopping Top Set vs the Chip Leader”) szerint a solver a teljes range-ével checkelt, a top settel is, mert ICM alatt a nyert zseton kevesebbet ér, mint amennyibe a vesztett kerül. A J32 flopon a set egy széles BB-védő range ellen kb. 93%-os, ezért nem kell sietni: a CL turnön és riveren gyakran maga betel vagy blöfföl. A c-bet nem nagy hiba, de a check a jobb — és erősíti a checkelő range-edet.',
     mist: 'A leggyakoribb hiba a gépies c-bet („én emeltem, betelek”) a döntőn is, illetve az erős kezek gyors nagy potba vitele a CL ellen.',
     factors: [
       { c: 'icm', t: 'A te BF-ed a CL ellen 2,23, az övé ellened 1,26: neked a vesztés sokkal drágább.' },
       { c: 'init', t: 'A preflop kezdeményezés nem kötelez c-betre: ICM alatt a solver itt a teljes range-ével checkel.' },
       { c: 'board', t: 'A J♦3♥2♦ száraz flop: a set kb. 93%-os, a CL kevés lappal tud előzni.' },
       { c: 'profile', t: 'Agresszív CL: checkre gyakran ő maga betel később.' },
-      { c: 'spr', t: 'SPR kb. 5: két nagy bettel minden a középen lehetne — ICM alatt ezt nem kell siettetni.' },
+      { c: 'spr', t: 'SPR kb. 5: egy c-bet és egy check-raise után már minden a középen lehet — ICM alatt ezt nem kell siettetni.' },
     ],
-    markers: [{ re: '\\bmindig (c-? ?bet|cibet|betel)|\\ben emeltem,? (betelek|c-? ?betelek)', msg: 'Gépies c-bet: ICM alatt a CL ellen a check is erős.' }],
+    markers: [{ re: '\\b(settel|szettel|drillel|tripsszel) (mindig |most )?(betel|value)|\\bvalue-?t kell (szedni|kerni)|\\bnagy potot (akarok|kell)', msg: 'Value-reflex ICM nélkül: a CL ellen a pot kontrollja is érték.' }],
     src: 'GTO Wizard-elemzés a PokerNews-on: „Flopping Top Set vs the Chip Leader” (ICM alatt a solver a teljes range-dzsel checkel); ICM-számítás (bubble factor) feltételezett 7 helyes kifizetéssel; Monte Carlo equity',
   });
 
@@ -642,8 +642,8 @@
     check: { toCall: 0.5, eff: 10 },
     q: 'Heads-upban 10bb-vel te vagy az SB (button). Mit lépsz?',
     opts: [
-      { id: 'fold', t: 'Fold', g: 'blunder', why: 'Heads-upban 10bb-vel a lapok fele push. Árulkodó: „gyenge lap, kivárok egy jobbat” — a vakok gyorsan elfogynak.' },
-      { id: 'limp', t: 'Limp', g: 'minor', why: 'Nem óriási hiba, de 10bb-vel a jam egyszerűbb és nyereségesebb: a limppel elengeded a fold equityt.' },
+      { id: 'fold', t: 'Fold', g: 'minor', why: 'Ringes asztali szigorral játszol heads-upban: két játékosnál 10bb-vel a lapok bő fele push. Árulkodó: „gyenge lap, kivárok egy jobbat” — a vakok gyorsan elfogynak.' },
+      { id: 'limp', t: 'Limp', g: 'good', why: 'Elfogadható: teljes solver-stratégiában 10bb-n az SB sok kezet limpel, de ehhez biztos postflop játék kell. A push/fold egyszerűbb, és a 96s jam bizonyítottan nyereséges.' },
       { id: 'jam', t: 'All-in 10bb', g: 'best' },
     ],
     ans: 'Jam: heads-upban 10bb-n a Nash-egyensúly szerint az SB a kezek bő felét tolja, a 96s benne van.',

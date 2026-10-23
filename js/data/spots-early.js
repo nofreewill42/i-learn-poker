@@ -54,7 +54,7 @@
     diff: 1,
     basis: 'concept',
     conf: 'high',
-    ctx: { entrants: 70, left: 70, paid: 7, level: 1, blinds: '100/100', ante: 'nincs', avgBb: 300, note: '100/100-as szint: a SB is egy teljes bb-t tesz be.' },
+    ctx: { entrants: 70, left: 70, paid: 7, level: 1, blinds: '100/100', ante: 'nincs', avgBb: 300, note: '100/100-as szint: az SB is egy teljes bb-t tesz be.' },
     scene: 'Első szint, mindenki 300bb mély. Az asztalnál főleg helyi recek ülnek, sokan hívnak.',
     table: {
       players: 10,
@@ -78,7 +78,7 @@
     ],
     ans: 'Open 2,5–3bb: a 77 UTG+2-ről nyitó kéz, és élőben, mélyen, ante nélkül ez a standard méret.',
     exp:
-      'Tíz fős asztalon UTG+2-ről mélyen kb. a kezek 12–14%-át nyitod, a 77 ebben kényelmesen benne van. Ante nélkül, 100/100-as szinten a potban 2bb van (a SB is egy teljes bb-t tett be), és élőben sokan hívnak, ezért a 2,5–3bb a jó méret: a vakoknak így 25–29% equity kell a híváshoz, egy min-raise-nél csak 20%. A limp feladja a kezdeményezést, és olcsó multiway potot hív be, ahol a 77 a flopon csak kb. 12%-ban talál drillt. Az 5bb felesleges, és ha csak bizonyos kezekkel nyitsz nagyra, az méret-tell.',
+      'Tíz fős asztalon UTG+2-ről mélyen kb. a kezek 12–14%-át nyitod, a 77 ebben kényelmesen benne van. Ante nélkül, 100/100-as szinten a potban 2bb van (az SB is egy teljes bb-t tett be), és élőben sokan hívnak, ezért a 2,5–3bb a jó méret: a vakoknak így 25–29% equity kell a híváshoz, egy min-raise-nél csak 20%. A limp feladja a kezdeményezést, és olcsó multiway potot hív be, ahol a 77 a flopon csak kb. 12%-ban talál drillt. Az 5bb felesleges, és ha csak bizonyos kezekkel nyitsz nagyra, az méret-tell.',
     mist: 'Tipikus hiba a „párral limpelek, set miningre” logika és a kéz szerint változtatott nyitó méret.',
     factors: [
       { c: 'pos', t: 'UTG+2: hét játékos van mögötted; mélyen kb. 12–14% a nyitó range, a 77 benne van.' },
@@ -157,9 +157,9 @@
       actions: [['UTG', 'l'], ['HJ', 'l'], ['BTN', 'l']],
     },
     check: { pot: 4.5, toCall: 0.5, needEq: 0.1 },
-    q: 'UTG, HJ és BTN limpel. Mit lépsz a SB-ből?',
+    q: 'UTG, HJ és BTN limpel. Mit lépsz az SB-ből?',
     opts: [
-      { id: 'fold', t: 'Fold', g: 'minor', why: '0,5bb-ért egy 5bb-s végső potba szállhatnál be egy mélyen jól játszható kézzel. Árulkodó: a SB-t automatikusan „rossz pozíciónak” látod, és nem számolod az árat.' },
+      { id: 'fold', t: 'Fold', g: 'minor', why: '0,5bb-ért egy 5bb-s végső potba szállhatnál be egy mélyen jól játszható kézzel. Árulkodó: az SB-t automatikusan „rossz pozíciónak” látod, és nem számolod az árat.' },
       { id: 'comp', t: 'Complete 0,5bb', g: 'best' },
       { id: 'r6', t: 'Raise 6bb-re', g: 'blunder', why: 'Blöff-remény négy ellenfél ellen: a recek ritkán dobnak, így elsőként lépve, felfújt multiway potot játszol egy spekulatív kézzel. Árulkodó: „megemelem, elveszem a potot”.' },
     ],
@@ -171,7 +171,7 @@
       { c: 'odds', t: '0,5bb-ért 5bb-s végső pot: 10% equity elég, a 76s négy ellenfél ellen is kb. 21%-os.' },
       { c: 'implied', t: '150bb mélyen a sor és a flush multiway potban nagyot fizethet: olcsó belépővel ez a kéz erőssége.' },
       { c: 'fe', t: 'Négy ellenfél (három limper és a BB) ellen a 6bb-s raise-nek alig van fold equityje.' },
-      { c: 'pos', t: 'A SB minden utcán elsőként lép: a potot kicsiben tartod, és csak erős találattal mész tovább.' },
+      { c: 'pos', t: 'Az SB minden utcán elsőként lép: a potot kicsiben tartod, és csak erős találattal mész tovább.' },
       { c: 'mw', t: 'Multiwayben a nutot csináló, összekötött suited kezek tartják jól az értéküket.' },
     ],
     markers: [{ re: '\\b(raise|emelek|megemelem)\\b.{0,30}\\b(elviszem|enyem a pot|hogy dobjanak)', msg: 'Blöff-remény négy ellenfél ellen: a recek ritkán dobnak egy SB-raise-re.' }],
@@ -266,7 +266,7 @@
 
   S.push({
     id: 'A07',
-    title: 'AQs squeeze a SB-ből',
+    title: 'AQs squeeze az SB-ből',
     stage: 'early',
     cats: ['3B'],
     diff: 3,
@@ -286,7 +286,7 @@
       actions: [['CO', 'r', 2.5], ['BTN', 'c']],
     },
     check: { pot: 7.5, toCall: 2, needEq: 0.211 },
-    q: 'A CO (laza reg) 2,5bb-re nyit, a BTN (rec) hív. Mit lépsz a SB-ből?',
+    q: 'A CO (laza reg) 2,5bb-re nyit, a BTN (rec) hív. Mit lépsz az SB-ből?',
     opts: [
       { id: 'call', t: 'Call 2bb', g: 'minor', why: 'Háromfős potot hívsz OOP egy olyan kézzel, amely heads-up a legerősebb, és mögötted a BB még squeeze-elhet. Árulkodó: „nem akarok OOP nagy potot”.' },
       { id: 'sq8', t: 'Squeeze 8bb-re', g: 'minor', why: 'Túl kicsi squeeze: a CO-nak 26,8%, a CO hívása után a BTN-nek 21,2% equity is elég, így gyakran háromfős, felfújt OOP pot lesz belőle. Árulkodó: a heads-up 3-bet méretét használod, a hívót nem számolod bele.' },
@@ -295,12 +295,12 @@
     ],
     ans: 'Squeeze 12bb-re (11–13bb): OOP kb. 4× az open, plusz egy open a hívóért; így heads-upra szűkíted a potot, vagy azonnal nyersz.',
     exp:
-      'A potban 7,5bb van (két 2,5bb, a vakok és a BB ante). Az AQs a laza CO-range és a BTN hívó range-e ellen fej-fej kb. 59–61%-os, hármasban viszont csak kb. 41%, és a SB-ből minden utcán elsőként lépsz: heads-up potot akarsz kezdeményezéssel. Az OOP ökölszabály kb. 4× az open + 1 open callerenként, ez kb. 12,5bb; 12bb-nél a CO-nak 9,5bb-t kell hívnia egy 28,5bb-s végső potért (33,3% equity kell). 8bb-nél ez csak 26,8%, a CO hívása után a BTN-nek pedig 21,2% is elég, így a kis squeeze-ből gyakran háromfős OOP pot lesz. Az all-in csak a QQ+ és az AK hívását kapja, ezek ellen az AQs kb. 29%-os.',
-    mist: 'Tipikus hiba a SB-ből hívni, „mert OOP nem akarok nagy potot”, és a heads-up 3-bet méretét használni squeeze-nek.',
+      'A potban 7,5bb van (két 2,5bb, a vakok és a BB ante). Az AQs a laza CO-range és a BTN hívó range-e ellen fej-fej kb. 59–61%-os, hármasban viszont csak kb. 41%, és az SB-ből minden utcán elsőként lépsz: heads-up potot akarsz kezdeményezéssel. Az OOP ökölszabály kb. 4× az open + 1 open callerenként, ez kb. 12,5bb; 12bb-nél a CO-nak 9,5bb-t kell hívnia egy 28,5bb-s végső potért (33,3% equity kell). 8bb-nél ez csak 26,8%, a CO hívása után a BTN-nek pedig 21,2% is elég, így a kis squeeze-ből gyakran háromfős OOP pot lesz. Az all-in csak a QQ+ és az AK hívását kapja, ezek ellen az AQs kb. 29%-os.',
+    mist: 'Tipikus hiba az SB-ből hívni, „mert OOP nem akarok nagy potot”, és a heads-up 3-bet méretét használni squeeze-nek.',
     factors: [
       { c: 'sizing', t: 'Squeeze OOP: kb. 4× az open + 1 open callerenként = 10 + 2,5 ≈ 12,5bb; a 11–13bb ezt adja.' },
       { c: 'mw', t: 'Az AQs fej-fej kb. 59–61%-os a CO és a BTN range-e ellen, hármasban kb. 41%: heads-up potot akarsz.' },
-      { c: 'pos', t: 'A SB-ből a teljes kézben OOP vagy, és híváskor mögötted a BB még squeeze-elhet.' },
+      { c: 'pos', t: 'Az SB-ből a teljes kézben OOP vagy, és híváskor mögötted a BB még squeeze-elhet.' },
       { c: 'range', t: 'A laza CO a squeeze-re kb. 99+, AJs+, AQo+, KQs körüli kezekkel (néhány blöffel) folytat, ez ellen az AQs kb. 42–47%-os; a nyitásai nagy részét eldobja.' },
     ],
     markers: [{ re: '\\bnem akarok (oop )?(nagy|felfujt) potot|\\boop nem akarok', msg: 'OOP a hívás a rosszabb: többfős potot hagy, a squeeze heads-upra szűkít vagy azonnal nyer.' }],
@@ -336,7 +336,7 @@
     ],
     ans: 'C-bet kb. 2bb (25–33%): a száraz K-magas board a te range-ednek kedvez, és az AQ-val így olcsón dobatod a BB gyenge kezeit.',
     exp:
-      'A flopon 6,5bb a pot (két 2,5bb, a SB 0,5bb-je és a BB ante). A K♣7♦2♥ száraz, szivárvány board a BTN range-ének kedvez: több benne az AK és a KK, mert a BB ezeket gyakran preflop 3-betelte volna, és alig van draw. Ilyen boardon a solverek a BTN range-ének nagy részével kis, 25–33%-os c-betet játszanak, ez itt kb. 2bb. Az AQ ehhez jó jelölt: egy overkártya (A) és egy backdoor broadway-húzó (J és T kell hozzá), és a kis bettel dobatod a BB gyenge kezeit, amelyek ellened még javulhatnának. A 75% feleslegesen sokat kockáztat, a check pedig ingyen lapot ad.',
+      'A flopon 6,5bb a pot (két 2,5bb, az SB 0,5bb-je és a BB ante). A K♣7♦2♥ száraz, szivárvány board a BTN range-ének kedvez: több benne az AK és a KK, mert a BB ezeket gyakran preflop 3-betelte volna, és alig van draw. Ilyen boardon a solverek a BTN range-ének nagy részével kis, 25–33%-os c-betet játszanak, ez itt kb. 2bb. Az AQ ehhez jó jelölt: egy overkártya (A) és egy backdoor broadway-húzó (J és T kell hozzá), és a kis bettel dobatod a BB gyenge kezeit, amelyek ellened még javulhatnának. A 75% feleslegesen sokat kockáztat, a check pedig ingyen lapot ad.',
     mist: 'Tipikus hiba a „nem talált, feladom” reflex range-előnyös boardon, és a nagy c-bet száraz boardon.',
     factors: [
       { c: 'board', t: 'K♣7♦2♥ száraz, szivárvány: kevés a draw, a következő lapok ritkán fordítják meg a helyzetet.' },

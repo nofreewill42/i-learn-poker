@@ -34,7 +34,7 @@
     ],
     ans: 'Open 2–2,2bb: 40bb-n a K7o bőven benne van a BTN nyitási range-ében.',
     exp:
-      'A BB ante miatt fold esetén is 2,5bb van a potban (SB 0,5 + BB 1 + ante 1), és már csak a két vak van mögötted. 40bb-n a BTN nagyjából a kezek 45–51%-át nyitja; a K7o ennek bőven a belsejében van, a kezek erősebbik kb. 30%-ához tartozik (egy véletlen kéz ellen kb. 55%-os). Ha hívnak, postflop végig pozícióban játszol. A 2–2,2bb-s méret ugyanazt a lopást éri el, mint a nagyobb, de kevesebbet kockáztat, ha a vakok visszaütnek.',
+      'A BB ante miatt fold esetén is 2,5bb van a potban (SB 0,5 + BB 1 + ante 1), és már csak a két vak van mögötted. 40bb-n a BTN nagyjából a kezek 45–51%-át nyitja; a K7o ennek bőven a belsejében van, a kezek erősebbik kb. 30%-ához tartozik (egy véletlen kéz ellen kb. 55%-os). Ha hívnak, postflop végig pozícióban játszol. BB ante mellett 25–60bb-n a 2–2,3bb a standard open: olcsóbban lopsz vele, és kevesebbet veszítesz, ha a vakok visszaütnek.',
     mist: 'Tipikus hiba a kéz-alapú fold („nem játszható lap”) a legjobb lopási pozícióból, és a 40bb-s jam, ami csak jobb kezeket hívat.',
     factors: [
       { c: 'pos', t: 'BTN: csak a két vak van mögötted, és postflop végig pozícióban leszel.' },
@@ -77,7 +77,7 @@
     ],
     ans: 'Limp vagy raise 2,5–3bb-re (vegyes stratégia): BB ante mellett a Q8o az SB-ből túl jó a foldhoz.',
     exp:
-      'Fold esetén a BB ingyen viszi a 2,5bb-t (vakok + ante). Limppel 0,5bb-ért szállsz be egy 3bb-s potba, ehhez 16,7% equity elég; raise-zel 2,5–3bb-t kockáztatsz a 2,5bb-ért, és fold equityt is veszel. A Q8o egy véletlen kéz ellen kb. 54%-os, a kezek erősebbik kb. 36%-ában van, BB ante mellett pedig az SB 35bb-n a kezei több mint felével játszik. Az OOP hátrány valós, ezért itt a limp és a raise keveredik: ha a BB sokat emel limp ellen, több raise, ha passzív, több limp.',
+      'Ha dobsz, a 2,5bb-s pot (vakok + ante) a BB-é. Limppel 0,5bb-ért szállsz be egy 3bb-s potba, ehhez 16,7% equity elég; raise-zel 2–2,5bb-t teszel hozzá a 2,5bb-s potért, és fold equityt is veszel. A Q8o egy véletlen kéz ellen kb. 54%-os, a kezek erősebbik kb. 36%-ában van, BB ante mellett pedig az SB 35bb-n a kezei több mint felével játszik. Az OOP hátrány valós, ezért itt a limp és a raise keveredik: ha a BB sokat emel limp ellen, több raise, ha passzív, több limp.',
     mist: 'Tipikus hiba az „OOP leszek, dobom” reflex: 5:1-es árnál és BB ante mellett a pozícióhátrány önmagában nem ok a foldra. A másik véglet a 35bb-s jam, ami csak jobb kezeket hívat.',
     factors: [
       { c: 'odds', t: 'A limp 0,5bb a 3bb-s potért: 16,7% equity elég; a Q8o egy véletlen kéz ellen kb. 54%-os.' },
@@ -167,7 +167,7 @@
     mist: 'Tipikus hiba, hogy a pot odds miatt bármit védünk, és nem nézzük, ki nyitott és honnan. A BTN-open ellen ugyanez a K8o kényelmes call — UTG ellen nem.',
     factors: [
       { c: 'odds', t: '1,2bb hívás 5,9bb-s végső potért: 20,3% kell; a K8o nyersen kb. 33%-os.' },
-      { c: 'range', t: 'A szűk UTG range-e kb. 13–15% (55+, A9s+, ATo+, KTs+, KQo, QTs+, JTs).' },
+      { c: 'range', t: 'A szűk UTG range-e kb. 13–15% (55+, A9s+, A5s, ATo+, KTs+, KQo, QTs+, JTs).' },
       { c: 'dom', t: 'Királlyal gyakran dominált vagy (AK, KQ, KJ, KT) — ilyenkor kis potot nyersz, nagyot veszítesz.' },
       { c: 'pos', t: 'OOP a teljes kézben: a nyers equity jelentős részét nem tudod realizálni.' },
       { c: 'profile', t: 'Szűk reg, ritkán blöfföl — postflop nehéz ellene blöffölni.' },
@@ -184,7 +184,7 @@
     diff: 3,
     basis: 'gto',
     conf: 'med',
-    ctx: { entrants: 70, left: 31, paid: 7, level: 11, blinds: '1200/2400', ante: 'BBA 2400', avgBb: 40 },
+    ctx: { entrants: 70, left: 31, paid: 7, level: 11, blinds: '1200/2400', ante: 'BBA 2400', avgBb: 38 },
     table: {
       players: 10,
       ante: 1,
@@ -207,11 +207,11 @@
     ],
     ans: '3-bet 6bb-re: az A5s blockerrel és jó játszhatósággal ideális 3-bet-blöff egy laza CO-open ellen.',
     exp:
-      'A laza CO 40bb körül kb. 30–36%-ot nyit; ha a 3-betre csak 22+, ATs+, AQo+, KQs, KJs, QJs, JTs körüli kezekkel folytat, az A5s ellen kb. 64–72%-ban dob. A 6bb-s 3-bet így magában is közel nyereséges, és ha hív, pozícióban vagy, kb. 42% equityvel a hívó range-e ellen. Az A♣ blokkolja az AA-t, az AK-t és az AQ-t, vagyis épp a legerősebb folytatásokat. 45bb-n a 3-bet/fold még működik: 4-bet all-inre 39bb a hívás 92,5bb-s végső potba (42,2% kell), a QQ+, AK ellen viszont kb. 30%-os vagy, tehát dobsz.',
+      'A laza CO 40bb körül kb. 30–36%-ot nyit; ha a 3-betre csak 22+, ATs+, AQo+, KQs, KJs, QJs, JTs körüli kezekkel folytat, az A5s ellen kb. 65–72%-ban dob. A 6bb-s 3-betnek már kb. 56% fold elég az azonnali nyereséghez (6 / 10,7), és ha hív, pozícióban vagy, kb. 40–42% equityvel a hívó range-e ellen. Az A♣ blokkolja az AA-t, az AK-t és az AQ-t, vagyis épp a legerősebb folytatásokat. 45bb-n a 3-bet/fold még működik: 4-bet all-inre 39bb a hívás 92,5bb-s végső potba (42,2% kell), a QQ+, AK ellen viszont kb. 30%-os vagy, tehát dobsz.',
     mist: 'Tipikus hiba a „csak prémiummal 3-betelek” logika: így a 3-beted átlátszó, és laza nyitók ellen kimarad a legjobb blöff. A másik véglet a 45bb-s jam, ami túl sokat kockáztat.',
     factors: [
       { c: 'blockers', t: 'Az A♣ blokkolja az AA-t, az AK-t és az AQ-t — a CO legerősebb folytatásait.' },
-      { c: 'fe', t: 'A laza CO a 6bb-s 3-betre kb. 64–72%-ban dob.' },
+      { c: 'fe', t: 'A laza CO a 6bb-s 3-betre kb. 65–72%-ban dob; az azonnali nyereséghez kb. 56% is elég.' },
       { c: 'profile', t: 'Laza reg, sokat nyit és gyakran dob: ő a 3-bet célpontja.' },
       { c: 'stack', t: '45bb-n a 3-bet/fold még működik: 4-bet all-inre kb. 30%-os vagy, 42,2% kellene, tehát dobsz.' },
       { c: 'plan', t: 'Ha hív, pozícióban c-betelsz; 4-bet all-inre fold.' },
@@ -292,7 +292,7 @@
     ],
     ans: 'Bet 2bb, és raise-re all-in: 3,7-es SPR-nél a top pár jó kickerrel elköteleződő kéz.',
     exp:
-      'A flopon 5,9bb a pot, a BB-nek 21,8bb maradt (a vakot és az antét is a saját stackjéből tette be), te 22,8bb-vel fedezed, így az SPR kb. 3,7. Ilyen mélységnél a TPGK a range-ed erős vége, nem dobod el. Ha a 2bb-s c-betedre a BB all-in, 19,8bb a hívás egy 29,7bb-s potba: 40% kell, az AJ pedig egy reális check-raise range ellen (szettek, két pár, gyengébb Jx, gutshotok) kb. 46–54%-os. A kis bet gyengébb Jx-et, 7-eseket és gutshotokat hívat, és két utcán át természetesen bekerül a stack.',
+      'A flopon 5,9bb a pot, a BB-nek 21,8bb maradt (a vakot és az antét is a saját stackjéből tette be), te 22,8bb-vel fedezed, így az SPR kb. 3,7. Ilyen mélységnél a TPGK a range-ed erős vége, nem dobod el. Ha a 2bb-s c-betedre a BB all-in, 19,8bb a hívás egy 29,7bb-s potba: 40% kell, az AJ pedig egy reális check-raise range ellen (szettek, két pár, gyengébb Jx, gutshotok) kb. 46–54%-os. A kis bet gyengébb Jx-et, 7-eseket és gutshotokat hívat, és a turnön, riveren természetesen bekerül a stack.',
     mist: 'Tipikus hiba, hogy mély stackes reflexszel kontrollálod a potot, vagy betelsz, majd raise-re eldobod: alacsony SPR-nél mindkettő értéket veszít.',
     factors: [
       { c: 'spr', t: 'SPR ≈ 3,7 (21,8bb a BB mögött / 5,9bb pot): a TPGK itt elköteleződő kéz.' },
@@ -334,10 +334,10 @@
     ],
     ans: 'Bet 7bb (kb. 70%): a nut flush draw és a gutshot együtt a legjobb semi-bluff — most fold equity, híváskor kb. 12 out.',
     exp:
-      'A turnön 9,9bb a pot, a BB-nek 34,8bb maradt. Az A♦5♦ nut flush draw (9 out) plusz gutshot a wheelre (a három nem káró 2-es): kb. 12 jó out, a riveren kb. 27%-ban javulsz, és a BB teljes range-e ellen kb. 41%-os vagy. Egy 7bb-s betre a BB flop-call, turn-check range-éből (gyengébb Kx, 9x, kis párok, gyenge draw-k) nagyjából a fele dob; ami hív, az ellen is kb. 31%-os maradsz. A nagy méret maximalizálja a fold equityt, és ha hív, a riveren egy bejövő lapnál kb. 28bb-s all-in egy 23,9bb-s potba természetes.',
+      'A turnön 9,9bb a pot, a BB-nek 34,8bb maradt. Az A♦5♦ nut flush draw (9 out) plusz gutshot a wheelre (a három nem káró 2-es): kb. 12 jó out, a riveren kb. 26%-ban javulsz, és a BB teljes range-e ellen kb. 41%-os vagy. Egy 7bb-s betre a BB flop-call, turn-check range-éből (gyengébb Kx, 9x, kis párok, gyenge draw-k) nagyjából a fele dob; ami hív, az ellen is kb. 31%-os maradsz. A nagy méret maximalizálja a fold equityt, és ha hív, a riveren egy bejövő lapnál kb. 28bb-s all-in egy 23,9bb-s potba természetes.',
     mist: 'Tipikus hiba, hogy erős drawval „ingyen lapot” veszünk, vagy kis bettel próbálkozunk: így a fold equity nagy része elvész, és bejövő flushnál is kisebb a pot.',
     factors: [
-      { c: 'board', t: 'K♣9♥4♦3♦: a 3♦ flush drawt és wheel-gutshotot adott; kb. 12 jó out (9 káró + 3 kettes), a riveren kb. 27%.' },
+      { c: 'board', t: 'K♣9♥4♦3♦: a 3♦ flush drawt és wheel-gutshotot adott; kb. 12 jó out (9 káró + 3 kettes), a riveren kb. 26% (12 / 46).' },
       { c: 'fe', t: 'A BB flop-call, turn-check range-ének nagyjából fele dob egy 7bb-s betre.' },
       { c: 'blockers', t: 'Az A♦ a nut flush blockere: ha bejön a káró, a legjobb kezed van, és a BB-nél nem lehet nut flush draw.' },
       { c: 'sizing', t: '9,9bb-s potba 66–75% (6,5–7,4bb): ez maximalizálja a fold equityt; a 33% keveset dobat.' },
@@ -396,7 +396,7 @@
     diff: 2,
     basis: 'gto',
     conf: 'high',
-    ctx: { entrants: 70, left: 30, paid: 7, level: 12, blinds: '1500/3000', ante: 'BBA 3000', avgBb: 30 },
+    ctx: { entrants: 70, left: 30, paid: 7, level: 12, blinds: '1500/3000', ante: 'BBA 3000', avgBb: 31 },
     table: {
       players: 10,
       ante: 1,
@@ -424,7 +424,7 @@
       { c: 'dead', t: 'A potban 4,7bb van (vakok + BB ante + 2,2bb open) — ez a 18bb-s stacked kb. negyede.' },
       { c: 'fe', t: 'A laza BTN a jamre csak kb. 88+, ATs+, AJo+, KQs körül hív: a BB-vel együtt kb. 70–80%-ban mindenki dob.' },
       { c: 'range', t: 'Ha hívnak, a 77 kb. 39–44%-os; a jam így kb. +3,2bb.' },
-      { c: 'implied', t: 'Hívás után kb. 16bb marad, ez a 1,7bb kb. 9-szerese — a set mininghez 15–20× kellene.' },
+      { c: 'implied', t: 'Hívás után kb. 16bb marad, ez az 1,7bb-nek csak kb. 9-szerese — a set mininghez 15–20× kellene.' },
       { c: 'pos', t: 'Az SB-ből OOP játszanál, és a BB mögötted még squeeze-elhet.' },
     ],
     markers: [{ re: '\\bsetet (akarok|varok|keresek|nezek)|\\bset ?min|\\bdrillt? (akarok|varok|keresek)|\\bszett(et)? (akarok|varok|keresek)', msg: 'Set mining 18bb-vel: nincs meg hozzá a 15–20×-os implied odds.' }],
@@ -461,14 +461,14 @@
     ],
     ans: 'All-in 20bb: sok holt pénz, capped BTN-flat és magas fold equity — a squeeze jam kb. +3bb.',
     exp:
-      'A potban 6,9bb van (vakok, BB ante, két 2,2bb) — ez a 20bb-s stacked kb. harmada. A CO-nak 17,8bb-t kell hívnia úgy, hogy mögötte még ott a BTN, ezért reálisan kb. 99+, AJs+, AQo+, KQs-sel hív; ez ellen az AJo kb. 32%-os. A BTN flat range-e capped (a QQ+-t és az AK-t 3-betelte volna), így ő ritkán hív. Kb. 60–80%-ban mindenki dob, és a jam a hívók szélességétől függően kb. +2,7–4,4bb; a call OOP, háromfős potban a leggyengébb opció.',
+      'A potban 6,9bb van (vakok, BB ante, két 2,2bb) — ez a 20bb-s stacked kb. harmada. A CO-nak 17,8bb-t kell hívnia úgy, hogy mögötte még ott a BTN, ezért reálisan kb. 99+, AJs+, AQo+, KQs-sel hív; ez ellen az AJo kb. 32%-os. A BTN flat range-e capped (a QQ+-t és az AK-t 3-betelte volna), így ő ritkán hív. Kb. 60–80%-ban mindenki dob, és a jam a hívók szélességétől függően kb. +2,7–4,4bb; a call OOP, háromfős potban ennél jóval kevesebbet ér.',
     mist: 'Tipikus hiba, hogy két ellenfél láttán dobunk: a squeeze-nél épp a több holt pénz és a capped flatter adja a nyereséget. A másik hiba a passzív call OOP, háromfős potban.',
     factors: [
       { c: 'dead', t: 'A potban 6,9bb van — a 20bb-s stacked kb. harmada, és kb. 60–80%-ban azonnal a tiéd.' },
       { c: 'range', t: 'A BTN flat range-e capped (QQ+/AK-t 3-betelt volna); a CO kb. 99+, AJs+, AQo+, KQs-sel hív, ez ellen az AJo kb. 32%.' },
       { c: 'mw', t: 'Két ellenfél, de ez itt előny: a CO-nak a BTN-nel a háta mögött még szűkebben kell hívnia.' },
       { c: 'fe', t: 'A fold equity és a holt pénz miatt a jam kb. +2,7–4,4bb, a fold 0.' },
-      { c: 'pos', t: 'Az SB-ből OOP lennél egy háromfős potban, ezért a call a leggyengébb.' },
+      { c: 'pos', t: 'Az SB-ből OOP lennél egy háromfős potban, ezért a call jóval kevesebbet ér a jamnél.' },
     ],
     markers: [{ re: '\\bket (ellenfel|jatekos|hivo)\\w*,? (tul )?(veszelyes|sok)|\\btul (sokan|veszelyes)\\b|\\bketten (vannak|bent)', msg: '„Két ellenfél, túl veszélyes” — squeeze-nél a több holt pénz és a capped flatter a te előnyöd.' }],
     src: 'Squeeze-elmélet és 20bb-s reshove-range-ek (charts.js: rangerpro, deepfold); chipEV: saját Monte Carlo számítás a motor és az equity-modul alapján; equity: tools/equity.js',
@@ -482,7 +482,7 @@
     diff: 2,
     basis: 'gto',
     conf: 'high',
-    ctx: { entrants: 70, left: 26, paid: 7, level: 14, blinds: '2500/5000', ante: 'BBA 5000', avgBb: 27 },
+    ctx: { entrants: 70, left: 26, paid: 7, level: 13, blinds: '2000/4000', ante: 'BBA 4000', avgBb: 27 },
     table: {
       players: 10,
       ante: 1,
@@ -501,13 +501,13 @@
       { id: 'minr', t: 'Open 2bb (min-raise)', g: 'minor', why: 'A min-raise a stacked hatoda: egy reshove ellen 39,2% kellene, az A8o kb. 30–36%-os, így dobnod kell. Árulkodó: „megnézem, mit lépnek a többiek”.' },
       { id: 'jam', t: 'All-in 12bb', g: 'best' },
     ],
-    ans: 'All-in 12bb: a 10bb-s chart a HJ-ből A3o+-t told, 15bb-n kb. az A8o a határ — 12bb-n az A8o nyereséges jam.',
+    ans: 'All-in 12bb: a 10bb-s chart szerint a HJ-ből A3o+-t tolsz, 15bb-n kb. az A8o a határ — 12bb-n az A8o nyereséges jam.',
     exp:
-      'Fold esetén 2,5bb van a potban (vakok + BB ante), mögötted négyen vannak (CO, BTN, SB, BB). A 10bb-s chartban a HJ (9 fős MP3) A3o+-t told, 15bb-n kb. az A8o a határ; chipEV-ben 12bb-n az A8o jam kb. +0,4–0,8bb. A tipikus hívók (77+, ATs+, AJo+, KQs) ellen kb. 29%-os, a BB szélesebb hívása ellen kb. 42%, de az esetek kb. 55–75%-ában mindenki dob. A min-raise/fold rosszabb: egy reshove-ra 39,2% equity kellene, az A8o ez ellen kb. 30–36%-os.',
+      'Fold esetén 2,5bb van a potban (vakok + BB ante), mögötted négyen vannak (CO, BTN, SB, BB). A 10bb-s chart szerint a HJ-ből (9 fős MP3) A3o+-t tolsz, 15bb-n kb. az A8o a határ; chipEV-ben 12bb-n az A8o jam kb. +0,4–0,8bb. A tipikus hívók (77+, ATs+, AJo+, KQs) ellen kb. 29%-os, a BB szélesebb hívása ellen kb. 42%, de az esetek kb. 55–75%-ában mindenki dob. A min-raise/fold rosszabb: egy reshove-ra 39,2% equity kellene, az A8o ez ellen kb. 30–36%-os.',
     mist: 'Tipikus hiba a „várok egy jobb lapra” 12bb-vel: a vakok és az ante gyorsan fogynak, a min-raise/fold pedig a stack hatodát kockáztatja fold equity nélkül.',
     factors: [
       { c: 'stack', t: '12bb: push/fold zóna — a min-raise a stacked hatoda, utána egy all-inre már nehéz jól dönteni.' },
-      { c: 'range', t: 'A 10bb-s chart a HJ-ből A3o+-t told; 15bb-n kb. az A8o a határ.' },
+      { c: 'range', t: 'A 10bb-s chart szerint a HJ-ből A3o+-t tolsz; 15bb-n kb. az A8o a határ.' },
       { c: 'dead', t: 'Fold esetén 2,5bb van a potban — a stacked kb. ötöde, és egy kör is ennyibe kerül.' },
       { c: 'fe', t: 'Kb. 55–75%-ban mindenki dob; a jam így kb. +0,4–0,8bb.' },
       { c: 'pos', t: 'HJ: négyen vannak mögötted — nem bármilyen ász jam, de az A8o még bőven belefér.' },
@@ -543,7 +543,7 @@
     ],
     ans: 'All-in 8bb: 8bb-vel, BB ante mellett a 44 UTG-ről is nyereséges jam.',
     exp:
-      'Fold esetén 2,5bb van a potban (vakok + BB ante) — ez a 8bb-s stacked közel harmada, és egy kör is ennyibe kerül. A 10bb-s chart a 9 fős UTG-ről 22+-t tol; 10 fős asztalon, BB ante mellett a saját chipEV-számításunk szerint 10bb-n a 22–33 már határeset, 8bb-n viszont a 44 egyértelműen nyereséges (kb. +0,1–0,3bb). Mögötted kilencen vannak, ezért kb. 60%-ban valaki hív: overkártyák (AK, AQ, KQ) ellen a 44 kb. 52–54%-os, nagyobb pár ellen kb. 19%, a tipikus hívó range-ek ellen kb. 37–45%. Ha egy teljes kört kivársz, kb. 5,5bb-d marad, és még kevesebb fold equityvel kell tolnod.',
+      'Fold esetén 2,5bb van a potban (vakok + BB ante) — ez a 8bb-s stacked közel harmada, és egy kör is ennyibe kerül. A 10bb-s chart a 9 fős UTG-ről 22+-t tol; 10 fős asztalon, BB ante mellett a saját chipEV-számításunk szerint 10bb-n a 22–44 a határ körül van, 8bb-n viszont a 44 minden hívási modellünkben nyereséges (kb. +0,1–0,5bb). Mögötted kilencen vannak, ezért kb. 60%-ban valaki hív: overkártyák (AK, AQ, KQ) ellen a 44 kb. 52–54%-os, nagyobb pár ellen kb. 19%, a tipikus hívó range-ek ellen kb. 37–45%. Ha egy teljes kört kivársz, kb. 5,5bb-d marad, és még kevesebb fold equityvel kell tolnod.',
     mist: 'Tipikus hiba a mély stackes reflex: a kis párt UTG-ről eldobni, vagy limppel setre várni. 8bb-n nincs implied odds, csak jam vagy fold van.',
     factors: [
       { c: 'stack', t: '8bb: push/fold zóna — limphez vagy kis raise-hez nincs mélység, a set miningnek nincs implied oddsa.' },
@@ -585,12 +585,12 @@
     ],
     ans: 'Call: 41,9% equity kell, az ATo egy 10bb-s UTG-range ellen kb. 44–47%-os.',
     exp:
-      'A potban 12,5bb van (az UTG 10bb-je, az SB 0,5, a vakod és az ante); neked 9bb a hívás, a végső pot 21,5bb, tehát 41,9% equity kell. A 10bb-s chart a 9 fős UTG-ről kb. 18%-ot tol (22+, A4s+, ATo+, K9s+, KJo+, Q9s+, J9s+, T8s+, 98s): ez ellen az ATo kb. 47%-os, egy 10 fős asztalhoz illő, szűkebb range (22+, A7s+, ATo+, KTs+, KJo+, QTs+, JTs; kb. 15%) ellen kb. 44%. Az AJ+ és a nagy párok dominálnak, de a range nagy része kis pár, suited ász és broadway, amelyek ellen jól állsz. Az ATo nem határeset: a BB-hívási chart (9 fős, ante nélkül) ennél gyengébb ászokat is hív.',
+      'A potban 12,5bb van (az UTG 10bb-je, az SB 0,5, a vakod és az ante); neked 9bb a hívás, a végső pot 21,5bb, tehát 41,9% equity kell. A 10bb-s chart a 9 fős UTG-ről kb. 18%-ot tol (22+, A4s+, ATo+, K9s+, KJo+, Q9s+, J9s+, T8s+, 98s): ez ellen az ATo kb. 47%-os, egy 10 fős asztalhoz illő, szűkebb range (22+, A7s+, ATo+, KTs+, KJo+, QTs+, JTs; kb. 15%) ellen kb. 44%. Az AJ+ és a nagy párok dominálnak (ellenük kb. 26%), de a gyengébb ászokat és a broadwayeket te dominálod (kb. 60–67%), a kis párok ellen pedig nagyjából érmefeldobás (kb. 46%). A határ e range-ek ellen nagyjából az A8o és az ATo között van; az ATo mindkét változatban nyereséges hívás.',
     mist: 'Tipikus hiba, hogy az UTG-pozíciót a 100bb-s range-ével azonosítjuk: 10bb-vel az UTG is a kezek kb. 15–18%-át tolja.',
     factors: [
       { c: 'odds', t: '9bb hívás 21,5bb-s végső potért: 41,9% kell; az ATo kb. 44–47%-os.' },
       { c: 'range', t: '10bb-vel az UTG kb. 15–18%-ot tol (22+, A4s+, ATo+, K9s+, KJo+ …), nem csak prémiumot.' },
-      { c: 'dom', t: 'Az AJ+ és a nagy párok dominálnak, de a range nagy része kis pár, suited ász és broadway.' },
+      { c: 'dom', t: 'Az AJ+ és a nagy párok dominálnak, de a gyengébb ászokat és a broadwayeket te dominálod.' },
       { c: 'dead', t: 'A vakok és a BB ante miatt a potban már 12,5bb van — ez lejjebb viszi a szükséges equityt.' },
       { c: 'stack', t: 'Te 35bb-vel fedezed: a hívás a stacked kb. negyede, és nem esel ki.' },
     ],
@@ -626,10 +626,10 @@
     ],
     ans: 'Call: 42,9% equity kell, a K8o egy 10bb-s SB-range ellen kb. 52%-os.',
     exp:
-      'A potban 12bb van (az SB 10bb-je, a vakod és az ante); neked 9bb a hívás, a végső pot 21bb, tehát 42,9% equity kell. Az SB 10bb-vel a chart szerint a kezek kb. 69%-át tolja (ante nélkül; BB ante mellett még többet), és ez ellen a K8o kb. 52%-os: a hívás kb. +1,9bb. BB ante mellett a BB a kezek kb. 53%-ával hív, a K8o ennek bőven a belsejében van. Még ha az SB csak a kezek kb. 43%-át tolná is, a K8o kb. 44%-os, vagyis akkor is hívás.',
+      'A potban 12bb van (az SB 10bb-je, a vakod és az ante); neked 9bb a hívás, a végső pot 21bb, tehát 42,9% equity kell. Az SB 10bb-vel a chart szerint a kezek kb. 69%-át tolja (BB ante mellett a Nash-közeli arány kb. 71%), és ez ellen a K8o kb. 52%-os: a hívás kb. +1,9bb. BB ante mellett a BB a kezek kb. 53%-ával hív, a K8o ennek bőven a belsejében van. Még ha az SB csak a kezek kb. 43%-át tolná is, a K8o kb. 44%-os, vagyis akkor is hívás.',
     mist: 'Tipikus hiba, hogy a range felső szélétől (AA, AK) félünk a range egésze helyett. A „bármi lehet nála” épp azt jelenti, hogy a range széles, és a K8o előnyben van ellene.',
     factors: [
-      { c: 'range', t: 'Az SB 10bb-vel a kezek kb. 69%-át tolja (BB ante mellett kb. 71%-át).' },
+      { c: 'range', t: 'Az SB 10bb-vel a kezek kb. 70%-át tolja (chart: 68,6%; BB ante mellett Nash-közelítésben kb. 71%).' },
       { c: 'odds', t: '9bb hívás 21bb-s végső potért: 42,9% kell, a K8o kb. 52%-os.' },
       { c: 'dead', t: 'A BB ante miatt több a holt pénz: a BB hívási aránya kb. 38%-ról 53%-ra nő.' },
       { c: 'stack', t: 'Te 40bb-vel fedezed: a 9bb-s hívás a stacked kb. negyede, kiesés nélkül.' },
@@ -674,7 +674,7 @@
       { c: 'odds', t: '20bb hívás 59,9bb-s végső potért: 33,4% kell — a betjeinek legalább harmada blöff kellene legyen.' },
       { c: 'profile', t: 'Rec: a riveren ritkán blöfföl nagyot, a pot-méretű bet tőle value-túlsúlyos.' },
       { c: 'range', t: 'Value: Ax, két pár, szettek, 98; blöff: elszalasztott KQ/KJs/QJs — kb. 25% blöff, a T9 ez ellen kb. 25%-os.' },
-      { c: 'tells', t: 'A bet utáni laza, beszédes viselkedés inkább erőre utal (Elwood) — de csak döntetlenhelyzet-eldöntő.', kw: ['\\bellazul', '\\blazan\\b'] },
+      { c: 'tells', t: 'A bet utáni laza, beszédes viselkedés inkább erőre utal (Elwood) — de csak döntetlenhelyzet-eldöntő.', kw: ['\\bellazul', '\\bhatradol'] },
       { c: 'board', t: 'A♦T♥6♠ 2♣ 7♦: a 7♦ befejezi a 98-at; a T9 csak második pár, egyik value-kezet sem veri.' },
     ],
     markers: [{ re: '\\b(blof|bluff|blef)\\w*,? mert (beszel|nevet|laza|poenkod)|\\bbeszel\\w*,? (tehat|szoval|ugyhogy)( (biztos|tuti))? (blof|bluff|blef)', msg: '„Blöfföl, mert beszél” — a bet utáni laza beszéd inkább erőt jelez.' }],
@@ -697,7 +697,7 @@
       blinds: '1000/2000',
       ante: 'BBA 2000',
       avgBb: 44,
-      note: 'Pénteki K.O. Freezeout: 25 000 Ft, 50 000-es stack, 25 perces szintek. Feltevés: 5 000 Ft fix bounty + 20 000 Ft díjalap, BB ante-val — a bounty arányát kérdezd meg a floort.',
+      note: 'Pénteki K.O. Freezeout: 25 000 Ft, 50 000-es stack, 25 perces szintek. Feltevés: a buy-inből 5 000 Ft fix bounty, 20 000 Ft a díjalap, és ezen a szinten már BB ante van — kérdezd meg a floort.',
     },
     scene: 'A bounty aránya feltevés — kérdezd meg a floort. Itt 5 000 Ft-os fix bounty-val számolunk: ennyit kapsz készpénzben, ha kiütsz valakit.',
     table: {
