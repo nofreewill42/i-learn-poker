@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>i-learn-poker</title>
+    <meta name="description" content="Személyre szabott pókertréner élő, 10 fős asztalos versenyekhez: hangos gondolkodás, szintfelmérés, push/fold és ICM, élő kéz-napló." />
+    <meta name="theme-color" content="#13253b" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/icon-192.png" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Ugrás a tartalomra</a>
+    <header class="topbar">
+      <a class="brand" href="#/edzes">i-learn-poker</a>
+      <nav class="nav" aria-label="Fő menü">
+        <a href="#/edzes" data-nav="edzes">Edzés</a>
+        <a href="#/profil" data-nav="profil">Profil</a>
+        <a href="#/naplo" data-nav="naplo">Napló</a>
+        <a href="#/tudas" data-nav="tudas">Tudástár</a>
+        <a href="#/eszkozok" data-nav="eszkozok">Eszközök</a>
+      </nav>
+      <a class="topbar__more" href="#/adatok" data-nav="adatok" data-icon="data">Adatok</a>
+    </header>
+
+    <main id="main" class="main" tabindex="-1">
+      <noscript>Az alkalmazáshoz JavaScript kell.</noscript>
+    </main>
+
+    <nav class="tabbar" aria-label="Fő menü">
+      <a href="#/edzes" data-nav="edzes" data-icon="train">Edzés</a>
+      <a href="#/profil" data-nav="profil" data-icon="profile">Profil</a>
+      <a href="#/naplo" data-nav="naplo" data-icon="journal">Napló</a>
+      <a href="#/tudas" data-nav="tudas" data-icon="learn">Tudás</a>
+      <a href="#/eszkozok" data-nav="eszkozok" data-icon="tools">Eszközök</a>
+    </nav>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script src="js/core/util.js"></script>
+    <script src="js/core/cards.js"></script>
+    <script src="js/core/ranges.js"></script>
+    <script src="js/core/spot.js"></script>
+    <script src="js/core/icm.js"></script>
+    <script src="js/core/equity.js"></script>
+    <script src="js/data/concepts.js"></script>
+    <script src="js/data/charts.js"></script>
+    <script src="js/data/spots-early.js"></script>
+    <script src="js/data/spots-middle.js"></script>
+    <script src="js/data/spots-late.js"></script>
+    <script src="js/data/techniques.js"></script>
+    <script src="js/data/plan.js"></script>
+    <script src="js/data/venue.js"></script>
+    <script src="js/core/scoring.js"></script>
+    <script src="js/core/srs.js"></script>
+    <script src="js/core/drills.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/speech.js"></script>
+    <script src="js/core/report.js"></script>
+    <script src="js/ui/dom.js"></script>
+    <script src="js/ui/table.js"></script>
+    <script src="js/ui/viz.js"></script>
+    <script src="js/ui/recorder.js"></script>
+    <script src="js/ui/views/train.js"></script>
+    <script src="js/ui/views/drills.js"></script>
+    <script src="js/ui/views/profile.js"></script>
+    <script src="js/ui/views/journal.js"></script>
+    <script src="js/ui/views/learn.js"></script>
+    <script src="js/ui/views/tools.js"></script>
+    <script src="js/ui/views/data.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

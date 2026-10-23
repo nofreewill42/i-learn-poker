@@ -1,0 +1,14 @@
+{
+  "name": "i-learn-poker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Személyre szabott pókertréner élő, 10 fős asztalos versenyekhez: hangos gondolkodás, szintfelmérés, push/fold, ICM, élő kéz-napló.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node tools/check-spots.js js/data/spots-early.js js/data/spots-middle.js js/data/spots-late.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
