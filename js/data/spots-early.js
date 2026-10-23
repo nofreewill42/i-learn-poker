@@ -87,7 +87,7 @@
       { c: 'tells', t: 'Minden nyitó kézzel ugyanakkora méret: a kéz szerint változó méret (77-tel 5bb, AA-val 2,5bb) méret-tell.', kw: ['\\bugyanakkora', '\\begyseges meret'] },
     ],
     markers: [
-      { re: '\\bparral limpel|\\blimpelek,? (set|szett)|\\b(set|szett)( ?mining)?(re|hez)? limpel', msg: 'Open-limp set miningre: egy nyitó kézzel feladod a kezdeményezést.' },
+      { re: '\\bparral limpelek|\\b(set|szett)( ?mining)?(re|hez)? limpelek|(^|[^m] |[^e]m |[^n]em )limpelek,? (set|szett)', msg: 'Open-limp set miningre: egy nyitó kézzel feladod a kezdeményezést.' },
       { re: '\\bhogy ne hivjanak|\\bnagyot (nyitok|emelek)', msg: 'Kéz szerint változó méret: élőben méret-tell.' },
     ],
     src: '10 fős nyitási arányok (charts.js: saját átszámítás 9 fős GTO-chartokból); élő, ante nélküli open-méret konszenzus (2,5–3bb); pot odds számítás',
@@ -132,7 +132,7 @@
       { c: 'pos', t: 'A BTN-en pozícióban vagy mindkét limper ellen, mögötted csak a vakok döntenek.' },
       { c: 'profile', t: 'A recek limp-range-e széles és többnyire capped: a prémium kezeket általában emelik.' },
     ],
-    markers: [{ re: '\\blimpelek (en is|moge)|\\bmoge(juk)? limpel|\\boverlimpel', msg: 'Overlimp egy value-kézzel: a heads-up iso helyett multiway potot választasz.' }],
+    markers: [{ re: '(^|[^m] |[^e]m |[^n]em )(limpelek (en is|moge)|moge(juk)? limpelek|overlimpelek)', msg: 'Overlimp egy value-kézzel: a heads-up iso helyett multiway potot választasz.' }],
     src: 'Iso-méret ökölszabály (open + 1bb limperenként, OOP +1bb; blackrain79, pokerskill); GTO Wizard: How to Handle Loose-Passive Limpers (raise-or-fold, overlimp csak gyenge spekulatív kezekkel); Monte Carlo equity',
   });
 
@@ -174,7 +174,7 @@
       { c: 'pos', t: 'A SB minden utcán elsőként lép: a potot kicsiben tartod, és csak erős találattal mész tovább.' },
       { c: 'mw', t: 'Multiwayben a nutot csináló, összekötött suited kezek tartják jól az értéküket.' },
     ],
-    markers: [{ re: '\\b(raise|emelek|megemelem)\\b.{0,30}\\b(elveszem|elviszem|hatha (mind(enki)? )?dob)', msg: 'Blöff-remény négy ellenfél ellen: a recek ritkán dobnak egy SB-raise-re.' }],
+    markers: [{ re: '\\b(raise|emelek|megemelem)\\b.{0,30}\\b(elviszem|enyem a pot|hogy dobjanak)', msg: 'Blöff-remény négy ellenfél ellen: a recek ritkán dobnak egy SB-raise-re.' }],
     src: 'Pot odds számítás + Monte Carlo equity (76s vs három limp-range és egy véletlen kéz); GTO Wizard: 10 Tips for Multiway Pots (a nutot csináló kezek multiwayben is jól tartják az equityt)',
   });
 
@@ -216,7 +216,7 @@
       { c: 'pos', t: 'Mögötted még CO, BTN, SB és BB dönt: egy squeeze-nél a 3bb-t ingyen adod.' },
       { c: 'range', t: 'A 3-betre folytató rec-range (kb. 77+, AJ+, KQs) ellen a 44 kb. 36%-os: a 3-betnek sincs értelme.' },
     ],
-    markers: [{ re: '\\bbelefer|\\bnagy (a )?stackem|\\bsok zsetonom', msg: 'A saját stackedből számolsz, nem az effektív stackből.' }],
+    markers: [{ re: '\\bnagy (a )?stackem|\\bsok (a )?zsetonom|\\b(stackembe|stackbe) belefer|\\bbelefer a (stackembe|stackbe)|\\bbelefer(,|\\.|!|$)', msg: 'A saját stackedből számolsz, nem az effektív stackből.' }],
     src: 'Set mining ökölszabály (pokernews: a hívás 10–20-szorosa); effektív stack- és pot odds számítás; Monte Carlo equity',
   });
 
@@ -378,7 +378,7 @@
     ],
     ans: 'Check: a 876 két színnel a BB range-ének kedvez, az AK pedig pozícióban ingyen látja a turnt; ha mégis betelsz, csak kicsit és ritkán.',
     exp:
-      'A flopon 6,5bb a pot. A 8♥7♥6♣ összekötött, két színű board a BB-nek kedvez: nála vannak a sorok (T9s, 54s), a két párok (87s, 86s, 76s) és a szettek nagy része, két pár vagy jobb kb. 13% nála és kb. 8% nálad, a range vs range előnyöd pedig a preflop kb. 64%-ról kb. 56%-ra esik. Az AK-nak nincs párja, és backdoor flush-húzója sincs (nincs pikk a boardon), csak hat outja; a BB range-e ellen így is kb. 44%-os, de egy check-raise után ezt nem tudja realizálni. Pozícióban a check ingyen hozza a turnt, és kicsiben tartja a potot; a kis bet ritkán belefér, a 75% viszont nagy potot épít egy olyan kézzel, amely egy raise-re dobni fog.',
+      'A flopon 6,5bb a pot. A 8♥7♥6♣ összekötött, két színű board a BB-nek kedvez: nála vannak a sorok (T9s, 54s), a két párok (87s, 86s, 76s) és a szettek nagy része, két pár vagy jobb kb. 13% nála és kb. 8% nálad, a range vs range előnyöd pedig a preflop kb. 64–65%-ról kb. 56%-ra esik. Az AK-nak nincs párja, és backdoor flush-húzója sincs (nincs pikk a boardon), csak hat outja; a BB range-e ellen így is kb. 44%-os, de egy check-raise után ezt nem tudja realizálni. Pozícióban a check ingyen hozza a turnt, és kicsiben tartja a potot; a kis bet ritkán belefér, a 75% viszont nagy potot épít egy olyan kézzel, amely egy raise-re dobni fog.',
     mist: 'Tipikus hiba az automatikus c-bet („AK-val mindig c-betelek”), főleg nagy mérettel egy olyan boardon, amely a hívó range-ét találja.',
     factors: [
       { c: 'board', t: '8♥7♥6♣: összekötött, két színű, középső lapok — a BB hívó range-ét találja, nem az UTG-range-et.' },
@@ -386,7 +386,7 @@
       { c: 'odds', t: 'Az AK pár nélkül kb. 44%-os a BB range-e ellen (6 out, backdoor flush nincs), de egy check-raise után ezt nem realizálja.' },
       { c: 'pos', t: 'Pozícióban vagy: a check ingyen hozza a turnt, és a pot kicsi marad; egy A vagy K a turnön top párt ad.' },
     ],
-    markers: [{ re: '\\b(ak|aka)-?(val|nal) (mindig|c-? ?bet|betel)|\\basz-? ?kiral(y|lyal) mindig', msg: 'Kéz-alapú c-bet: az AK neve helyett a board és a range-ek döntenek.' }],
+    markers: [{ re: '\\b(ak|aka)-?(val|nal) (c-? ?bet|betel)|\\basz-? ?kiral(y|lyal) (c-? ?bet|betel)', msg: 'Kéz-alapú c-bet: az AK neve helyett a board és a range-ek döntenek.' }],
     src: 'Solver-heurisztika (GTO Wizard: Flop Heuristics: IP C-Betting in MTTs — a középső, összekötött boardok a legrosszabbak c-betre, ott ritkább és polárisabb a bet); range vs range Monte Carlo becslés',
   });
 
