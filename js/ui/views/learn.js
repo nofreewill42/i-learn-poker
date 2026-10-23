@@ -194,12 +194,15 @@
     h += '<div class="section"><h2>Heti versenyek</h2><div class="table-wrap"><table class="t"><thead><tr><th>Nap</th><th>Verseny</th><th class="r">Buy-in</th><th>Stack</th><th>Szintek</th><th>Late reg</th><th>Újravásárlás</th></tr></thead><tbody>';
     (V.schedule || []).forEach((s) => (h += '<tr><td style="white-space:nowrap">' + esc(s.day + ' ' + s.time) + '</td><td>' + esc(s.name) + '</td><td class="r" style="white-space:nowrap">' + esc(PK.util.ft(s.buyIn)) + '</td><td>' + esc(s.stack) + '</td><td>' + esc(s.levels) + '</td><td>' + esc(s.lateReg) + '</td><td>' + esc(s.reentry) + '</td></tr>'));
     h += '</tbody></table></div>';
+    if (V.stackNote) h += '<p class="small muted" style="margin-top:10px">' + esc(V.stackNote) + '</p>';
     if (V.series) h += '<p class="small" style="margin-top:10px">' + esc(V.series) + '</p>';
     h += '</div>';
     h += '<div class="grid-2"><div class="section"><h2>Kifizetés és buborék</h2>' + (V.payouts ? '<p>' + esc(V.payouts) + '</p>' : '') + (V.bubble ? '<p style="margin:0">' + esc(V.bubble) + '</p>' : '') + '</div>';
     h += '<div class="section"><h2>Kérdezd meg a floort</h2><ul>' + (V.askFloor || []).map((a) => '<li>' + esc(a) + '</li>').join('') + '</ul></div></div>';
     if (V.houseRules) h += '<div class="section" style="margin-top:16px"><h2>Telefon, jegyzet, házszabály</h2><ul>' + V.houseRules.map((a) => '<li>' + esc(a) + '</li>').join('') + '</ul></div>';
     if (V.helpline) h += '<p class="small muted">' + esc(V.helpline.label) + ': <b>' + esc(V.helpline.phone) + '</b></p>';
+    if (V.license) h += '<p class="small faint" style="margin:0">' + esc(V.license) + '</p>';
+    if (V.src) h += '<p class="small faint">Források: ' + esc(Array.isArray(V.src) ? V.src.join('; ') : V.src) + '</p>';
     return h;
   }
 

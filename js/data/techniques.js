@@ -53,7 +53,7 @@
       what:
         'A nyitás mérete a stackmélységhez és a holt pénzhez igazodik, nem a kezedhez. Minél rövidebbek a stackek, és minél több a holt pénz, annál kisebb a nyitás.',
       when: 'Minden nyitásnál: egy adott stackmélységen mindig ugyanazt a méretet használd, bármi is a kezed.',
-      live: 'A korai, mély élő szakaszban a 2,5–3bb a szokásos. Mivel a mezőny preflop sokat hív (feltevés), a nagyobb méret az erős kezeidnek több értéket hoz.',
+      live: 'Élőben, a korai, mély szakaszban a 2,5–3bb a szokásos. Bármelyiket választod, minden kezeddel ugyanazt a méretet használd.',
       mistake: 'Kézerőhöz igazított méret: AA-val 5bb, 76s-sel 2bb. Ez méret-tell, amit a figyelmes ellenfél leolvas.',
       stage: 'Egész verseny; a méret a stackkel csökken',
       cats: ['PRE'],
@@ -67,7 +67,7 @@
       what:
         'Ha előtted valaki limpelt, emeléssel elkülönítheted (iso): így pozícióban, kezdeményezéssel, lehetőleg heads-up játszol egy gyenge range ellen. Iso-kezek: erős broadway lapok, párok, suited ászok.',
       when: 'Ha a limper range-e gyenge, és a mögötted ülők ritkán szállnak be. Mélyen, pozícióban a spekulatív kezekkel (kis párok, suited connectorok) az overlimp is rendben van.',
-      live: 'A korai élő szakaszban sok a limp (feltevés), ezért az iso az egyik fő pénzforrásod. Mivel a mezőny preflop sokat hív, ne spórolj a mérettel.',
+      live: 'A korai élő szakaszban sok a limp (feltevés), így az iso gyakori döntés lesz. Ne spórolj a mérettel: a túl kicsi isóból multiway pot lesz.',
       mistake: 'Túl kicsi iso, amiből multiway pot lesz; gyenge offsuit kezekkel isózni; vagy a jó kezekkel „csapdának” limpelni.',
       stage: 'Főleg a korai, mély szakasz',
       cats: ['LMP', 'PRE'],
@@ -111,7 +111,7 @@
         'Pozícióban: kb. 3× az open (2,5bb → 7,5bb).',
         'Pozíción kívül: 3,5–4× az open (2,5bb → kb. 9–10bb).',
         'Squeeze: +1 openméret callerenként (2,5bb-s open és 1 call ellen, pozíción kívül kb. 11–12,5bb).',
-        '3-bet jam (Red Chip-heurisztika): akkor hatékony, ha a stacked legfeljebb 10× az open pozícióban, 12× pozíción kívül (2,2bb-s open ellen kb. 22bb, illetve 26bb).',
+        '3-bet jam (Red Chip-heurisztika): akkor hatékony, ha az effektív stack legfeljebb 10× az open pozícióban, 12× pozíción kívül (2,2bb-s open ellen kb. 22bb, illetve 26bb).',
       ],
       src: 'Élő 3-bet-méretezési gyakorlat; Red Chip Poker (3-bet jam heurisztika); a rec-tendencia feltevés',
     },
@@ -144,7 +144,7 @@
       live: 'Figyeld meg, hogyan reagál a BB a limpedre: ha sokat emel rá, limpelj kevesebbet; ha passzívan checkel, a limp olcsó flopokat ad.',
       mistake: 'Az SB-t a többi pozícióhoz hasonlóan kezelni: csak a legjobb kezekkel emelni, vagy reflexből minden kezet limpelni.',
       stage: 'Egész verseny; ICM-nyomás alatt más a stratégia',
-      cats: ['PRE', 'ICM'],
+      cats: ['BBD', 'PRE', 'ICM'],
       rules: ['Open SB-ből: 2,5–3bb.', 'Folded-to-SB: széles range, raise és limp keverve.', 'Növekvő ICM-nyomás: kevesebb raise; extrém nyomásnál közel tiszta limp-or-fold.'],
       src: 'GTO Wizard (SB-stratégia ICM-nyomás alatt)',
     },
@@ -210,7 +210,7 @@
       title: 'Push/fold (12–15bb alatt)',
       what:
         'Kb. 12bb alatt a push/fold (all-in vagy fold) közel optimális: egy kis nyitás után úgysem tudnál dobni egy reshove-ra. 10–15bb között vegyes zóna jön, ahol a min-raise és az SB-limp is a stratégia része.',
-      when: 'Ha 12–15bb vagy kevesebb a stacked, és előtted mindenki dobott. Egy all-in hívása más kérdés: ott nincs fold equityd, ezért szűkebben hívj, mint ahogy tolnál.',
+      when: 'Ha 12–15bb vagy kevesebb a stacked, és előtted mindenki dobott. Egy all-in hívása más kérdés: hívásnál nincs fold equityd, ezért jellemzően erősebb kéz kell, mint amivel ugyanonnan nyitó all-int tolnál.',
       live: 'BB ante mellett több a holt pénz, ezért a 10bb-s chartok alsó határok: szélesebben tolhatsz és hívhatsz. Hogy melyik szinttől megy a BB ante, azt a struktúrán nézd meg.',
       mistake: 'Túl szűk shove BTN-ről és SB-ből („megvárom a jobb lapot”), túl széles hívás all-in ellen, és az ICM figyelmen kívül hagyása a buborékon.',
       stage: 'Késői szakasz, 15bb alatt',
@@ -219,7 +219,7 @@
         '~12bb alatt push/fold; 10–15bb között vegyes zóna (min-raise, SB-limp).',
         'A 10bb-s nyitó all-in és hívó range-ek pozíciónként: lásd a Chartok fület és a Push/fold villámot.',
         'BB ante, 10bb, SB vs BB: a shove kb. 58%-ról 71%-ra, a BB hívása kb. 38%-ról 53%-ra nő.',
-        'A hívó range mindig szűkebb a toló range-nél: aki hív, annak nincs fold equityje.',
+        'Hívásnál nincs fold equity: a 9 fős, 10bb-s chartban az UTG+1 nyitó all-in range-e kb. 17,5%, de az UTG all-injét csak kb. 7,8%-kal hívja (77+, ATs+, AJo+, KQs).',
       ],
       src: 'Dara O’Kearney – Barry Carter: Poker Satellite Strategy (a pokerskill.com közlésében); pokerlevelup (a BB ante hatása)',
     },
@@ -236,7 +236,7 @@
       stage: 'Egész verseny',
       cats: ['CB'],
       rules: [
-        'Száraz, magas board (pl. K72 szivárvány, BTN vs BB): gyakori c-bet a pot 25–33%-ával.',
+        'Száraz, magas board (pl. K72 három különböző színnel, BTN vs BB): gyakori c-bet a pot 25–33%-ával.',
         'Lapos, összekötött board (pl. 876 két színnel, EP vs BB): gyakori check, mert a védő range-ét találja.',
         '3-bet potban, magas boardon, 20bb-n: a PokerCoaching szerint 83% fölötti c-bet, 25%-os mérettel.',
       ],
@@ -301,7 +301,7 @@
       what:
         'Vékony value-bet: olyan kézzel betelsz, amely csak kicsivel jobb az ellenfél hívó range-énél, de rosszabb kezek még fizetik. Calling station ellen a riveren a gyenge kickeres top pair, sőt a második pár is value lehet.',
       when: 'Ha az ellenfél sokat hív és ritkán emel: ellene a river-bet többet hoz, mint a check. Aki sokat dob, az ellen ritkábban betelj vékonyan.',
-      live: 'Az „élő rec” alapprofilja (feltevés): túl sokat hív. Ellene a vékony value az egyik legnagyobb pénzforrásod.',
+      live: 'Az „élő rec” alapprofilja (feltevés): túl sokat hív. Ellene ne hagyd ki a vékony value-t.',
       mistake: '„Úgyis csak jobb hív” — a value kihagyása. Egy hívogató a rosszabb kezeit is kifizeti.',
       stage: 'Egész verseny; főleg mélyen, recek ellen',
       cats: ['RIV', 'EXP'],
@@ -371,7 +371,7 @@
       what:
         'Rebuy vagy re-entry esetén kiesés után újra beszállhatsz egy új stackkel; a pontos szabály versenyenként más. Az újravásárlás lehetősége nem változtat azon, hogy egy adott kézben mi a jó döntés.',
       when: 'Kiesés után a bankrollod és a mentális állapotod alapján dönts, ne a „vissza kell nyernem” érzésből.',
-      live: 'A Duna „Second Chance” versenyein 1× rebuy van, a freezeoutokon nincs újravásárlás (lásd a Duna Poker fület). Előre döntsd el, hány belépőt vállalsz aznap.',
+      live: 'A Dunán versenyenként más a szabály: a Second Chance versenyeken 1× rebuy, a Big Stack Freeze-en legfeljebb 1 re-entry van, a szombati Freezeouton és a K.O. Freezeouton nincs újravásárlás (lásd a Duna Poker fület). Előre döntsd el, hány belépőt vállalsz aznap.',
       mistake: 'Extra varianciát vállalni, mert „úgyis újravásárolhatok”, vagy tiltből, a veszteséget hajszolva újravásárolni.',
       stage: 'A late reg végéig',
       cats: ['MEN'],
@@ -388,7 +388,7 @@
       what:
         'Késői nevezéssel a kezdés után is beszállhatsz, a late reg végéig. Ha 20–25bb-vel ülsz be, azonnal reshove- és push/fold-módban vagy, és kimarad a mély, „rec-pénzes” szakasz.',
       when: 'Ha késve érkezel, előre tudd, hány bb-vel ülsz be, és ehhez válaszd a stratégiát.',
-      live: 'A Duna esti versenyein a late reg kb. 4–5 óráig tart (lásd a Duna Poker fület). A vakstruktúra nem nyilvános: beülés előtt a kijelzőn nézd meg, hány bb lesz a stacked.',
+      live: 'A Duna 18:00-s versenyein a late reg kb. 22:20–22:50-ig, vagyis 4–5 órán át tart (lásd a Duna Poker fület). A vakstruktúra nem nyilvános: beülés előtt a kijelzőn nézd meg, hány bb lesz a stacked.',
       mistake: 'Késve beülni, és rövid stackkel mély stackes stílusban játszani.',
       stage: 'A late reg végéig',
       cats: ['PF', 'STK'],
@@ -605,7 +605,7 @@
       what:
         'A bankroll a pókerre elkülönített keret, ami független a megélhetésedtől. Ez saját ajánlás, nem szabály: a keret legalább 50–100 buy-int fedezzen a fő versenytípusodból, az esti maximumot pedig előre rögzítsd (pl. 1 belépő + 1 rebuy).',
       when: 'A szezon elején állítsd be, és minden verseny előtt nézd meg, belefér-e. Ha a havi keret elfogy, tarts szünetet.',
-      live: 'Példa: a 25 000 Ft-os Second Chance versenyhez 50–100 buy-in 1,25–2,5 millió Ft. Ha ez sok, válassz olcsóbb versenyt (5 000–12 000 Ft), vagy kisebb keretet egy olcsóbb fő versenytípushoz.',
+      live: 'Példa: a 25 000 Ft-os Second Chance versenyhez 50–100 buy-in 1,25–2,5 millió Ft. Ha ez sok, az olcsóbb versenyek (5 000–12 000 Ft) legyenek a fő versenytípusod.',
       mistake: 'A veszteséget üldözni („vissza kell nyernem”), vagy a keretet az aznapi hangulat alapján felülírni.',
       stage: 'Egész szezon',
       cats: ['MEN'],
@@ -676,7 +676,7 @@
       code: 'PF',
       leaks: ['Túl szűk shove a BTN-ről és az SB-ből.', 'Túl laza hívás all-in ellen (nincs fold equity).', 'Nyitás reshove-terv nélkül 15–25bb-vel.'],
       markers: ['„Megvárom a jobb lapot.”', '„Már beraktam, nem dobom el.”', 'Nem hangzik el, hány bb a stacked.'],
-      fix: '12bb alatt push/fold: tanuld meg a 10bb-s range-eket (Chartok fül, Push/fold villám). Hívni szűkebben hívj, mint ahogy tolnál, és 15–25bb-n minden nyitás előtt legyen terved egy all-in válaszra.',
+      fix: '12bb alatt push/fold: tanuld meg a 10bb-s range-eket (Chartok fül, Push/fold villám). Hívásnál nincs fold equityd, ezért erősebb kézzel hívj, mint amivel ugyanonnan tolnál, és 15–25bb-n minden nyitás előtt legyen terved egy all-in válaszra.',
     },
     {
       code: 'ICM',
