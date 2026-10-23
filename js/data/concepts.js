@@ -442,7 +442,7 @@
 
   /** Gondolkodási árulkodó jelek (a kutatás leak-taxonómiájának verbális markerei). */
   const MARKERS = [
-    { cat: 'PRE', re: '\\basz van\\b|\\bvan egy asz\\b|\\baszt kaptam', msg: 'Kéz-alapú indok: az ász önmagában nem ok a játékra.' },
+    { cat: 'PRE', re: '\\b(asz van|van egy asz|aszt kaptam)\\b(?!,? (de|viszont|megis)\\b)', msg: 'Kéz-alapú indok: az ász önmagában nem ok a játékra.' },
     { cat: 'PRE', re: '\\bmegnezem\\b|\\bmegnezni a flopot', msg: '„Megnézem” — a flop megnézése önmagában nem cél.', unless: ['odds', 'implied', 'pos'] },
     { cat: 'LMP', re: '\\bmindenki limp|\\ben is limp|\\bolcson (megnez|beszall)|\\bbeszallok olcson', msg: 'Limp mások után, terv nélkül.' },
     { cat: 'STK', re: '\\b\\d{4,6}\\b(?! ?(ft|forint))|\\b\\d+ ?ezer(es)?\\b(?! ?(ft|forint))', msg: 'Zsetonban gondolkodsz bb helyett.', unless: ['stack', 'bankroll'] },
