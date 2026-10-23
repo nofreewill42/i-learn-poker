@@ -347,6 +347,47 @@
     return lines;
   }
 
+  /** Szám szövegből is („35”, „8,5”, „1 000”); ha nem szám, változatlanul hagyja. */
+  function toNum(v) {
+    if (typeof v !== 'string') return v;
+    const s = v.replace(/[\s  ]/g, '').replace(',', '.');
+    return s !== '' && isFinite(s) ? Number(s) : v;
+  }
+
+  /**
+   * Importált (pl. Claude által írt) spot típusainak egységesítése a validálás előtt:
+   * számok szövegként, számként megadott opció-azonosítók, egyetlen kategória vagy kulcsszó lista helyett.
+   */
+  function normalize(spot) {
+    if (!spot || typeof spot !== 'object') return spot;
+    const s = JSON.parse(JSON.stringify(spot));
+    if (s.id != null && typeof s.id !== 'string') s.id = String(s.id);
+    s.diff = toNum(s.diff);
+    if (typeof s.cats === 'string') s.cats = s.cats.split(/[\s,/]+/).filter(Boolean);
+    if (Array.isArray(s.cats)) s.cats = s.cats.map((c) => String(c).trim().toUpperCase());
+    if (Array.isArray(s.opts)) s.opts.forEach((op) => op && op.id != null && typeof op.id !== 'string' && (op.id = String(op.id)));
+    if (Array.isArray(s.factors)) s.factors.forEach((f) => f && typeof f.kw === 'string' && (f.kw = [f.kw]));
+    if (s.markers && !Array.isArray(s.markers)) s.markers = [s.markers];
+    if (s.ctx && typeof s.ctx === 'object') ['entrants', 'left', 'paid', 'level', 'avgBb'].forEach((k) => k in s.ctx && (s.ctx[k] = toNum(s.ctx[k])));
+    if (s.check && typeof s.check === 'object') Object.keys(s.check).forEach((k) => (s.check[k] = toNum(s.check[k])));
+    if (s.table && typeof s.table === 'object') {
+      const t = s.table;
+      ['players', 'ante', 'sb', 'bb'].forEach((k) => k in t && (t[k] = toNum(t[k])));
+      if (t.stacks && typeof t.stacks === 'object') Object.keys(t.stacks).forEach((k) => (t.stacks[k] = toNum(t.stacks[k])));
+      if (Array.isArray(t.actions)) t.actions.forEach((a) => Array.isArray(a) && a.length > 2 && (a[2] = toNum(a[2])));
+    }
+    return s;
+  }
+
+  function badRegex(src) {
+    try {
+      new RegExp(String(src), 'i');
+      return false;
+    } catch (e) {
+      return true;
+    }
+  }
+
   /** Egy spot teljes ellenőrzése — a tesztek és az importálás használja. Hibalistát ad. */
   function validate(spot, opts) {
     const errs = [];
@@ -355,8 +396,21 @@
     const need = ['id', 'title', 'stage', 'cats', 'diff', 'q', 'opts', 'ans', 'exp', 'factors'];
     for (const k of need) if (spot[k] == null || spot[k] === '') errs.push(id + ': hiányzó mező: ' + k);
     if (errs.length) return errs;
+    ['id', 'title', 'q', 'ans', 'exp'].forEach((k) => typeof spot[k] !== 'string' && errs.push(id + ': a(z) ' + k + ' mező szöveg legyen'));
     if (['early', 'middle', 'bubble', 'ft', 'mental'].indexOf(spot.stage) < 0) errs.push(id + ': ismeretlen stage: ' + spot.stage);
-    if (!(spot.diff >= 1 && spot.diff <= 5)) errs.push(id + ': diff 1–5 legyen');
+    if (!(typeof spot.diff === 'number' && Number.isInteger(spot.diff) && spot.diff >= 1 && spot.diff <= 5)) errs.push(id + ': diff 1–5 közötti egész szám legyen');
+    if (spot.ctx != null) {
+      if (typeof spot.ctx !== 'object') errs.push(id + ': a ctx objektum legyen');
+      else ['entrants', 'left', 'paid', 'level', 'avgBb'].forEach((k) => spot.ctx[k] != null && !(typeof spot.ctx[k] === 'number' && isFinite(spot.ctx[k])) && errs.push(id + ': ctx.' + k + ' szám legyen'));
+    }
+    if (spot.markers != null) {
+      if (!Array.isArray(spot.markers)) errs.push(id + ': a markers lista legyen');
+      else spot.markers.forEach((m) => {
+        const src = m && typeof m === 'object' ? m.re : m;
+        if (typeof src !== 'string' || !src) errs.push(id + ': marker minta (re) hiányzik');
+        else if (badRegex(src)) errs.push(id + ': hibás marker-minta: ' + src);
+      });
+    }
     const cats = o.categories || (PK.scoring && PK.scoring.CATEGORY_CODES) || null;
     if (!Array.isArray(spot.cats) || !spot.cats.length) errs.push(id + ': cats nem üres lista legyen');
     else if (cats) spot.cats.forEach((c) => cats.indexOf(c) < 0 && errs.push(id + ': ismeretlen kategória: ' + c));
@@ -366,7 +420,12 @@
       const ids = new Set();
       let bestN = 0;
       spot.opts.forEach((op) => {
+        if (!op || typeof op !== 'object') {
+          errs.push(id + ': egy opció nem objektum');
+          return;
+        }
         if (!op.id || !op.t) errs.push(id + ': opció id/t hiányzik');
+        else if (typeof op.id !== 'string' || typeof op.t !== 'string') errs.push(id + ': az opció id és t mezője szöveg legyen');
         if (ids.has(op.id)) errs.push(id + ': duplikált opció-id: ' + op.id);
         ids.add(op.id);
         if (!grades[op.g]) errs.push(id + ': ismeretlen értékelés: ' + op.g);
@@ -379,9 +438,17 @@
     else {
       const concepts = o.concepts || (PK.data && PK.data.concepts) || null;
       spot.factors.forEach((f) => {
+        if (!f || typeof f !== 'object') {
+          errs.push(id + ': egy faktor nem objektum');
+          return;
+        }
         if (!f.t) errs.push(id + ': faktor szöveg (t) hiányzik');
         if (!f.c) errs.push(id + ': faktor koncepció (c) hiányzik');
         else if (concepts && !concepts[f.c]) errs.push(id + ': ismeretlen koncepció: ' + f.c);
+        if (f.kw != null) {
+          if (!Array.isArray(f.kw) || f.kw.some((k) => typeof k !== 'string')) errs.push(id + ': a faktor kw mezője szövegek listája legyen');
+          else f.kw.forEach((k) => badRegex(k) && errs.push(id + ': hibás kulcsszó-minta: ' + k));
+        }
       });
     }
     if (spot.table) {
@@ -415,6 +482,6 @@
     return errs;
   }
 
-  PK.spot = { POS_BY_N, PROFILE, STREET_HU, ACT_HU, simulate, actionLines, validate };
+  PK.spot = { POS_BY_N, PROFILE, STREET_HU, ACT_HU, simulate, actionLines, normalize, validate };
   if (typeof module !== 'undefined' && module.exports) module.exports = PK.spot;
 })(typeof window !== 'undefined' ? window : globalThis);

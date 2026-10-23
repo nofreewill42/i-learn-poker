@@ -24,6 +24,12 @@
     return m;
   }
 
+  /** Látott spot: van mentett próbálkozása, vagy már megnézted a megoldását (akkor sem új, ha nem mentetted). */
+  function seenFn(tried) {
+    const peek = PK.store.state.peek || {};
+    return (id) => tried.has(id) || !!peek[id];
+  }
+
   function roundRobinByCat(spots) {
     const buckets = new Map();
     spots.forEach((s) => {
@@ -60,7 +66,8 @@
     const tried = attemptsBySpot();
     const size = Math.max(3, Number(S.settings.sessionSize) || 10);
     if (kind === 'diag') {
-      const unseen = all.filter((s) => !tried.has(s.id));
+      const seen = seenFn(tried);
+      const unseen = all.filter((s) => !seen(s.id));
       const warm = [];
       if (!S.attempts.length) {
         const easy = roundRobinByCat(unseen.filter((s) => s.diff === 1));
@@ -138,9 +145,10 @@
       PK.ui.toast(kind === 'due' ? 'Most nincs esedékes ismétlés.' : kind === 'diag' ? 'Minden spotot láttál már — jöhet az ismétlés vagy a gyenge pontok.' : 'Ehhez a szűréshez nincs spot.');
       return;
     }
-    PK.train.session = { kind, opt: opt || null, label: KIND_LABEL[kind], queue, i: 0, results: [] };
+    PK.train.session = { kind, opt: opt || null, label: KIND_LABEL[kind], queue, i: 0, results: [], cur: null };
     persist();
-    location.hash = '#/edzes/spot';
+    if (location.hash === '#/edzes/spot') PK.app.render();
+    else location.hash = '#/edzes/spot';
   }
 
   // ---------------------------------------------------------------- kezdőlap
@@ -148,7 +156,8 @@
     const S = PK.store.state;
     const all = PK.store.allSpots();
     const tried = attemptsBySpot();
-    const unseen = all.filter((s) => !tried.has(s.id)).length;
+    const seen = seenFn(tried);
+    const unseen = all.filter((s) => !seen(s.id)).length;
     const due = PK.srs.dueIds(S.srs).filter((id) => PK.store.spotById(id)).length;
     const lv = PK.scoring.levelEstimate(S.attempts, PK.store.spotById);
     const weak = weakCats(3);
@@ -301,8 +310,23 @@
       setTimeout(() => PK.app.render(), 1500);
       return {};
     }
-    const attemptId = PK.util.uid('a');
-    const ctl = { phase: 'think', choice: null, timeSec: null, confidence: null, p1: '', p2: '', rec1: null, rec2: null, review: null, alive: true };
+    const keysOf = PK.ui.recorder.keysOf;
+    // ha ennél a spotnál már döntöttél (és esetleg a megoldást is láttad), onnan folytatod: újratöltés nem ad új „első” próbálkozást
+    const resume = sess.cur && sess.cur.spotId === spot.id && spot.opts.some((o) => o.id === sess.cur.choice) ? sess.cur : null;
+    const attemptId = resume ? resume.attemptId : PK.util.uid('a');
+    const ctl = { phase: 'think', choice: null, timeSec: null, confidence: null, p1: '', p2: '', rec1: null, rec2: null, review: null, alive: true, audio: { p1: [], p2: [] } };
+    if (resume) {
+      Object.assign(ctl, { choice: resume.choice, timeSec: resume.timeSec, confidence: resume.confidence || null, p1: resume.p1 || '', p2: resume.p2 || '' });
+      ctl.audio = { p1: keysOf(resume.audio && resume.audio.p1), p2: keysOf(resume.audio && resume.audio.p2) };
+    } else if (sess.cur) {
+      sess.cur = null;
+      persist();
+    }
+
+    function remember(phase) {
+      sess.cur = { spotId: spot.id, attemptId, phase, choice: ctl.choice, timeSec: ctl.timeSec, confidence: ctl.confidence, p1: ctl.p1, p2: ctl.p2, audio: ctl.audio };
+      persist();
+    }
 
     const progress =
       '<div class="player__progress"><a class="btn btn--ghost btn--sm" href="#/edzes">' + I().back + 'Kilépés</a><span>' + esc(sess.label) + ', ' + (sess.i + 1) + '/' + sess.queue.length + '</span>' +
@@ -342,8 +366,10 @@
       if (ctl.rec1) {
         await ctl.rec1.stop();
         ctl.p1 = ctl.rec1.text();
+        ctl.audio.p1 = ctl.rec1.audioKeys;
         ctl.rec1.destroy();
       }
+      remember(quick ? 'review' : 'explain');
       if (!ctl.alive) return; // közben elnavigált
       if (quick) renderReview();
       else renderExplain();
@@ -356,13 +382,13 @@
       const prompts = PK.data.plan && PK.data.plan.thinkAloud && PK.data.plan.thinkAloud.phase2 ? PK.data.plan.thinkAloud.phase2.filter((p) => !/magabiztos/i.test(p)) : DEFAULT_P2;
       let side = '<h2 class="question">' + esc(spot.q) + '</h2>';
       side += '<div class="notice"><p>A döntésed: <b>' + esc(chosen ? chosen.t : '') + '</b> (' + ctl.timeSec + ' mp)</p></div>';
-      side += PK.ui.recorder.html({ id: 'rec2', title: 'Utólagos magyarázat', desc: 'Most indokold a döntést — röviden, a kérdések mentén.', placeholder: 'Mondd vagy írd le a válaszaidat.', prompts });
+      side += PK.ui.recorder.html({ id: 'rec2', title: 'Utólagos magyarázat', desc: 'Most indokold a döntést — röviden, a kérdések mentén.', placeholder: 'Mondd vagy írd le a válaszaidat.', prompts, value: ctl.p2 });
       side += '<div class="field" style="margin-bottom:14px"><span class="field__hint" id="conf-l">Mennyire vagy biztos a döntésedben?</span><div class="seg" role="group" aria-labelledby="conf-l">';
-      for (let i = 1; i <= 5; i++) side += '<button type="button" data-act="conf" data-v="' + i + '" aria-pressed="false">' + i + '</button>';
+      for (let i = 1; i <= 5; i++) side += '<button type="button" data-act="conf" data-v="' + i + '" aria-pressed="' + (ctl.confidence === i) + '">' + i + '</button>';
       side += '</div></div>';
       side += '<div class="row"><button type="button" class="btn btn--primary" data-act="reveal">Megoldás</button><button type="button" class="btn btn--ghost" data-act="reveal-skip">Kihagyom a magyarázatot</button></div>';
       frame(side, false);
-      ctl.rec2 = PK.ui.recorder.mount(main.querySelector('#rec2'), { audioKey: attemptId + '-p2' });
+      ctl.rec2 = PK.ui.recorder.mount(main.querySelector('#rec2'), { audioKey: attemptId + '-p2', existingKeys: ctl.audio.p2 });
     }
 
     async function reveal() {
@@ -371,8 +397,10 @@
       if (ctl.rec2) {
         await ctl.rec2.stop();
         ctl.p2 = ctl.rec2.text();
+        ctl.audio.p2 = ctl.rec2.audioKeys;
         ctl.rec2.destroy();
       }
+      remember('review');
       if (!ctl.alive) return;
       renderReview();
     }
@@ -380,6 +408,7 @@
     // -- értékelés
     function renderReview() {
       ctl.phase = 'review';
+      PK.store.markPeek(spot.id, attemptId);
       const chosen = spot.opts.find((o) => o.id === ctl.choice);
       const grade = chosen ? chosen.g : 'blunder';
       const text = [ctl.p1, ctl.p2].filter(Boolean).join('\n');
@@ -427,8 +456,8 @@
         side += '</div>';
         if (flags.length) side += '<h3 style="margin-top:16px">Árulkodó mondatok</h3><ul class="flags">' + flags.map((f) => '<li><span class="tag tag--warn">' + esc(f.cat) + '</span> ' + esc(f.msg) + (f.quote ? ' <q>' + esc(f.quote) + '</q>' : '') + '</li>').join('') + '</ul>';
         side += '<details class="more"><summary>Amit mondtál</summary><div class="stack" style="margin-top:10px">';
-        side += '<div class="field"><span class="field__hint">Hangos gondolkodás</span><textarea data-f="p1">' + esc(ctl.p1) + '</textarea><div data-audio="p1"></div></div>';
-        side += '<div class="field"><span class="field__hint">Utólagos magyarázat</span><textarea data-f="p2">' + esc(ctl.p2) + '</textarea><div data-audio="p2"></div></div>';
+        side += '<div class="field"><span class="field__hint">Hangos gondolkodás</span><textarea data-f="p1">' + esc(ctl.p1) + '</textarea>' + PK.ui.recorder.slots(ctl.audio.p1) + '</div>';
+        side += '<div class="field"><span class="field__hint">Utólagos magyarázat</span><textarea data-f="p2">' + esc(ctl.p2) + '</textarea>' + PK.ui.recorder.slots(ctl.audio.p2) + '</div>';
         side += '</div></details></div>';
       }
 
@@ -437,8 +466,7 @@
       side += '<button type="button" class="btn btn--ghost" data-act="discard">Nem mentem</button></div>';
       frame(side, true);
       updateScore();
-      attachAudio('p1', attemptId + '-p1', ctl.rec1);
-      attachAudio('p2', attemptId + '-p2', ctl.rec2);
+      PK.ui.recorder.hydrate(main);
       const v = main.querySelector('#verdict');
       if (v && g.matchMedia && !g.matchMedia('(min-width: 980px)').matches) v.scrollIntoView({ block: 'start' });
       if (v) v.focus({ preventScroll: true });
@@ -446,20 +474,6 @@
 
     function checkbox(key, label, on) {
       return '<label class="check"><input type="checkbox" data-act="flag" data-k="' + key + '"' + (on ? ' checked' : '') + '><span>' + esc(label) + '</span></label>';
-    }
-
-    function attachAudio(slot, key, rec) {
-      if (!rec || !rec.audioKey) return;
-      const host = main.querySelector('[data-audio="' + slot + '"]');
-      if (!host) return;
-      PK.store.audio
-        .get(key)
-        .then((blob) => {
-          if (!blob) return;
-          const url = URL.createObjectURL(blob);
-          host.innerHTML = '<audio controls preload="metadata" src="' + url + '" style="width:100%;margin-top:6px"></audio>';
-        })
-        .catch(() => {});
     }
 
     function currentScore() {
@@ -508,24 +522,29 @@
         flags: r.flags,
         note: (main.querySelector('[data-f="note"]') || { value: '' }).value.trim(),
         auto: { factors: r.autoF, quality: r.autoQ, deductions: r.autoD },
-        audio: { p1: ctl.rec1 && ctl.rec1.audioKey ? ctl.rec1.audioKey : null, p2: ctl.rec2 && ctl.rec2.audioKey ? ctl.rec2.audioKey : null },
+        audio: { p1: ctl.audio.p1.length ? ctl.audio.p1 : null, p2: ctl.audio.p2.length ? ctl.audio.p2 : null },
       };
       PK.store.addAttempt(a);
       sess.results.push({ spotId: spot.id, grade: a.grade, total: a.total, success: a.success });
       PK.ui.toast('Mentve: ' + a.total + ' pont');
       sess.i++;
+      sess.cur = null;
       persist();
       if (next) PK.app.render();
     }
 
     function discard() {
-      ['p1', 'p2'].forEach((k) => PK.store.audio.del(attemptId + '-' + k));
+      ctl.audio.p1.concat(ctl.audio.p2).forEach((k) => PK.store.audio.del(k));
       sess.i++;
+      sess.cur = null;
       persist();
       PK.app.render();
     }
 
-    renderThink();
+    if (resume && resume.phase === 'review') renderReview();
+    else if (resume && resume.phase === 'explain' && !quick) renderExplain();
+    else if (resume) renderReview();
+    else renderThink();
 
     function onKey(e) {
       if (e.target && /^(TEXTAREA|INPUT|SELECT)$/.test(e.target.tagName)) return;
@@ -557,6 +576,7 @@
         if (act === 'choose') choose(el.dataset.id);
         else if (act === 'skip') {
           sess.i++;
+          sess.cur = null;
           persist();
           PK.app.render();
         } else if (act === 'conf') {

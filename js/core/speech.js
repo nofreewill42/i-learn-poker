@@ -59,6 +59,9 @@
     let raf = 0;
     let recognitionOn = false;
     let finalText = '';
+    // Minden indítás és leállítás új generációt nyit: ha a mikrofon-engedély a leállítás után érkezik meg,
+    // a késve induló felvételt azonnal lezárjuk, és nem marad nyitva a mikrofon.
+    let gen = 0;
 
     const emit = (k, v) => {
       if (typeof o[k] === 'function') o[k](v);
@@ -176,15 +179,22 @@
 
     async function start() {
       if (active) return;
+      const my = ++gen;
       active = true;
       stopping = false;
       chunks = [];
+      recognitionOn = false;
       finalText = '';
       t0 = Date.now();
       emit('onState', 'starting');
       if (o.record && sup.recorder) {
         try {
-          stream = await g.navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+          const s = await g.navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+          if (my !== gen) {
+            s.getTracks().forEach((t) => t.stop());
+            return;
+          }
+          stream = s;
           mime = pickMime();
           mr = mime ? new g.MediaRecorder(stream, { mimeType: mime }) : new g.MediaRecorder(stream);
           mime = mr.mimeType || mime || 'audio/webm';
@@ -194,6 +204,7 @@
           mr.start(1000);
           meter(stream);
         } catch (e) {
+          if (my !== gen) return;
           const msg = MSG[e.name] || 'A hangfelvétel nem indult el: ' + (e.message || e.name);
           emit(e.name === 'NotAllowedError' ? 'onError' : 'onWarn', msg);
           mr = null;
@@ -204,6 +215,7 @@
           }
         }
       }
+      if (my !== gen) return;
       startRecognition();
       if (!mr && !recognitionOn) {
         active = false;
@@ -215,6 +227,7 @@
     }
 
     async function stop() {
+      gen++;
       if (!active) return { blob: null, mime: '', ms: 0, text: finalText };
       stopping = true;
       active = false;

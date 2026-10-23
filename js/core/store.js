@@ -28,6 +28,7 @@
       mhh: [],
       customSpots: [],
       plan: { start: null, checks: {} },
+      peek: {}, // spotId → attemptId: a megoldást már láttad, de még nem mentetted a próbálkozást
     };
   }
 
@@ -43,9 +44,12 @@
 
   let state = null;
   let saveTimer = null;
+  let dirty = false; // van-e még ki nem írt változás ezen a lapon
+  let byIdCache = null;
+  let byIdKey = '';
   const listeners = new Set();
 
-  function load() {
+  function readStored() {
     let raw = null;
     try {
       raw = g.localStorage ? g.localStorage.getItem(KEY) : null;
@@ -58,16 +62,45 @@
     } catch (e) {
       parsed = null;
     }
-    state = merge(defaults(), parsed || {});
+    const next = merge(defaults(), parsed || {});
+    next.customSpots = (next.customSpots || []).map((sp) => (PK.spot && PK.spot.normalize ? PK.spot.normalize(sp) : sp));
     // A korábbi verzió szövegként tárolt dátumokból számolt esedékességet: ilyenkor újraszámoljuk.
-    if (!PK.srs.valid(state.srs)) state.srs = PK.srs.rebuild(state.attempts);
+    if (!PK.srs.valid(next.srs)) next.srs = PK.srs.rebuild(next.attempts);
+    return next;
+  }
+
+  /** Az állapotobjektumot helyben cseréli, így a nézetekben eltárolt hivatkozások is az új adatot látják. */
+  function replaceState(next) {
+    if (!state) state = next;
+    else {
+      Object.keys(state).forEach((k) => delete state[k]);
+      Object.assign(state, next);
+    }
+    byIdCache = null;
+  }
+
+  function load() {
+    replaceState(readStored());
+    dirty = false;
     return state;
   }
 
+  /** Egy másik lapon történt mentés után: ha itt nincs ki nem írt változás, átvesszük a tárolt állapotot. */
+  function syncFromStorage() {
+    if (dirty) return false;
+    replaceState(readStored());
+    listeners.forEach((fn) => fn({ type: 'sync' }));
+    return true;
+  }
+
+  /** Csak akkor ír, ha ezen a lapon tényleg változott valami — így egy régi, háttérben maradt lap nem írja felül a másikat. */
   function saveNow() {
     clearTimeout(saveTimer);
+    saveTimer = null;
+    if (!dirty) return true;
     try {
       if (g.localStorage) g.localStorage.setItem(KEY, JSON.stringify(state));
+      dirty = false;
       return true;
     } catch (e) {
       listeners.forEach((fn) => fn({ type: 'error', error: e }));
@@ -76,9 +109,15 @@
   }
 
   function save() {
+    dirty = true;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(saveNow, 150);
     listeners.forEach((fn) => fn({ type: 'change' }));
+  }
+
+  function forceSave() {
+    dirty = true;
+    return saveNow();
   }
 
   function on(fn) {
@@ -91,8 +130,6 @@
     const builtIn = (PK.data && PK.data.spots) || [];
     return builtIn.concat((state && state.customSpots) || []);
   }
-  let byIdCache = null;
-  let byIdKey = '';
   function spotById(id) {
     const all = allSpots();
     const key = all.length + ':' + ((state && state.customSpots.length) || 0);
@@ -113,11 +150,12 @@
     const errors = [];
     let added = 0;
     let replaced = 0;
-    for (const sp of list) {
-      if (!sp || typeof sp !== 'object') {
+    for (const raw of list) {
+      if (!raw || typeof raw !== 'object') {
         errors.push('Egy elem nem objektum.');
         continue;
       }
+      const sp = PK.spot.normalize(raw);
       if (sp.id && isBuiltIn(sp.id)) {
         errors.push(sp.id + ': ez az azonosító foglalt a beépített spotoknál — adj neki egyedi előtagot (pl. X-).');
         continue;
@@ -150,7 +188,20 @@
   }
 
   // ---- próbálkozások ----
+  /** A megoldás megjelenésekor: ha ez a próbálkozás nem kerül mentésre, a spot következő próbálkozása már nem diagnosztikus. */
+  function markPeek(spotId, attemptId) {
+    if (!state.peek) state.peek = {};
+    if (state.peek[spotId] === attemptId) return;
+    state.peek[spotId] = attemptId;
+    save();
+  }
+
   function addAttempt(a) {
+    const pk = state.peek && state.peek[a.spotId];
+    if (pk) {
+      if (pk !== a.id) a.peeked = true;
+      delete state.peek[a.spotId];
+    }
     state.attempts.push(a);
     state.srs[a.spotId] = PK.srs.next(state.srs[a.spotId], PK.srs.passed(a), a.ts);
     if (!state.plan.start) state.plan.start = PK.util.isoDate();
@@ -160,7 +211,7 @@
   function deleteAttempt(id) {
     const a = state.attempts.find((x) => x.id === id);
     state.attempts = state.attempts.filter((x) => x.id !== id);
-    if (a && a.audio) Object.values(a.audio).forEach((k) => k && audio.del(k));
+    if (a && a.audio) Object.values(a.audio).forEach((v) => [].concat(v || []).forEach((k) => k && audio.del(k)));
     state.srs = PK.srs.rebuild(state.attempts);
     save();
   }
@@ -218,7 +269,7 @@
       plan: obj.plan,
     });
     if (mode === 'replace') {
-      state = incoming;
+      replaceState(incoming);
     } else {
       const byId = (list, extra) => {
         const m = new Map(list.map((x) => [x.id, x]));
@@ -231,18 +282,27 @@
       state.mhh = byId(state.mhh, incoming.mhh);
       state.customSpots = byId(state.customSpots, incoming.customSpots);
       if (!state.plan.start) state.plan.start = incoming.plan.start;
+      state.plan.checks = Object.assign({}, incoming.plan.checks || {}, state.plan.checks || {});
+      // a drillstatisztikából a több feladatot tartalmazó változat marad (egy mentés kétszeri betöltése se duplázzon)
+      ['pf', 'po'].forEach((k) => {
+        const a = state.drills[k] || {};
+        const b = (incoming.drills && incoming.drills[k]) || {};
+        if ((b.n || 0) > (a.n || 0)) state.drills[k] = b;
+      });
+      // új eszközön (alapbeállításokkal) a mentés beállításai érvényesek
+      if (obj.settings && JSON.stringify(state.settings) === JSON.stringify(defaults().settings)) state.settings = incoming.settings;
     }
     // Az ismétlési ütemezés mindig a (most már összefésült) próbálkozásokból következik.
     state.srs = PK.srs.rebuild(state.attempts);
     byIdCache = null;
-    saveNow();
+    forceSave();
     listeners.forEach((fn) => fn({ type: 'change' }));
     return state;
   }
 
   function reset() {
-    state = defaults();
-    saveNow();
+    replaceState(defaults());
+    forceSave();
     audio.clear();
     listeners.forEach((fn) => fn({ type: 'change' }));
   }
@@ -298,6 +358,8 @@
     load,
     save,
     saveNow,
+    forceSave,
+    syncFromStorage,
     on,
     get state() {
       return state;
@@ -307,6 +369,7 @@
     isBuiltIn,
     importSpots,
     removeCustomSpot,
+    markPeek,
     addAttempt,
     deleteAttempt,
     exportObject,

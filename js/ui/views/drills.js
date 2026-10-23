@@ -7,8 +7,7 @@
 
   function pushfold(main, params) {
     const warmup = params && params[0] === 'bemelegites';
-    const S = PK.store.state;
-    const st = S.drills.pf;
+    const stats = () => PK.store.state.drills.pf;
     const sess = { n: 0, ok: 0, streak: 0 };
     let kind = 'shove';
     let posFilter = '';
@@ -48,6 +47,7 @@
       h += '<button type="button" class="btn" data-act="ans" data-v="fold"' + (answered ? ' disabled' : '') + '>Fold <kbd>2</kbd></button></div>';
       h += '<div id="fb" aria-live="polite"></div>';
       if (warmup) h += '<div class="meter" style="margin-top:14px" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="' + Math.min(10, sess.n) + '"><i style="width:' + Math.min(100, sess.n * 10) + '%"></i></div>';
+      const st = stats();
       h += '<div class="stats-line"><span>Most: <b>' + sess.ok + '/' + sess.n + '</b></span><span>Sorozat: <b>' + sess.streak + '</b></span><span>Legjobb sorozat: <b>' + (st.best || 0) + '</b></span><span>Összesen: <b>' + (st.n ? PK.util.pct(st.ok / st.n, 0) : '–') + '</b></span></div></div>';
       main.innerHTML = h;
     }
@@ -55,6 +55,7 @@
     function answer(v) {
       if (answered) return;
       answered = true;
+      const st = stats();
       const right = v === q.answer;
       sess.n++;
       st.n++;
@@ -75,12 +76,12 @@
         else if (b.dataset.v === v) b.classList.add('is-wrong');
       });
       const label = q.answer === 'fold' ? 'Fold' : q.kind === 'shove' ? 'All-in' : 'Hívás';
-      let fb = '<div class="notice ' + (right ? 'notice--ok' : 'notice--bad') + '" style="margin-top:14px"><p><b>' + (right ? 'Helyes.' : 'Nem ez.') + '</b> A ' + esc(q.cls) + ' ' + esc(q.pos) + '-ből: <b>' + label + '</b>.' + (q.border ? ' <span class="tag tag--warn">határeset</span>' : '') + '</p>';
+      let fb = '<div class="notice ' + (right ? 'notice--ok' : 'notice--bad') + '" style="margin-top:14px"><p><b>' + (right ? 'Helyes.' : 'Nem ez.') + '</b> ' + esc(q.pos) + ', ' + esc(q.cls) + ': <b>' + label + '</b>.' + (q.border ? ' <span class="tag tag--warn">határeset</span>' : '') + '</p>';
       fb += '<p class="small" style="margin:0">' + (q.kind === 'shove' ? 'Nyitó all-in' : 'Hívás') + ' range (' + PK.util.num(q.pct, 1) + '%): ' + esc(q.range) + '</p></div>';
       fb += '<div style="margin-top:12px">' + PK.ui.viz.rangeGrid(q.set, q.cls, q.pos + ' range') + '</div>';
       if (warmup && sess.n >= 10) {
         fb += '<div class="notice notice--ok" style="margin-top:14px"><p><b>Kész a bemelegítés: ' + sess.ok + '/10.</b> Most írd fel a mai 3 fókuszpontodat, és fotózd le a verseny struktúráját.</p></div>';
-        fb += '<div class="row" style="margin-top:12px"><a class="btn btn--primary" href="#/naplo/verseny/uj">Fókuszpontok felírása</a><button type="button" class="btn btn--ghost" data-act="next">Még egy kör</button></div>';
+        fb += '<div class="row" style="margin-top:12px"><a class="btn btn--primary" href="#/naplo/verseny/uj">Fókuszpontok felírása</a><button type="button" class="btn btn--ghost" data-act="again">Még egy kör</button></div>';
       } else fb += '<div class="row" style="margin-top:14px"><button type="button" class="btn btn--primary" data-act="next">Következő <kbd>Enter</kbd></button></div>';
       main.querySelector('#fb').innerHTML = fb;
       const nb = main.querySelector('[data-act="next"]');
@@ -93,11 +94,21 @@
         e.preventDefault();
         answer(e.key === '1' ? (q.kind === 'shove' ? 'shove' : 'call') : 'fold');
       } else if (answered && (e.key === 'Enter' || e.key === ' ')) {
-        if (e.target && e.target.tagName === 'BUTTON') return; // a fókuszált gomb saját kattintása intézi
+        if (e.target && e.target.closest && e.target.closest('a, button, summary, [role="button"]')) return; // a fókuszált elem saját működése intézi
         e.preventDefault();
-        next();
+        if (warmup && sess.n >= 10) again();
+        else next();
       }
     }
+
+    /** Új bemelegítő kör: a kör számlálói nulláról indulnak (az összesített statisztika marad). */
+    function again() {
+      sess.n = 0;
+      sess.ok = 0;
+      sess.streak = 0;
+      next();
+    }
+
     document.addEventListener('keydown', onKey);
     next();
     return {
@@ -107,6 +118,7 @@
       onClick(act, el) {
         if (act === 'ans') answer(el.dataset.v);
         else if (act === 'next') next();
+        else if (act === 'again') again();
         else if (act === 'kind') {
           kind = el.dataset.v;
           posFilter = '';
@@ -123,7 +135,7 @@
   }
 
   function potodds(main) {
-    const st = PK.store.state.drills.po;
+    const stats = () => PK.store.state.drills.po;
     const sess = { n: 0, ok: 0 };
     let q = null;
     let answered = false;
@@ -140,6 +152,7 @@
       h += '<div class="section drill"><p style="font-size:1.15rem;font-weight:600">' + esc(q.prompt) + '</p><div class="drill__choices">';
       q.choices.forEach((c, i) => (h += '<button type="button" class="btn" data-act="ans" data-i="' + i + '"' + (answered ? ' disabled' : '') + '>' + esc(c.label) + '</button>'));
       h += '</div><div id="fb" aria-live="polite"></div>';
+      const st = stats();
       h += '<div class="stats-line"><span>Most: <b>' + sess.ok + '/' + sess.n + '</b></span><span>Összesen: <b>' + (st.n ? PK.util.pct(st.ok / st.n, 0) : '–') + '</b></span></div></div>';
       main.innerHTML = h;
     }
@@ -147,6 +160,7 @@
     function answer(i) {
       if (answered) return;
       answered = true;
+      const st = stats();
       const right = i === q.answer;
       sess.n++;
       st.n++;
@@ -178,7 +192,7 @@
         e.preventDefault();
         answer(n - 1);
       } else if (answered && (e.key === 'Enter' || e.key === ' ')) {
-        if (e.target && e.target.tagName === 'BUTTON') return; // a fókuszált gomb saját kattintása intézi
+        if (e.target && e.target.closest && e.target.closest('a, button, summary, [role="button"]')) return; // a fókuszált elem saját működése intézi
         e.preventDefault();
         next();
       }

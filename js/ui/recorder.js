@@ -57,9 +57,36 @@
     return 'Nyomd meg a zsetont (vagy az R billentyűt), és mondj ki mindent, ami eszedbe jut. A szöveget utólag javíthatod.';
   }
 
+  /** Hangfelvétel-kulcsok listaként (a régebbi bejegyzésekben egyetlen szöveg). */
+  function keysOf(v) {
+    return v == null ? [] : [].concat(v).filter(Boolean);
+  }
+
+  /** Lejátszóhelyek a felvételekhez; a hydrate() tölti be őket. */
+  function slots(v) {
+    return keysOf(v)
+      .map((k) => '<div data-audio="' + esc(k) + '"></div>')
+      .join('');
+  }
+
+  function hydrate(root) {
+    root.querySelectorAll('[data-audio]').forEach((el) => {
+      const key = el.dataset.audio;
+      if (!key) return;
+      PK.store.audio
+        .get(key)
+        .then((blob) => {
+          if (!blob) return;
+          el.innerHTML = '<audio controls preload="metadata" style="width:100%;margin:4px 0 10px" src="' + URL.createObjectURL(blob) + '"></audio>';
+        })
+        .catch(() => {});
+    });
+  }
+
   /**
-   * root: a .think elem. opts: { clockSec, audioKey (string), onState }
-   * Visszaad: { toggle, start, stop, text, setText, elapsed, audioKey, destroy }
+   * root: a .think elem. opts: { clockSec, audioKey (alapkulcs), existingKeys (korábbi felvételek), onState }
+   * Minden felvételi szakasz külön kulcsra kerül (audioKey, audioKey-2, …), így egy második nekifutás nem írja felül az elsőt.
+   * Visszaad: { toggle, start, stop, text, setText, elapsed, audioKeys, audioKey, destroy }
    */
   function mount(root, opts) {
     const o = opts || {};
@@ -73,7 +100,7 @@
     const set = PK.store.state.settings;
     const t0 = Date.now();
     let timer = null;
-    let savedKey = null;
+    const savedKeys = keysOf(o.existingKeys);
     let busy = false;
 
     function paintClock() {
@@ -144,9 +171,12 @@
       const res = await session.stop();
       interim.textContent = '';
       if (res.blob && o.audioKey) {
+        let n = savedKeys.length + 1;
+        let key = n === 1 ? o.audioKey : o.audioKey + '-' + n;
+        while (savedKeys.indexOf(key) >= 0) key = o.audioKey + '-' + ++n;
         try {
-          await PK.store.audio.put(o.audioKey, res.blob);
-          savedKey = o.audioKey;
+          await PK.store.audio.put(key, res.blob);
+          savedKeys.push(key);
           setStatus('Felvétel mentve (' + Math.round(res.ms / 1000) + ' mp). A szöveget most még javíthatod.');
         } catch (e) {
           setStatus('A hangot nem tudtam elmenteni ezen az eszközön; a szöveg megmaradt.', 'warn');
@@ -175,8 +205,11 @@
         ta.value = v || '';
       },
       elapsed: () => (Date.now() - t0) / 1000,
+      get audioKeys() {
+        return savedKeys.slice();
+      },
       get audioKey() {
-        return savedKey;
+        return savedKeys[0] || null;
       },
       destroy: () => {
         clearInterval(timer);
@@ -185,5 +218,5 @@
     };
   }
 
-  PK.ui.recorder = { html, mount, fmtClock };
+  PK.ui.recorder = { html, mount, fmtClock, keysOf, slots, hydrate };
 })(typeof window !== 'undefined' ? window : globalThis);

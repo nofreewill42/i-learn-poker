@@ -54,7 +54,19 @@
 
   function round(x, d) {
     const m = Math.pow(10, d || 0);
-    return Math.round((x + Number.EPSILON) * m) / m;
+    return Math.round((Number(x) + Number.EPSILON) * m) / m;
+  }
+
+  /** Szám beolvasása magyar formátumból is: „8,5”, „25 000”, „1.000.000”, „-3,25”. Üres vagy hibás bemenetre NaN. */
+  function parseNum(v) {
+    if (typeof v === 'number') return v;
+    let s = String(v == null ? '' : v)
+      .trim()
+      .replace(/[\s\u00a0\u202f]/g, '');
+    if (!s) return NaN;
+    if (/^[-+]?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s = s.replace(/\./g, '');
+    s = s.replace(',', '.');
+    return /^[-+]?(\d+\.?\d*|\.\d+)$/.test(s) ? Number(s) : NaN;
   }
 
   /** Magyar számformátum: tizedesvessző, ezres tagolás nem törő szóközzel. */
@@ -168,6 +180,7 @@
     startOfWeek,
     addDays,
     daysBetween,
+    parseNum,
     dateHu,
     dateTimeHu,
     shuffle,

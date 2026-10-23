@@ -3,7 +3,6 @@
   'use strict';
   const PK = g.PK || (g.PK = {});
   const INTERVALS = [1, 3, 7, 14, 30];
-  const DAY = 86400000;
 
   /** Időpont ezredmásodpercben: szám, Date vagy ISO-szöveg (a próbálkozások `ts` mezője ISO). */
   function toMs(v) {
@@ -18,11 +17,25 @@
     return !!(a && a.success && a.grade !== 'blunder');
   }
 
-  /** Új állapot egy próbálkozás után. Siker → egy dobozzal feljebb; hiba vagy komoly hiba → vissza az 1-esbe. */
+  /** A t időpont napjának helyi éjfele + n nap (a nyári időszámítás váltását is kezeli). */
+  function dayStart(t, n) {
+    const d = new Date(toMs(t));
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + (n || 0));
+    return d.getTime();
+  }
+
+  /**
+   * Új állapot egy próbálkozás után. Siker → egy dobozzal feljebb; hiba vagy komoly hiba → vissza az 1-esbe.
+   * Az esedékesség egy nap eleje: amit csütörtök este elrontasz, az péntek reggeltől már a sorban van.
+   * A még nem esedékes, korai sikeres ismétlés nem léptet feljebb (a doboz és az időpont marad).
+   */
   function next(entry, success, now) {
     const t = toMs(now);
+    const reps = ((entry && entry.reps) || 0) + 1;
+    if (entry && success && isFinite(entry.due) && entry.due > t) return { box: entry.box || 1, due: entry.due, last: t, reps };
     const box = success ? Math.min(5, (entry && entry.box ? entry.box : 1) + 1) : 1;
-    return { box, due: t + INTERVALS[box - 1] * DAY, last: t, reps: ((entry && entry.reps) || 0) + 1 };
+    return { box, due: dayStart(t, INTERVALS[box - 1]), last: t, reps };
   }
 
   /** Az ismétlési állapot újraszámolása a próbálkozásokból, időrendben (törlés és import után). */
@@ -63,6 +76,6 @@
     return c;
   }
 
-  PK.srs = { INTERVALS, toMs, passed, next, rebuild, valid, isDue, dueIds, boxCounts };
+  PK.srs = { INTERVALS, toMs, dayStart, passed, next, rebuild, valid, isDue, dueIds, boxCounts };
   if (typeof module !== 'undefined' && module.exports) module.exports = PK.srs;
 })(typeof window !== 'undefined' ? window : globalThis);

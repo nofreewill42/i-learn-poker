@@ -46,7 +46,7 @@
     }
     lv.notes.forEach((n) => (h += '<p class="small muted" style="margin:6px 0 0">' + esc(n) + '</p>'));
     h += '<div class="ladder" aria-hidden="true">' + [1, 2, 3, 4, 5].map((i) => '<div class="' + (lv.enough && i <= lv.level ? 'is-on' : '') + '">' + esc(sc.LEVELS[i].label) + '</div>').join('') + '</div>';
-    h += '<details class="more"><summary>Hogyan számolom?</summary><p class="small" style="margin-top:8px">Minden spot 0–100 pontot ér: a döntés 60, az érvelés 40 (a kulcsfaktorok 25, a gondolkodás minősége 15: range, számolás, terv), levonás jár az eredmény-orientált érvért, a tilt-jelért és a tell-mítoszért. Egy spot akkor sikeres, ha legalább 70 pont (gyors módban: legjobb vagy elfogadható döntés). Egy nehézségi szint akkor „megvan”, ha legalább 3 spotból 70% sikeres. A becsült szint = 1 + a megszerzett nehézségi szintek száma. Ha a gondolkodási minőséged átlaga 6/15 alatt van, egy szinttel lejjebb sorollak; ha 12/15 fölött és a következő szinten már legalább a fele sikerül, „feltörekvő” vagy.</p></details>';
+    h += '<details class="more"><summary>Hogyan számolom?</summary><p class="small" style="margin-top:8px">Minden spot 0–100 pontot ér: a döntés 60, az érvelés 40 (a kulcsfaktorok 25, a gondolkodás minősége 15: range, számolás, terv), levonás jár az eredmény-orientált érvért, a tilt-jelért és a tell-mítoszért. Egy spot akkor sikeres, ha legalább 70 pont (gyors módban: legjobb vagy elfogadható döntés). Egy nehézségi szint akkor „megvan”, ha legalább 3 spotból 70% sikeres. A becsült szint = 1 + a megszerzett nehézségi szintek száma. Ha a gondolkodási minőséged átlaga 6/15 alatt van, egy szinttel lejjebb sorollak; ha 12/15 fölött és a következő szinten már legalább a fele sikerül, „feltörekvő” vagy. Ha egy spot megoldását mentés nélkül megnézted, a következő próbálkozása már nem számít a szintbe.</p></details>';
     h += '</div></div></div>';
 
     // kategóriák + mellékoszlop
@@ -162,22 +162,14 @@
       h += '<div class="section"><div class="row row--between"><h3>' + esc(PK.util.dateTimeHu(a.ts)) + '</h3><span class="num" style="font-size:1.5rem">' + a.total + '</span></div>';
       h += '<p>Döntés: <b>' + esc(o ? o.t : a.choice) + '</b> — ' + esc(gr ? gr.label : '') + (a.timeSec ? ', ' + a.timeSec + ' mp' : '') + (a.confidence ? ', magabiztosság ' + a.confidence + '/5' : '') + '</p>';
       if (a.phase1) h += '<p><span class="muted">Hangos gondolkodás:</span> „' + esc(a.phase1) + '”</p>';
-      if (a.audio && a.audio.p1) h += '<div data-audio="' + esc(a.audio.p1) + '"></div>';
+      if (a.audio) h += PK.ui.recorder.slots(a.audio.p1);
       if (a.phase2) h += '<p><span class="muted">Magyarázat:</span> „' + esc(a.phase2) + '”</p>';
-      if (a.audio && a.audio.p2) h += '<div data-audio="' + esc(a.audio.p2) + '"></div>';
+      if (a.audio) h += PK.ui.recorder.slots(a.audio.p2);
       if (a.flags && a.flags.length) h += '<ul class="flags">' + a.flags.map((f) => '<li><span class="tag tag--warn">' + esc(f.cat) + '</span> ' + esc(f.msg) + '</li>').join('') + '</ul>';
       h += '<div class="row" style="margin-top:8px"><button type="button" class="btn btn--sm btn--ghost" data-act="del" data-id="' + esc(a.id) + '">' + PK.ui.icons.trash + 'Törlés</button></div></div>';
     });
     main.innerHTML = h;
-    main.querySelectorAll('[data-audio]').forEach((el) => {
-      PK.store.audio
-        .get(el.dataset.audio)
-        .then((blob) => {
-          if (!blob) return;
-          el.innerHTML = '<audio controls preload="metadata" style="width:100%;margin:4px 0 10px" src="' + URL.createObjectURL(blob) + '"></audio>';
-        })
-        .catch(() => {});
-    });
+    PK.ui.recorder.hydrate(main);
     return {
       onClick(act, el) {
         if (act === 'again') PK.train.start('one', { id });

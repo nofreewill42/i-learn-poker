@@ -44,10 +44,16 @@
 
   // ---- felismerés ----
   const cache = new Map();
+  const NEVER = /(?!)/;
+  /** Lefordított (és gyorsítótárazott) minta; a hibás minta — pl. egy importált spotból — soha nem illeszkedik. */
   function rx(src) {
     let r = cache.get(src);
     if (!r) {
-      r = new RegExp(src, 'i');
+      try {
+        r = new RegExp(String(src), 'i');
+      } catch (e) {
+        r = NEVER;
+      }
       cache.set(src, r);
     }
     return r;
@@ -68,7 +74,7 @@
     const t = norm(text);
     const hits = conceptHits(text);
     return (spot.factors || []).map((f) => {
-      if (f.kw && f.kw.some((k) => rx(k).test(t))) return 1;
+      if (f.kw && [].concat(f.kw).some((k) => rx(k).test(t))) return 1;
       return hits.has(f.c) ? 1 : 0;
     });
   }
@@ -180,11 +186,11 @@
     return list.slice().sort((a, b) => (a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0));
   }
 
-  /** Spotonként az első próbálkozás (diagnosztikus: még nem láttad a megoldást). */
+  /** Spotonként az első próbálkozás (diagnosztikus: még nem láttad a megoldást). Ha előtte már láttad a megoldást, a spot kimarad. */
   function firstAttempts(attempts) {
     const seen = new Map();
     for (const a of sortByTs(attempts)) if (!seen.has(a.spotId)) seen.set(a.spotId, a);
-    return Array.from(seen.values());
+    return Array.from(seen.values()).filter((a) => !a.peeked);
   }
 
   /** Spotonként a legutóbbi próbálkozás (jelenlegi állapot). */
@@ -203,7 +209,7 @@
     for (const a of attempts) {
       const s = spotById(a.spotId);
       if (!s) continue;
-      const w = s.diff || 1;
+      const w = Number(s.diff) || 1;
       for (const c of s.cats) {
         if (!acc[c]) continue;
         acc[c].sum += a.total * w;

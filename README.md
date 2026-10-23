@@ -47,7 +47,7 @@ Az `index.html` dupla kattintással is megnyílik, de `file://` alatt a mikrofon
 
 Egy spot 0–100 pont: **döntés 60** (legjobb 60, elfogadható 45, kis hiba 20, komoly hiba 0) + **érvelés 40** (a spot 3–5 kulcsszempontjának lefedése 25, gondolkodási minőség 15: range-gondolkodás, számolás, terv) − **levonások** (eredmény-orientált érv, tilt-jel, tell-mítosz; legfeljebb 15). Sikeres, ha legalább 70.
 
-A **szint** az első próbálkozásokból jön (akkor még nem láttad a megoldást): egy nehézségi szint „megvan”, ha legalább 3 spotból 70% sikeres; a szint = 1 + a megszerzett nehézségi szintek száma. Gyenge gondolkodási minőségnél egy szinttel lejjebb, erősnél „feltörekvő” jelzés. Az ismételt próbálkozások a „legutóbbi” pontszámokba és az ismétlési ütemezésbe számítanak.
+A **szint** az első próbálkozásokból jön (akkor még nem láttad a megoldást): egy nehézségi szint „megvan”, ha legalább 3 spotból 70% sikeres; a szint = 1 + a megszerzett nehézségi szintek száma. Gyenge gondolkodási minőségnél egy szinttel lejjebb, erősnél „feltörekvő” jelzés. Ha egy spot megoldását mentés nélkül megnézted, a következő próbálkozása már nem számít a szintbe. Az ismételt próbálkozások a „legutóbbi” pontszámokba és az ismétlési ütemezésbe számítanak: egy esedékes spot sikeres ismétlése egy dobozzal feljebb viszi (1, 3, 7, 14, 30 nap), a hiba vissza az elejére, és másnap újra jön.
 
 ## Adatvédelem
 

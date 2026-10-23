@@ -7,7 +7,7 @@
   const N = (x, d) => PK.util.num(x, d);
 
   function numIn(key, label, value, attrs) {
-    return '<label class="field">' + esc(label) + '<input type="number" inputmode="decimal" data-f="' + key + '" value="' + esc(value) + '" ' + (attrs || 'step="any" min="0"') + '></label>';
+    return '<label class="field">' + esc(label) + '<input type="text" inputmode="decimal" autocomplete="off" data-f="' + key + '" value="' + esc(N(value)) + '"' + (attrs ? ' ' + attrs : '') + '></label>';
   }
 
   function view(main) {
@@ -23,7 +23,7 @@
         .map(
           (s, i) =>
             '<div class="srow"><span class="num" style="font-size:1.1rem">' + (i + 1) + '.</span>' +
-            '<input type="number" inputmode="decimal" step="any" min="0" data-stack="' + i + '" value="' + esc(s) + '" aria-label="' + (i + 1) + '. játékos stackje">' +
+            '<input type="text" inputmode="decimal" autocomplete="off" data-stack="' + i + '" value="' + esc(N(s)) + '" aria-label="' + (i + 1) + '. játékos stackje">' +
             '<span class="small muted" data-ev="' + i + '"></span>' +
             '<button type="button" class="btn btn--sm btn--ghost" data-act="rm-stack" data-i="' + i + '" aria-label="' + (i + 1) + '. játékos törlése"' + (st.stacks.length <= 2 ? ' disabled' : '') + '>' + PK.ui.icons.trash + '</button></div>',
         )
@@ -63,17 +63,30 @@
       return el ? el.value : '';
     }
 
+    const n = (k) => PK.util.parseNum(v(k));
+
+    /**
+     * Kifizetések: pontosvesszővel vagy új sorral elválasztva, így az ezres tagolás („100 000”) és a tizedesvessző („8,5”) is mehet.
+     * Pontosvessző nélkül a szóköz (vagy egyetlen tételnél a vessző) választ el. A nem értelmezhető tételeket visszaadja.
+     */
     function payouts() {
       const raw = String(v('payouts')).trim();
-      let tokens = raw.split(/[;\s]+/).filter(Boolean);
-      if (tokens.length === 1 && raw.indexOf(',') >= 0) tokens = raw.split(',');
-      return tokens.map((x) => Number(String(x).trim().replace(',', '.'))).filter((x) => isFinite(x) && x >= 0);
+      let tokens;
+      if (/[;\n]/.test(raw)) tokens = raw.split(/[;\n]+/);
+      else {
+        tokens = raw.split(/\s+/);
+        if (tokens.length === 1 && raw.indexOf(',') >= 0) tokens = raw.split(',');
+      }
+      tokens = tokens.map((x) => x.trim()).filter(Boolean);
+      const vals = tokens.map((x) => PK.util.parseNum(x));
+      const ok = (x) => isFinite(x) && x >= 0;
+      return { list: vals.filter(ok), bad: tokens.filter((x, i) => !ok(vals[i])) };
     }
 
     function calcAll() {
       // pot odds
-      const pot = Number(v('po-pot'));
-      const bet = Number(v('po-bet'));
+      const pot = n('po-pot');
+      const bet = n('po-bet');
       const po = main.querySelector('#po-out');
       if (pot > 0 && bet > 0) {
         po.innerHTML =
@@ -83,10 +96,10 @@
       } else po.innerHTML = '<span class="muted">Adj meg pozitív potot és betet.</span>';
 
       // bounty
-      const buy = Number(v('ko-buy'));
-      const bty = Number(v('ko-bounty'));
-      const stk = Number(v('ko-stack'));
-      const bbc = Number(v('ko-bb'));
+      const buy = n('ko-buy');
+      const bty = n('ko-bounty');
+      const stk = n('ko-stack');
+      const bbc = n('ko-bb');
       const ko = main.querySelector('#ko-out');
       if (buy > bty && bty > 0 && stk > 0 && bbc > 0) {
         const chips = bty / ((buy - bty) / stk);
@@ -94,8 +107,10 @@
       } else ko.innerHTML = '<span class="muted">A bounty legyen kisebb a buy-innál, és minden mező pozitív.</span>';
 
       // ICM
-      const P = payouts();
+      const PP = payouts();
+      const P = PP.list;
       const out = main.querySelector('#icm-out');
+      const warn = PP.bad.length ? '<p class="notice notice--warn" style="margin:0 0 10px">Ezt nem értem a kifizetések között: „' + esc(PP.bad.join('”, „')) + '”. A tételeket pontosvesszővel válaszd el, pl. 100 000; 60 000; 40 000.</p>' : '';
       if (st.stacks.filter((s) => s > 0).length >= 2 && P.length) {
         try {
           const ev = PK.icm.equity(st.stacks, P);
@@ -109,11 +124,11 @@
           let t = '<table class="t"><thead><tr><th>Játékos</th><th class="r">ICM</th><th class="r">Chip chop</th><th class="r">Különbség</th></tr></thead><tbody>';
           st.stacks.forEach((s, i) => (t += '<tr><td>' + (i + 1) + '. (' + N(s) + ')</td><td class="r">' + N(d.icm[i], 2) + '</td><td class="r">' + N(d.chip[i], 2) + '</td><td class="r">' + (d.chip[i] - d.icm[i] >= 0 ? '+' : '') + N(d.chip[i] - d.icm[i], 2) + '</td></tr>'));
           t += '</tbody></table><p class="small muted" style="margin-top:8px">Chip chop: mindenki megkapja a legkisebb kiosztott díjat, a maradék zsetonarányosan oszlik. A chip leadernek ez kedvez, a rövid stackeknek az ICM.</p>';
-          out.innerHTML = t;
+          out.innerHTML = warn + t;
         } catch (e) {
           out.innerHTML = '<p class="notice notice--bad">' + esc(e.message) + '</p>';
         }
-      } else out.innerHTML = '<span class="muted">Legalább két pozitív stack és egy kifizetés kell.</span>';
+      } else out.innerHTML = warn + '<span class="muted">Legalább két pozitív stack és egy kifizetés kell.</span>';
 
       // all-in hívás
       const ai = main.querySelector('#ai-out');
@@ -125,7 +140,7 @@
         ai.innerHTML = '<span class="muted">Válassz két különböző játékost.</span>';
       } else {
         try {
-          const r = PK.icm.callAllIn({ stacks: st.stacks, payouts: P, hero, villain: vil, heroBlind: Number(v('ai-blind')) || 0, heroAnte: Number(v('ai-ante')) || 0, dead: Number(v('ai-dead')) || 0 });
+          const r = PK.icm.callAllIn({ stacks: st.stacks, payouts: P, hero, villain: vil, heroBlind: n('ai-blind') || 0, heroAnte: n('ai-ante') || 0, dead: n('ai-dead') || 0 });
           const bf = PK.icm.bubbleFactor(st.stacks, P, hero, vil);
           ai.innerHTML =
             '<div><b>' + PK.util.pct(r.needChip) + '</b><span>equity kell chipEV-ben (' + N(r.callAmt) + ' hívás, ' + N(r.finalPot) + ' végső pot)</span></div>' +
@@ -171,7 +186,7 @@
     return {
       onInput(act, el) {
         if (el.dataset.stack != null) {
-          st.stacks[Number(el.dataset.stack)] = Math.max(0, Number(el.value) || 0);
+          st.stacks[Number(el.dataset.stack)] = Math.max(0, PK.util.parseNum(el.value) || 0);
           calcAll();
           return;
         }

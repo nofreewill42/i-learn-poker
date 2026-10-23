@@ -47,14 +47,6 @@
       else if (tab === 'terv') h += plan();
       else if (tab === 'duna') h += venue();
       main.innerHTML = h;
-      if (tab === 'technikak') {
-        const inp = main.querySelector('[data-f="q"]');
-        if (inp && state.focusSearch) {
-          inp.focus();
-          inp.setSelectionRange(inp.value.length, inp.value.length);
-          state.focusSearch = false;
-        }
-      }
     }
 
     render();
@@ -72,9 +64,10 @@
       },
       onInput(act, el) {
         if (el.dataset.f === 'q') {
+          // csak a találati listát rajzoljuk újra: a keresőmező (kurzor, mobilos szóösszerakás) érintetlen marad
           state.q = el.value;
-          state.focusSearch = true;
-          render();
+          const box = main.querySelector('#tech-list');
+          if (box) box.innerHTML = techList(state);
         }
       },
     };
@@ -83,14 +76,20 @@
   function techniques(state) {
     const list = PK.data.techniques;
     if (!list) return missing('technikák');
-    const nq = PK.util.norm(state.q);
-    const items = list.filter((t) => (!state.topic || t.topic === state.topic) && (!nq || PK.util.norm([t.title, t.what, t.when, t.live, t.mistake, (t.rules || []).join(' ')].join(' ')).indexOf(nq) >= 0));
     let h = '<div class="row" style="margin-bottom:14px"><div class="seg" role="group" aria-label="Téma">';
     TOPICS.forEach(([k, l]) => (h += '<button type="button" data-act="topic" data-v="' + k + '" aria-pressed="' + (state.topic === k) + '">' + l + '</button>'));
     h += '</div><input type="search" data-f="q" value="' + esc(state.q) + '" placeholder="Keresés, pl. squeeze, SPR, tilt" aria-label="Keresés a technikák között" style="max-width:280px"></div>';
-    h += '<div class="section">';
+    h += '<div id="tech-list" aria-live="polite">' + techList(state) + '</div>';
+    return h;
+  }
+
+  function techList(state) {
+    const list = PK.data.techniques || [];
+    const nq = PK.util.norm(state.q);
+    const items = list.filter((t) => (!state.topic || t.topic === state.topic) && (!nq || PK.util.norm([t.title, t.what, t.when, t.live, t.mistake, (t.rules || []).join(' ')].join(' ')).indexOf(nq) >= 0));
+    let h = '<div class="section">';
     if (!items.length) h += '<p class="muted">Nincs találat.</p>';
-    items.forEach((t, i) => {
+    items.forEach((t) => {
       h += '<article class="tech"><h3>' + esc(t.title) + ' <span class="row" style="gap:6px">' + catTags(t.cats) + '</span></h3><dl>';
       if (t.what) h += '<dt>Mi ez</dt><dd>' + esc(t.what) + '</dd>';
       if (t.when) h += '<dt>Mikor</dt><dd>' + esc(t.when) + '</dd>';
@@ -100,7 +99,6 @@
       if (t.rules && t.rules.length) h += '<dt>Ökölszabályok</dt><dd><ul>' + t.rules.map((r) => '<li>' + esc(r) + '</li>').join('') + '</ul></dd>';
       if (t.src) h += '<dt>Forrás</dt><dd class="small muted">' + esc(t.src) + '</dd>';
       h += '</dl></article>';
-      if (i === items.length - 1) h += '';
     });
     h += '</div>';
     return h;

@@ -147,13 +147,13 @@
     h += '<div class="section"><h2>Alapadatok</h2><div class="form-grid form-grid--3">';
     h += '<label class="field">Dátum<input type="date" data-f="date" value="' + esc(x.date || '') + '"></label>';
     h += '<label class="field">Verseny<input type="text" list="tourneys" data-f="tournament" value="' + esc(x.tournament || '') + '" placeholder="pl. Kedd 18:00 Big Stack Freeze"></label>';
-    h += '<label class="field">Buy-in (Ft)<input type="number" inputmode="numeric" min="0" step="500" data-f="buyIn" value="' + esc(x.buyIn || '') + '"></label>';
-    h += '<label class="field">Rebuy / re-entry (db)<input type="number" inputmode="numeric" min="0" step="1" data-f="rebuys" value="' + esc(x.rebuys || '') + '"></label>';
-    h += '<label class="field">Add-on (Ft)<input type="number" inputmode="numeric" min="0" step="500" data-f="addOn" value="' + esc(x.addOn || '') + '"></label>';
-    h += '<label class="field">Nevezők száma<input type="number" inputmode="numeric" min="0" data-f="entrants" value="' + esc(x.entrants || '') + '"></label>';
-    h += '<label class="field">Helyezés<input type="number" inputmode="numeric" min="1" data-f="finish" value="' + esc(x.finish || '') + '"></label>';
-    h += '<label class="field">Nyeremény (Ft)<input type="number" inputmode="numeric" min="0" step="500" data-f="prize" value="' + esc(x.prize || '') + '"></label>';
-    h += '<label class="field">Játékidő (perc)<input type="number" inputmode="numeric" min="0" step="5" data-f="minutes" value="' + esc(x.minutes || '') + '"></label>';
+    h += '<label class="field">Buy-in (Ft)<input type="text" inputmode="numeric" autocomplete="off" data-f="buyIn" value="' + esc(x.buyIn || '') + '"></label>';
+    h += '<label class="field">Rebuy / re-entry (db)<input type="text" inputmode="numeric" autocomplete="off" data-f="rebuys" value="' + esc(x.rebuys || '') + '"></label>';
+    h += '<label class="field">Add-on (Ft)<input type="text" inputmode="numeric" autocomplete="off" data-f="addOn" value="' + esc(x.addOn || '') + '"></label>';
+    h += '<label class="field">Nevezők száma<input type="text" inputmode="numeric" autocomplete="off" data-f="entrants" value="' + esc(x.entrants || '') + '"></label>';
+    h += '<label class="field">Helyezés<input type="text" inputmode="numeric" autocomplete="off" data-f="finish" value="' + esc(x.finish || '') + '"></label>';
+    h += '<label class="field">Nyeremény (Ft)<input type="text" inputmode="numeric" autocomplete="off" data-f="prize" value="' + esc(x.prize || '') + '"></label>';
+    h += '<label class="field">Játékidő (perc)<input type="text" inputmode="numeric" autocomplete="off" data-f="minutes" value="' + esc(x.minutes || '') + '"></label>';
     h += '</div></div>';
 
     h += '<div class="section"><h2>Előtte</h2><p class="small muted">Mire figyelsz ma? Három konkrét pont, pl. „BB-ből védekezem a BTN-nyitások ellen”, „20bb alatt reshove-terv”, „nem hívok river-betet passzív rec ellen”.</p><div class="form-grid">';
@@ -177,13 +177,13 @@
           const rec = Object.assign({}, x, {
             date: val(main, 'date'),
             tournament: val(main, 'tournament'),
-            buyIn: Number(val(main, 'buyIn')) || 0,
-            rebuys: Number(val(main, 'rebuys')) || 0,
-            addOn: Number(val(main, 'addOn')) || 0,
-            entrants: Number(val(main, 'entrants')) || null,
-            finish: Number(val(main, 'finish')) || null,
-            prize: Number(val(main, 'prize')) || 0,
-            minutes: Number(val(main, 'minutes')) || null,
+            buyIn: PK.util.parseNum(val(main, 'buyIn')) || 0,
+            rebuys: PK.util.parseNum(val(main, 'rebuys')) || 0,
+            addOn: PK.util.parseNum(val(main, 'addOn')) || 0,
+            entrants: PK.util.parseNum(val(main, 'entrants')) || null,
+            finish: PK.util.parseNum(val(main, 'finish')) || null,
+            prize: PK.util.parseNum(val(main, 'prize')) || 0,
+            minutes: PK.util.parseNum(val(main, 'minutes')) || null,
             focus: [0, 1, 2].map((i) => val(main, 'focus' + i)),
             pool: [0, 1, 2].map((i) => val(main, 'pool' + i)),
             mood: Number(readSeg(main, 'mood')) || null,
@@ -233,10 +233,10 @@
     h += '<div class="section"><div class="form-grid form-grid--4">';
     h += '<label class="field">Dátum<input type="date" data-f="date" value="' + esc(x.date || '') + '"></label>';
     h += '<label class="field">Verseny<input type="text" list="tourneys" data-f="tournament" value="' + esc(x.tournament || '') + '"></label>';
-    h += '<label class="field">Szint<input type="number" inputmode="numeric" min="1" data-f="level" value="' + esc(x.level || '') + '"></label>';
+    h += '<label class="field">Szint<input type="text" inputmode="numeric" autocomplete="off" data-f="level" value="' + esc(x.level || '') + '"></label>';
     h += '<label class="field">Vakok / ante<input type="text" data-f="blinds" value="' + esc(x.blinds || '') + '" placeholder="1000/2000/2000"></label>';
     h += '<label class="field">Pozícióm<select data-f="pos"><option value=""></option>' + positions.map((p) => '<option' + (x.pos === p ? ' selected' : '') + '>' + p + '</option>').join('') + '</select></label>';
-    h += '<label class="field">Stackem (bb)<input type="number" inputmode="decimal" min="0" step="0.5" data-f="stack" value="' + esc(x.stack || '') + '"></label>';
+    h += '<label class="field">Stackem (bb)<input type="text" inputmode="decimal" autocomplete="off" data-f="stack" value="' + esc(x.stack || '') + '"></label>';
     h += '<label class="field">Lapjaim<input type="text" data-f="cards" value="' + esc(x.cards || '') + '" placeholder="AhKd"></label>';
     h += '<label class="field">Board<input type="text" data-f="board" value="' + esc(x.board || '') + '" placeholder="Kc7d2h 9s 3c"></label>';
     h += '</div><div id="cardprev" class="row" style="margin-top:10px"></div>';
@@ -259,6 +259,7 @@
       prompts: lt.narration || [],
       value: x.thoughts || '',
     });
+    if (PK.ui.recorder.keysOf(x.audio).length) h += '<div class="section"><h2>Korábbi felvételeid ehhez a kézhez</h2>' + PK.ui.recorder.slots(x.audio) + '</div>';
     h += '<div class="section"><div class="form-grid form-grid--2">';
     h += '<label class="field">Eredmény<input type="text" data-f="result" value="' + esc(x.result || '') + '" placeholder="pl. nyertem 30bb-t, kiestem 12.-ként"></label>';
     h += '<div class="field"><span class="field__hint">Érzelmi állapot a kéz alatt (1 = feszült, tiltes; 5 = nyugodt)</span>' + seg('emotion', [1, 2, 3, 4, 5], x.emotion) + '</div></div>';
@@ -269,7 +270,10 @@
     h += '<div class="row"><button type="button" class="btn btn--primary" data-act="save">Mentés</button>' + (isNew ? '' : '<button type="button" class="btn btn--danger" data-act="del">' + PK.ui.icons.trash + 'Törlés</button>') + '</div>';
     main.innerHTML = h;
 
-    const rec = PK.ui.recorder.mount(main.querySelector('#rec-live'), { audioKey: x.id + '-n' });
+    const rec = PK.ui.recorder.mount(main.querySelector('#rec-live'), { audioKey: x.id + '-n', existingKeys: x.audio });
+    PK.ui.recorder.hydrate(main);
+    let alive = true;
+    let saving = false;
     function preview() {
       const c = PK.cards.parseMany(val(main, 'cards'));
       const b = PK.cards.parseMany(val(main, 'board'));
@@ -280,6 +284,7 @@
 
     return {
       destroy() {
+        alive = false;
         rec.destroy();
       },
       onInput(act, el) {
@@ -289,37 +294,42 @@
         if (act === 'seg') {
           el.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === el)));
         } else if (act === 'save') {
-          await rec.stop();
+          if (saving) return;
+          saving = true;
+          el.disabled = true;
+          // az űrlapot a felvétel leállítása ELŐTT olvassuk ki: közben az oldal elnavigálhat, a mezők eltűnhetnek
           const r = Object.assign({}, x, {
             date: val(main, 'date'),
             tournament: val(main, 'tournament'),
-            level: Number(val(main, 'level')) || null,
+            level: PK.util.parseNum(val(main, 'level')) || null,
             blinds: val(main, 'blinds'),
             pos: val(main, 'pos'),
-            stack: Number(val(main, 'stack')) || null,
+            stack: PK.util.parseNum(val(main, 'stack')) || null,
             cards: val(main, 'cards'),
             board: val(main, 'board'),
             shorthand: val(main, 'shorthand'),
             reads: val(main, 'reads'),
             action: { pre: val(main, 'a-pre'), flop: val(main, 'a-flop'), turn: val(main, 'a-turn'), river: val(main, 'a-river') },
-            thoughts: rec.text(),
             result: val(main, 'result'),
             emotion: Number(readSeg(main, 'emotion')) || null,
             emotionNote: val(main, 'emotionNote'),
             cats: Array.from(main.querySelectorAll('[data-cat]:checked')).map((c) => c.dataset.cat),
-            audio: rec.audioKey || x.audio || null,
             ts: x.ts || new Date().toISOString(),
           });
+          await rec.stop();
+          // az utolsó felismert mondat a leállításkor érkezik, ezért az átiratot és a felvételeket utána vesszük át
+          r.thoughts = rec.text();
+          r.audio = rec.audioKeys.length ? rec.audioKeys : null;
           const i = S.liveHands.findIndex((s) => s.id === r.id);
           if (i >= 0) S.liveHands[i] = r;
           else S.liveHands.push(r);
           PK.store.save();
           PK.ui.toast('Kéz mentve');
-          location.hash = '#/naplo/kezek';
+          if (alive) location.hash = '#/naplo/kezek';
         } else if (act === 'del') {
           if (g.confirm('Biztosan törlöd ezt a kezet?')) {
             S.liveHands = S.liveHands.filter((s) => s.id !== x.id);
-            if (x.audio) PK.store.audio.del(x.audio);
+            PK.ui.recorder.keysOf(x.audio).forEach((k) => PK.store.audio.del(k));
             PK.store.save();
             location.hash = '#/naplo/kezek';
           }

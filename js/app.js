@@ -99,6 +99,13 @@
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') PK.store.saveNow();
     });
+    // Egy másik lapon (vagy a kezdőképernyős appban) mentett adatot átvesszük; űrlapot és futó spotot nem rajzolunk újra.
+    g.addEventListener('storage', (e) => {
+      if (e.key !== PK.store.KEY || !PK.store.syncFromStorage()) return;
+      applySettings();
+      const path = decodeURI((location.hash || '#/edzes').slice(1));
+      if (!/^\/(edzes\/spot|drill\/|naplo\/(verseny|kez|mental)\/)/.test(path)) render();
+    });
     if (!(PK.data && PK.data.spots && PK.data.spots.length)) console.warn('Nem töltődtek be a beépített spotok.');
     render();
     if ('serviceWorker' in navigator && location.protocol === 'https:') {

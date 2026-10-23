@@ -6,13 +6,14 @@
   const esc = (s) => PK.util.esc(s);
 
   function view(main) {
-    const S = PK.store.state;
-    const set = S.settings;
     const sup = PK.speech.support();
     let rec = null;
     let days = 14;
 
     function render() {
+      // mindig a friss állapotból: törlés vagy visszaállítás után is
+      const S = PK.store.state;
+      const set = S.settings;
       let h = '<div class="page-head"><div><h1>Adatok és beállítások</h1><p>Minden adatod ebben a böngészőben marad. Innen viszed át Claude-hoz elemzésre, és innen hozod vissza az új spotokat.</p></div></div>';
 
       h += '<div class="section"><h2>Elemzés Claude-dal</h2><ol style="padding-left:1.2em">';
@@ -154,6 +155,7 @@
         if (act === 'json-file') return onFile(el, 'json');
         const k = el.dataset.set;
         if (!k) return;
+        const set = PK.store.state.settings;
         set[k] = el.type === 'checkbox' ? el.checked : /^(thinkSec|sessionSize)$/.test(k) ? Number(el.value) : el.value;
         PK.store.save();
         PK.app.applySettings();

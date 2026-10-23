@@ -173,11 +173,17 @@ test('szintbecslés: első próbálkozásokból, 3 spot / szint', () => {
 });
 
 test('Leitner-dobozok', () => {
-  const t0 = Date.UTC(2026, 0, 1);
+  const t0 = new Date(2026, 0, 1, 20, 0).getTime(); // helyi idő szerint este 8
   let e = PK.srs.next(null, true, t0);
   assert.equal(e.box, 2);
-  e = PK.srs.next(e, true, t0);
+  assert.equal(e.due, new Date(2026, 0, 4).getTime(), 'három nap múlva, a nap elején');
+  // korai (még nem esedékes) siker nem léptet
+  const early = PK.srs.next(e, true, t0 + 3600e3);
+  assert.equal(early.box, 2);
+  assert.equal(early.due, e.due);
+  e = PK.srs.next(e, true, e.due + 3600e3);
   assert.equal(e.box, 3);
-  e = PK.srs.next(e, false, t0);
+  e = PK.srs.next(e, false, e.due - 3600e3);
   assert.equal(e.box, 1);
+  assert.equal(e.due, PK.srs.dayStart(e.last, 1), 'hiba után másnap reggeltől esedékes');
 });
