@@ -32,7 +32,7 @@ for (const s of spots) {
     const st = PK.spot.simulate(s.table, s.id);
     const L = PK.spot.actionLines(s.table, s.id);
     console.log(
-      `    utca: ${st.street} | pot: ${U.num(st.pot, 2)}bb | hívás: ${U.num(st.toCall, 2)}bb | kell: ${st.needEq == null ? '–' : U.pct(st.needEq)} | eff: ${U.num(st.effStart, 2)}bb | SPR: ${st.spr == null ? '–' : U.num(st.spr, 2)} | hős mögött: ${st.hero.stack.toFixed(2)}bb`,
+      `    utca: ${st.street} | pot: ${U.num(st.pot, 2)}bb | hívás: ${U.num(st.toCall, 2)}bb | végső pot híváskor: ${U.num(st.potIfCall, 2)}bb | kell: ${st.needEq == null ? '–' : U.pct(st.needEq)} | eff: ${U.num(st.effStart, 2)}bb | SPR: ${st.spr == null ? '–' : U.num(st.spr, 2)} | hős mögött: ${st.hero.stack.toFixed(2)}bb`,
     );
     for (const k of ['pre', 'flop', 'turn', 'river']) if (L[k].length) console.log(`    ${k}: ${L[k].join(', ')}`);
     if (st.toActAfter.length) console.log(`    utána még dönt: ${st.toActAfter.join(', ')}`);

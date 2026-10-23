@@ -275,7 +275,9 @@
     const pot = deadPot + seats.reduce((a, s) => a + s.inHand, 0);
     const potBefore = deadPot + seats.reduce((a, s) => a + (s.inHand - s.inStreet), 0);
     const toCall = Math.max(0, Math.min(currentBet - hero.inStreet, hero.stack));
-    const potIfCall = pot + toCall;
+    // A hős csak annyit nyerhet az utcán, amennyit maga is betesz: a fedező ellenfelek fölös része visszajár.
+    const heroStreetTotal = hero.inStreet + toCall;
+    const potIfCall = potBefore + seats.reduce((a, s) => a + (s.hero ? heroStreetTotal : Math.min(s.inStreet, heroStreetTotal)), 0);
     const needEq = toCall > EPS ? toCall / potIfCall : null;
     const opps = seats.filter((s) => !s.hero && !s.folded);
     const maxOppTotal = opps.length ? Math.max.apply(null, opps.map((s) => s.stack + s.inStreet)) : 0;

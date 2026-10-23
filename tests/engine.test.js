@@ -86,6 +86,13 @@ test('spot-motor: BTN min-raise, BB védekezik BB ante mellett (18,2%)', () => {
   assert.equal(st.seats.filter((s) => s.folded).length, 8);
 });
 
+test('spot-motor: fedező jam ellen csak a hívható rész számít (45,1%)', () => {
+  const st = PK.spot.simulate({ players: 8, ante: 1, anteType: 'bba', stacks: { default: 30, BTN: 45, BB: 18 }, hero: 'BB', actions: [['BTN', 'j']] });
+  near(st.toCall, 16);
+  near(st.potIfCall, 35.5);
+  near(st.needEq, 16 / 35.5);
+});
+
 test('spot-motor: postflop, SPR és kötelező akciók', () => {
   const table = {
     ante: 1,
