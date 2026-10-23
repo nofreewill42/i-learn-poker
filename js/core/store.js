@@ -59,6 +59,8 @@
       parsed = null;
     }
     state = merge(defaults(), parsed || {});
+    // A korábbi verzió szövegként tárolt dátumokból számolt esedékességet: ilyenkor újraszámoljuk.
+    if (!PK.srs.valid(state.srs)) state.srs = PK.srs.rebuild(state.attempts);
     return state;
   }
 
@@ -150,7 +152,7 @@
   // ---- próbálkozások ----
   function addAttempt(a) {
     state.attempts.push(a);
-    state.srs[a.spotId] = PK.srs.next(state.srs[a.spotId], a.success && a.grade !== 'blunder', a.ts);
+    state.srs[a.spotId] = PK.srs.next(state.srs[a.spotId], PK.srs.passed(a), a.ts);
     if (!state.plan.start) state.plan.start = PK.util.isoDate();
     save();
   }
@@ -159,6 +161,7 @@
     const a = state.attempts.find((x) => x.id === id);
     state.attempts = state.attempts.filter((x) => x.id !== id);
     if (a && a.audio) Object.values(a.audio).forEach((k) => k && audio.del(k));
+    state.srs = PK.srs.rebuild(state.attempts);
     save();
   }
 
@@ -227,9 +230,10 @@
       state.sessions = byId(state.sessions, incoming.sessions);
       state.mhh = byId(state.mhh, incoming.mhh);
       state.customSpots = byId(state.customSpots, incoming.customSpots);
-      Object.assign(state.srs, incoming.srs);
       if (!state.plan.start) state.plan.start = incoming.plan.start;
     }
+    // Az ismétlési ütemezés mindig a (most már összefésült) próbálkozásokból következik.
+    state.srs = PK.srs.rebuild(state.attempts);
     byIdCache = null;
     saveNow();
     listeners.forEach((fn) => fn({ type: 'change' }));

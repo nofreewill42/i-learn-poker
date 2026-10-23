@@ -36,7 +36,7 @@
       {
         when: 'Gyakorlás a toolban (heti 3× 20–30 perc)',
         items: [
-          'Heti kb. 50 spot, hangos gondolkodással.',
+          'Heti kb. 30 spot (3 × egy 10 spotos kör), hangos gondolkodással.',
           'A spotok kb. 40%-a a gyenge kategóriáidból jöjjön (Gyenge pontok mód).',
           'Kezdd az esedékes ismétlésekkel: a Leitner-dobozok 1, 3, 7, 14 és 30 nap után hozzák vissza a spotokat, és amit elrontasz, az visszakerül az 1. dobozba.',
           'Ha belefér, napi 10 perc Push/fold villám.',

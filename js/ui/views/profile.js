@@ -39,7 +39,7 @@
     // szint
     h += '<div class="section"><div class="level"><div class="level__n">' + badge(lv.enough ? lv.level : '?') + '<div><div class="level__label">' + (lv.enough ? esc(lv.label) : 'Még kevés az adat') + (lv.rising ? ' <span class="tag tag--sel">feltörekvő</span>' : '') + '</div>';
     h += '<div class="muted small">' + lv.firstN + ' spot első próbálkozása alapján</div></div></div>';
-    h += '<div><p style="margin:0">' + esc(lv.enough ? lv.desc : 'Az 1. nehézségi szintből legalább 3 spot kell az első becsléshez.') + '</p>';
+    h += '<div><p style="margin:0">' + (lv.enough ? '<span class="muted">Erre a szintre jellemző:</span> ' + esc(lv.desc) : 'Az 1. nehézségi szintből legalább 3 spot kell az első becsléshez.') + '</p>';
     if (lv.missing) {
       const m = lv.missing;
       h += '<p class="small muted" style="margin:6px 0 0">' + (m.reason === 'kevés adat' ? 'A(z) ' + m.diff + '. nehézségi szint értékeléséhez még ' + m.need + ' spot első próbálkozása kell.' : 'A(z) ' + m.diff + '. nehézségi szinten a sikerarány még 70% alatt van — ez a következő lépcső.') + '</p>';
@@ -109,14 +109,15 @@
     h += '</div></div>';
 
     // előzmények
-    const recent = S.attempts.slice().reverse().slice(0, 40);
-    h += '<div class="section" style="margin-top:16px"><h2>Előzmények</h2><ul class="hist">';
-    recent.forEach((a) => {
+    const recent = S.attempts.slice().reverse().slice(0, 60);
+    const histItem = (a) => {
       const s = PK.store.spotById(a.spotId);
       const gr = PK.scoring.GRADE[a.grade];
-      h += '<li><div><a href="#/profil/spot/' + encodeURIComponent(a.spotId) + '">' + esc(s ? s.title : a.spotId) + '</a><div class="meta">' + esc(PK.util.dateTimeHu(a.ts)) + ', ' + esc(gr ? gr.label.toLowerCase() : a.grade) + (a.mode === 'quick' ? ', gyors mód' : '') + '</div></div><div class="pts">' + a.total + '</div></li>';
-    });
-    h += '</ul></div>';
+      return '<li><div><a href="#/profil/spot/' + encodeURIComponent(a.spotId) + '">' + esc(s ? s.title : a.spotId) + '</a><div class="meta">' + esc(PK.util.dateTimeHu(a.ts)) + ', ' + esc(gr ? gr.label.toLowerCase() : a.grade) + (a.mode === 'quick' ? ', gyors mód' : '') + '</div></div><div class="pts">' + a.total + '</div></li>';
+    };
+    h += '<div class="section" style="margin-top:16px"><h2>Előzmények</h2><ul class="hist">' + recent.slice(0, 12).map(histItem).join('') + '</ul>';
+    if (recent.length > 12) h += '<details class="more"><summary>Korábbiak (' + (recent.length - 12) + ')</summary><ul class="hist">' + recent.slice(12).map(histItem).join('') + '</ul></details>';
+    h += '</div>';
 
     // spotbank
     const tried = new Map();

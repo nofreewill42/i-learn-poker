@@ -419,6 +419,23 @@
     },
   };
 
+  /** Tilt-jelek: visszanyerési kényszer, bosszú, igazságtalanság- és jogosultságérzet. */
+  const TILT = [
+    '\\bvissza kell (nyer|szerez|hoz)',
+    '\\bvisszanyer',
+    '\\bbosszu',
+    '\\belegem\\b',
+    '\\bmegerdeml',
+    '\\bmindig (en|nekem|engem)\\b',
+    '\\bmindig (ki)?sziv',
+    '\\bmegint (en|nekem|engem)\\b',
+    '\\bmost mar mindegy',
+    '\\bjar(na)? (mar )?nekem',
+    '\\bnem igazsag',
+    '\\bigazsagtalan',
+    '\\b(soha|sosem) nem jon|\\bsosem jon',
+  ].join('|');
+
   /** Gondolkodási árulkodó jelek (a kutatás leak-taxonómiájának verbális markerei). */
   const MARKERS = [
     { cat: 'PRE', re: '\\basz van\\b|\\bvan egy asz\\b|\\baszt kaptam', msg: 'Kéz-alapú indok: az ász önmagában nem ok a játékra.' },
@@ -434,14 +451,14 @@
     { cat: 'PF', re: '\\bmar beraktam|\\bbenne van mar|\\bmar befektettem|\\bsajnalom (el)?dobni', msg: 'Elsüllyedt költség: a már betett zseton nem ok a hívásra.' },
     { cat: 'FT', re: '\\b(chip|csip) ?(chop|csop) (a )?(fair|igazsagos)', msg: 'A chip chop a rövid stackeknek nem fair.' },
     { cat: 'EXP', re: '\\bideges volt\\b|\\bremeg(ett)? a keze|\\bmert beszel\\b', msg: 'Tell-mítosz vagy kontextus nélküli tell.' },
-    { cat: 'MEN', re: '\\bvissza kell (nyer|szerez|hoz)|\\bvisszanyer|\\bbosszu|\\bmegerdeml|\\bmost mar mindegy', msg: 'Tilt-jel: a döntést az érzelem hajtja.' },
+    { cat: 'MEN', re: TILT, msg: 'Tilt-jel: a döntést az érzelem hajtja.' },
     { cat: 'MEN', re: '\\bugyis csak (\\d+|par|nehany)', msg: 'Bankroll-jel: a pénz lekicsinylése.' },
     { cat: 'MEN', re: '\\bmert (nyertem|vesztettem|bejott|bebukott|bebuktam)|\\bbejott\\b|\\brosszul jott ki', msg: 'Eredmény-orientált értékelés.' },
   ];
 
   const DEDUCT = {
     result: '\\bmert (nyertem|vesztettem|bejott|bebukott|bebuktam)|\\bbejott\\b|\\brosszul jott ki|\\bjol jott ki',
-    tilt: '\\bvissza kell (nyer|szerez|hoz)|\\bvisszanyer|\\bbosszu|\\belegem\\b|\\bmegerdeml|\\bmindig (en|nekem|engem)\\b|\\bmost mar mindegy',
+    tilt: TILT,
   };
 
   PK.data.concepts = C;

@@ -154,7 +154,7 @@
     const weak = weakCats(3);
     const wk = PK.util.startOfWeek();
     const thisWeek = S.attempts.filter((a) => new Date(a.ts) >= wk).length;
-    const target = 50;
+    const target = 30;
     const mode = S.settings.mode === 'quick' ? 'quick' : 'full';
 
     let h = '<div class="page-head"><div><h1>Edzés</h1>';
@@ -168,7 +168,7 @@
 
     h += '<div class="section"><div class="row row--between"><h2>Ezen a héten</h2><span class="num" style="font-size:1.4rem">' + thisWeek + ' / ' + target + ' spot</span></div>';
     h += '<div class="meter" style="margin-top:10px" role="progressbar" aria-valuemin="0" aria-valuemax="' + target + '" aria-valuenow="' + thisWeek + '"><i style="width:' + Math.min(100, (thisWeek / target) * 100) + '%"></i></div>';
-    h += '<p class="muted small" style="margin:8px 0 0">A heti cél kb. 50 spot, 3 alkalommal 20–30 perc. A gyenge kategóriák kapják a figyelem nagyobb részét.</p></div>';
+    h += '<p class="muted small" style="margin:8px 0 0">A heti cél kb. 30 spot: 3 alkalommal egy 10 spotos kör, egyenként 20–30 perc. A gyenge kategóriák kapják a figyelem nagyobb részét.</p></div>';
 
     h += '<div class="modes">';
     h += '<button type="button" class="mode mode--lead" data-act="start" data-kind="diag"><h3>Diagnosztikai kör <span class="count">' + unseen + '</span></h3><p>' + (unseen ? 'Még nem látott spotok, könnyűtől a nehézig, vegyes témákban. Az első próbálkozásaid adják a szintbecslést.' : 'Minden spotot láttál. Új spotokat Claude-dal generáltathatsz az Adatok oldalon.') + '</p></button>';

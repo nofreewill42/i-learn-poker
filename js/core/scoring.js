@@ -27,11 +27,11 @@
 
   const LEVELS = [
     null,
-    { n: 1, label: 'Kezdő', desc: 'Kéz-alapú gondolkodás: a saját lapod a fő szempont, a pozíció és a pot odds még ritkán jön elő.' },
-    { n: 2, label: 'Hobbi-játékos', desc: 'Figyelsz a pozícióra, számolsz alap pot oddsot, a preflop nagyjából chart-szerű.' },
-    { n: 3, label: 'Tudatos klubjátékos', desc: 'Big blindban gondolkodsz, ismered a push/foldot és az ellenfél-típusokat, az ICM-et alapszinten.' },
-    { n: 4, label: 'Erős regular', desc: 'Range vs range gondolkodás, SPR, méretezési logika, blockerek, a risk premium érzése.' },
-    { n: 5, label: 'Haladó', desc: 'Frekvenciákban gondolkodsz, a bubble factort és a risk premiumot számszerűen kezeled, ICM postflop is.' },
+    { n: 1, label: 'Kezdő', desc: 'a saját lap a fő szempont, a pozíció és a pot odds még ritkán jön elő.' },
+    { n: 2, label: 'Hobbi-játékos', desc: 'figyel a pozícióra, alap pot oddsot számol, a preflop nagyjából chart-szerű.' },
+    { n: 3, label: 'Tudatos klubjátékos', desc: 'big blindban gondolkodik, ismeri a push/foldot és az ellenfél-típusokat, az ICM-et alapszinten.' },
+    { n: 4, label: 'Erős regular', desc: 'range-ekben gondolkodik, ismeri az SPR-t, a méretezés logikáját és a blockereket, érzi a risk premiumot.' },
+    { n: 5, label: 'Haladó', desc: 'frekvenciákban gondolkodik, a bubble factort és a risk premiumot számszerűen kezeli, az ICM-et postflop is.' },
   ];
 
   const GRADE = {
