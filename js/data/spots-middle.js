@@ -6,6 +6,91 @@
   const S = (PK.data.spots = PK.data.spots || []);
 
   S.push({
+    id: 'B01',
+    title: 'BTN K7o 40bb-vel',
+    stage: 'middle',
+    cats: ['PRE'],
+    diff: 1,
+    basis: 'gto',
+    conf: 'high',
+    ctx: { entrants: 70, left: 37, paid: 7, level: 10, blinds: '1000/2000', ante: 'BBA 2000', avgBb: 38 },
+    table: {
+      players: 10,
+      ante: 1,
+      anteType: 'bba',
+      stacks: { default: 40 },
+      profiles: { SB: 'rec', BB: 'reg' },
+      hero: 'BTN',
+      cards: ['Ks', '7d'],
+      board: [],
+      actions: [],
+    },
+    check: { pot: 2.5, toCall: 1 },
+    q: 'Mindenki dobott hozzád a BTN-en. Mit lépsz?',
+    opts: [
+      { id: 'fold', t: 'Fold', g: 'minor', why: 'Lapból döntöttél, nem pozícióból: a BTN-ről a K7o nyitás. Árulkodó: „ez nem játszható lap” — ha ez rendszeres, a legjobb lopási pozíciódat adod fel.' },
+      { id: 'open', t: 'Open 2–2,2bb', g: 'best' },
+      { id: 'jam', t: 'All-in 40bb', g: 'blunder', why: '40bb-t kockáztatsz a potban lévő 2,5bb-ért: rosszabb kéz dob, jobb hív. Árulkodó: „nem akarok postflop játszani”.' },
+    ],
+    ans: 'Open 2–2,2bb: 40bb-n a K7o bőven benne van a BTN nyitási range-ében.',
+    exp:
+      'A BB ante miatt fold esetén is 2,5bb van a potban (SB 0,5 + BB 1 + ante 1), és már csak a két vak van mögötted. 40bb-n a BTN nagyjából a kezek 45–51%-át nyitja; a K7o ennek bőven a belsejében van, a kezek erősebbik kb. 30%-ához tartozik (egy véletlen kéz ellen kb. 55%-os). Ha hívnak, postflop végig pozícióban játszol. A 2–2,2bb-s méret ugyanazt a lopást éri el, mint a nagyobb, de kevesebbet kockáztat, ha a vakok visszaütnek.',
+    mist: 'Tipikus hiba a kéz-alapú fold („nem játszható lap”) a legjobb lopási pozícióból, és a 40bb-s jam, ami csak jobb kezeket hívat.',
+    factors: [
+      { c: 'pos', t: 'BTN: csak a két vak van mögötted, és postflop végig pozícióban leszel.' },
+      { c: 'dead', t: 'Fold esetén is 2,5bb van a potban (vakok + BB ante) — ezt lopod.' },
+      { c: 'range', t: '40bb-n a BTN kb. 45–51%-ot nyit; a K7o a kezek erősebbik kb. 30%-ában van.' },
+      { c: 'sizing', t: 'BB ante mellett 2–2,2bb elég a lopáshoz; a jam 40bb-t kockáztat 2,5bb-ért.' },
+    ],
+    markers: [{ re: '\\bnem jatszhato|\\bjatszhatatlan|\\bszemet( a)? lap|\\bnem jo (a )?lap', msg: 'Kéz-alapú indok: a BTN-ről a pozíció és a holt pénz miatt a K7o is nyitás.' }],
+    src: '10 fős nyitási arányok (charts.js: BTN 45–51% 25–60bb-n, 9 fős GTO-chartokból átszámítva — preflopwizard, grindlab); equity: tools/equity.js',
+  });
+
+  S.push({
+    id: 'B02',
+    title: 'SB Q8o a BB ellen',
+    stage: 'middle',
+    cats: ['PRE'],
+    diff: 2,
+    basis: 'gto',
+    conf: 'med',
+    ctx: { entrants: 70, left: 33, paid: 7, level: 11, blinds: '1200/2400', ante: 'BBA 2400', avgBb: 35 },
+    table: {
+      players: 10,
+      ante: 1,
+      anteType: 'bba',
+      stacks: { default: 35 },
+      profiles: { BB: 'reg' },
+      reads: { BB: 'Tisztességes reg, a limpeket néha megemeli.' },
+      hero: 'SB',
+      cards: ['Qd', '8c'],
+      board: [],
+      actions: [],
+    },
+    check: { pot: 2.5, toCall: 0.5, needEq: 0.167 },
+    q: 'Mindenki dobott hozzád az SB-ben. Mit lépsz?',
+    opts: [
+      { id: 'fold', t: 'Fold', g: 'minor', why: 'A pozícióhátrányt túlsúlyozod az árral szemben: 0,5bb-ért 3bb-s potot kapsz. Árulkodó: „OOP leszek, dobom”.' },
+      { id: 'limp', t: 'Limp (kiegészítés 1bb-re)', g: 'best' },
+      { id: 'raise', t: 'Raise 2,5–3bb-re', g: 'best' },
+      { id: 'jam', t: 'All-in 35bb', g: 'blunder', why: '35bb-t kockáztatsz 2,5bb-ért: a BB csak jobb kezekkel hív. Árulkodó: „nem akarok OOP postflopozni”, ezért mindent vagy semmit.' },
+    ],
+    ans: 'Limp vagy raise 2,5–3bb-re (vegyes stratégia): BB ante mellett a Q8o az SB-ből túl jó a foldhoz.',
+    exp:
+      'Fold esetén a BB ingyen viszi a 2,5bb-t (vakok + ante). Limppel 0,5bb-ért szállsz be egy 3bb-s potba, ehhez 16,7% equity elég; raise-zel 2,5–3bb-t kockáztatsz a 2,5bb-ért, és fold equityt is veszel. A Q8o egy véletlen kéz ellen kb. 54%-os, a kezek erősebbik kb. 36%-ában van, BB ante mellett pedig az SB 35bb-n a kezei több mint felével játszik. Az OOP hátrány valós, ezért itt a limp és a raise keveredik: ha a BB sokat emel limp ellen, több raise, ha passzív, több limp.',
+    mist: 'Tipikus hiba az „OOP leszek, dobom” reflex: 5:1-es árnál és BB ante mellett a pozícióhátrány önmagában nem ok a foldra. A másik véglet a 35bb-s jam, ami csak jobb kezeket hívat.',
+    factors: [
+      { c: 'odds', t: 'A limp 0,5bb a 3bb-s potért: 16,7% equity elég; a Q8o egy véletlen kéz ellen kb. 54%-os.' },
+      { c: 'dead', t: 'A potban 2,5bb van (vakok + BB ante) — fold esetén ezt a BB viszi.' },
+      { c: 'pos', t: 'SB vs BB: egyetlen ellenfél, de postflop végig OOP leszel — ezért keveredik a limp és a raise.' },
+      { c: 'range', t: 'BB ante mellett az SB 35bb-n a kezek több mint felével játszik; a Q8o az erősebbik kb. 36%-ban van.' },
+      { c: 'profile', t: 'Ha a BB sokat emel limp ellen, több raise; ha passzív, több limp.' },
+    ],
+    markers: [{ re: '\\boop (leszek|vagyok|maradok)|\\bpozicion kivul (leszek|vagyok)|\\bnincs pozicio', msg: 'A pozícióhátrány önmagában nem ok a foldra, ha 5:1-es árat kapsz.' }],
+    src: 'BB ante-s pot odds; SB vs BB vegyes (limp + raise) solver-stratégiák MTT-ben (GTO Wizard); equity: tools/equity.js',
+  });
+
+  S.push({
     id: 'B03',
     title: 'BB K4o BTN min-raise ellen',
     stage: 'middle',
@@ -46,6 +131,91 @@
     ],
     markers: [{ re: '\\b(rossz|szar|gyenge) (a )?lap', msg: '„Rossz a lapom” — pot odds nélkül.' }],
     src: 'BB ante-s pot odds számítás; MTT-s BB-védelmi solver-konszenzus (GTO Wizard, Upswing)',
+  });
+
+  S.push({
+    id: 'B04',
+    title: 'BB K8o szűk UTG-open ellen',
+    stage: 'middle',
+    cats: ['BBD'],
+    diff: 3,
+    basis: 'gto',
+    conf: 'med',
+    ctx: { entrants: 70, left: 28, paid: 7, level: 12, blinds: '1500/3000', ante: 'BBA 3000', avgBb: 33 },
+    table: {
+      players: 10,
+      ante: 1,
+      anteType: 'bba',
+      stacks: { default: 35, BB: 30 },
+      profiles: { UTG: 'nit' },
+      reads: { UTG: 'Szűk reg: UTG-ről csak erős kezekkel nyit, ritkán blöfföl.' },
+      hero: 'BB',
+      cards: ['Ks', '8d'],
+      board: [],
+      actions: [['UTG', 'r', 2.2]],
+    },
+    check: { pot: 4.7, toCall: 1.2, needEq: 0.203 },
+    q: 'A szűk UTG 2,2bb-re nyit, mindenki dob hozzád. Mit lépsz a BB-ből?',
+    opts: [
+      { id: 'fold', t: 'Fold', g: 'best' },
+      { id: 'call', t: 'Call 1,2bb', g: 'good', why: 'Közeli döntés, alacsony gyakorisággal védhető — de ha minden K8o-t hívsz, a pot oddsot nézed, a realizációt nem. Árulkodó: „jó a pot odds, mindig hívok”.' },
+      { id: 'jam', t: '3-bet all-in 29bb', g: 'blunder', why: '29bb-t kockáztatsz 4,7bb-ért egy szűk range ellen: az UTG 99+, AJs+, AQo+, KQs-sel hív, ez ellen a K8o kb. 26%-os. Árulkodó: „nem akarok OOP játszani, inkább betolom”.' },
+    ],
+    ans: 'Fold (közeli): a 20,3%-os árat a K8o nyersen teljesíti, de szűk UTG-range ellen, OOP és dominálva nem realizálja.',
+    exp:
+      'A potban 4,7bb van (vakok + BB ante + 2,2bb open), neked 1,2bb a hívás, a végső pot 5,9bb, tehát 20,3% equity kell. Egy szűk reg UTG-ről kb. 13–15%-ot nyit (55+, A9s+, A5s, ATo+, KTs+, KQo, QTs+, JTs körül); ez ellen a K8o nyersen kb. 33%-os. Ebből OOP sokat veszítesz: ha királyt találsz, gyakran rosszabb a kickered (AK, KQ, KJ, KT), és a 8-as pár ritkán ér sokat. Ezért ez határeset: a fold a tisztább döntés, alacsony gyakoriságú call még belefér, a 3-bet jam viszont csak jobb kezeket hívat.',
+    mist: 'Tipikus hiba, hogy a pot odds miatt bármit védünk, és nem nézzük, ki nyitott és honnan. A BTN-open ellen ugyanez a K8o kényelmes call — UTG ellen nem.',
+    factors: [
+      { c: 'odds', t: '1,2bb hívás 5,9bb-s végső potért: 20,3% kell; a K8o nyersen kb. 33%-os.' },
+      { c: 'range', t: 'A szűk UTG range-e kb. 13–15% (55+, A9s+, ATo+, KTs+, KQo, QTs+, JTs).' },
+      { c: 'dom', t: 'Királlyal gyakran dominált vagy (AK, KQ, KJ, KT) — ilyenkor kis potot nyersz, nagyot veszítesz.' },
+      { c: 'pos', t: 'OOP a teljes kézben: a nyers equity jelentős részét nem tudod realizálni.' },
+      { c: 'profile', t: 'Szűk reg, ritkán blöfföl — postflop nehéz ellene blöffölni.' },
+    ],
+    markers: [{ re: '\\bjo (a )?(pot ?odds|ar)\\b|\\bmindig hiv|\\bolcso(n)?,? (hivok|megnezem)|\\bcsak 1[.,]2', msg: 'Csak az árat nézed: a realizáció és a dominancia is számít.' }],
+    src: 'BB ante-s pot odds; 10 fős UTG nyitási arányok (charts.js, 25–60bb: 13–15%); MTT-s BB-védelmi solver-konszenzus (GTO Wizard); equity: tools/equity.js',
+  });
+
+  S.push({
+    id: 'B07',
+    title: 'Top pár jó kickerrel, SPR 3,7',
+    stage: 'middle',
+    cats: ['STK'],
+    diff: 2,
+    basis: 'gto',
+    conf: 'high',
+    ctx: { entrants: 70, left: 25, paid: 7, level: 13, blinds: '2000/4000', ante: 'BBA 4000', avgBb: 28 },
+    table: {
+      players: 10,
+      ante: 1,
+      anteType: 'bba',
+      stacks: { default: 25 },
+      profiles: { BB: 'reg' },
+      hero: 'CO',
+      cards: ['As', 'Jd'],
+      board: ['Jc', '7d', '3s'],
+      actions: [['CO', 'r', 2.2], ['BB', 'c'], 'flop', ['BB', 'x']],
+    },
+    check: { pot: 5.9, toCall: 0, spr: 3.7 },
+    q: 'CO-ból 2,2bb-re nyitottál, a BB hívott. Flop J♣7♦3♠, a BB checkel. Mit lépsz?',
+    opts: [
+      { id: 'check', t: 'Check', g: 'minor', why: 'Kihagyod a value-t és a védekezést: alacsony SPR-nél a TPGK-nak pénzt kell betennie. Árulkodó: „kontrollálom a potot” — ez mélyen jó gondolat, 3,7-es SPR-nél nem.' },
+      { id: 'bet_off', t: 'Bet 2bb (33%), raise-re all-in', g: 'best' },
+      { id: 'bet_fold', t: 'Bet 2bb (33%), raise-re fold', g: 'blunder', why: 'Nem kötelezted el magad előre: all-in ellen 40% kell, és az AJ egy reális check-raise range ellen kb. 46–54%-os. Árulkodó: „ha raise-el, gondolkodom”.' },
+    ],
+    ans: 'Bet 2bb, és raise-re all-in: 3,7-es SPR-nél a top pár jó kickerrel elköteleződő kéz.',
+    exp:
+      'A flopon 5,9bb a pot, a BB-nek 21,8bb maradt (a vakot és az antét is a saját stackjéből tette be), te 22,8bb-vel fedezed, így az SPR kb. 3,7. Ilyen mélységnél a TPGK a range-ed erős vége, nem dobod el. Ha a 2bb-s c-betedre a BB all-in, 19,8bb a hívás egy 29,7bb-s potba: 40% kell, az AJ pedig egy reális check-raise range ellen (szettek, két pár, gyengébb Jx, gutshotok) kb. 46–54%-os. A kis bet gyengébb Jx-et, 7-eseket és gutshotokat hívat, és két utcán át természetesen bekerül a stack.',
+    mist: 'Tipikus hiba, hogy mély stackes reflexszel kontrollálod a potot, vagy betelsz, majd raise-re eldobod: alacsony SPR-nél mindkettő értéket veszít.',
+    factors: [
+      { c: 'spr', t: 'SPR ≈ 3,7 (21,8bb a BB mögött / 5,9bb pot): a TPGK itt elköteleződő kéz.' },
+      { c: 'odds', t: 'Ha a 2bb-s c-betre all-in jön: 19,8bb a hívás 29,7bb-s potba, 40% kell; az AJ kb. 46–54%-os.' },
+      { c: 'range', t: 'A BB check-raise range-e: 77, 33, J7s, J3s, 73s, gyengébb Jx és gutshotok (T9, 98, 65, 54).' },
+      { c: 'board', t: 'J♣7♦3♠ szivárvány, száraz board: kevés a draw, a TPGK messze a range-ed erős végén van.' },
+      { c: 'plan', t: 'Előre döntsd el: raise-re all-in, a turnön pedig folytatod a value-t.' },
+    ],
+    markers: [{ re: '\\bha (vissza ?)?(raise|emel)[\\w-]*,? (akkor )?(majd )?(meg|el)?(gondolkod|latom|latjuk|dontom)|\\bkontrollal(om|ni) a potot', msg: 'Alacsony SPR-nél előre kell döntened a stack-offról.' }],
+    src: 'SPR-elköteleződés (Miller–Mehta–Flynn: Professional No-Limit Hold\'em); pot odds a motor számaival; equity: tools/equity.js',
   });
 
   S.push({
