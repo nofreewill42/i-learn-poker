@@ -87,7 +87,7 @@
       { c: 'tells', t: 'Minden nyitó kézzel ugyanakkora méret: a kéz szerint változó méret (77-tel 5bb, AA-val 2,5bb) méret-tell.', kw: ['\\bugyanakkora', '\\begyseges meret'] },
     ],
     markers: [
-      { re: '\\b(parral |olcson )?limpel(ek|nek|nem)\\b', msg: 'Open-limp egy nyitó kézzel: feladod a kezdeményezést.' },
+      { re: '\\blimpel(ek|nem|hetek)\\b|\\bparral limp', msg: 'Open-limp egy nyitó kézzel: feladod a kezdeményezést.' },
       { re: '\\bhogy ne hivjanak|\\bnagyot (nyitok|emelek)', msg: 'Kéz szerint változó méret: élőben méret-tell.' },
     ],
     src: '10 fős nyitási arányok (charts.js: saját átszámítás 9 fős GTO-chartokból); élő, ante nélküli open-méret konszenzus (2,5–3bb); pot odds számítás',
@@ -132,7 +132,7 @@
       { c: 'pos', t: 'A BTN-en pozícióban vagy mindkét limper ellen, mögötted csak a vakok döntenek.' },
       { c: 'profile', t: 'A recek limp-range-e széles és többnyire capped: a prémium kezeket általában emelik.' },
     ],
-    markers: [{ re: '\\blimpel(ek|nek)? (en is|moge)|\\bmoge(je)? limpel|\\boverlimp', msg: 'Overlimp egy value-kézzel: a heads-up iso helyett multiway potot választasz.' }],
+    markers: [{ re: '\\blimpelek (en is|moge)|\\bmoge(juk)? limpel|\\boverlimpel', msg: 'Overlimp egy value-kézzel: a heads-up iso helyett multiway potot választasz.' }],
     src: 'Iso-méret ökölszabály (open + 1bb limperenként, OOP +1bb; blackrain79, pokerskill); GTO Wizard: How to Handle Loose-Passive Limpers (raise-or-fold, overlimp csak gyenge spekulatív kezekkel); Monte Carlo equity',
   });
 
@@ -174,7 +174,7 @@
       { c: 'pos', t: 'A SB minden utcán elsőként lép: a potot kicsiben tartod, és csak erős találattal mész tovább.' },
       { c: 'mw', t: 'Multiwayben a nutot csináló, összekötött suited kezek tartják jól az értéküket.' },
     ],
-    markers: [{ re: '\\b(raise|emel(ek|ni|nek)|megemel(em)?)\\b.{0,30}\\b(elvesz|elvisz|hatha|dob|foldol)', msg: 'Blöff-remény négy ellenfél ellen: a recek ritkán dobnak egy SB-raise-re.' }],
+    markers: [{ re: '\\b(raise|emelek|megemelem)\\b.{0,30}\\b(elveszem|elviszem|hatha (mind(enki)? )?dob)', msg: 'Blöff-remény négy ellenfél ellen: a recek ritkán dobnak egy SB-raise-re.' }],
     src: 'Pot odds számítás + Monte Carlo equity (76s vs három limp-range és egy véletlen kéz); GTO Wizard: 10 Tips for Multiway Pots (a nutot csináló kezek multiwayben is jól tartják az equityt)',
   });
 
@@ -207,7 +207,7 @@
     ],
     ans: 'Fold: az openerrel szemben csak 25bb az effektív stack, ez kb. 8× a hívás — a set mininghez legalább 10×, inkább 15–20× kellene.',
     exp:
-      'A te 180bb-d itt nem számít: a rec 25bb-vel nyitott, ennél többet tőle nem nyerhetsz, így az effektív stack csak kb. 8× a 3bb-s hívás. A set mining ökölszabálya legalább 10×, inkább 15–20×, mert a flopon csak kb. 12%-ban (kb. 7,5:1 ellen) találsz drillt, és akkor sem fizet ki mindig mind a 22bb-vel. Mögötted még négy játékos dönt, egy squeeze-nél a 3bb-t is elveszted. A 3-bet sem jó: a 44 a rec 3-betet folytató range-e (kb. 77+, AJ+, KQs) ellen csak kb. 36%-os, és 9bb után már elkötelezett vagy.',
+      'Az effektív stack mindig két játékos között értendő: a rec 25bb-vel nyitott, ennél többet tőle nem nyerhetsz, akármekkora a te stacked, így az effektív stack csak kb. 8× a 3bb-s hívás. A set mining ökölszabálya legalább 10×, inkább 15–20×, mert a flopon csak kb. 12%-ban (kb. 7,5:1 ellen) találsz drillt, és akkor sem fizet ki mindig mind a 22bb-vel. Mögötted még négy játékos dönt, egy squeeze-nél a 3bb-t is elveszted. A 3-bet sem jó: a 44 a rec 3-betet folytató range-e (kb. 77+, AJ+, KQs) ellen csak kb. 36%-os, és 9bb után már elkötelezett vagy.',
     mist: 'Tipikus hiba a saját stackből számolni („nagy stackem van, belefér”) az effektív stack helyett.',
     factors: [
       { c: 'stack', t: 'Az effektív stack az openerrel szemben 25bb, nem a te 180bb-d: a hívás után legfeljebb 22bb-t nyerhetsz még tőle.' },

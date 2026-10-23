@@ -122,6 +122,7 @@
 
     let street = 'pre';
     let currentBet = bb;
+    let aggressor = null; // aki az utcán utoljára emelte a tétet
     let idx = 0; // preflop az első pozíció kezd (heads-upban az SB)
     let spr = null;
     let flopPot = null;
@@ -189,6 +190,7 @@
       }
       for (const s of seats) s.inStreet = 0;
       currentBet = 0;
+      aggressor = null;
       street = nextStreet;
       idx = firstPostflop();
       if (nextStreet === 'flop') {
@@ -243,6 +245,7 @@
           if (amt - s.inStreet > s.stack + EPS) fail(spotId, pos + ': nincs ennyi zsetonja (all-in = j)');
           put(s, amt - s.inStreet);
           currentBet = s.inStreet;
+          aggressor = s;
           shown = s.inStreet;
           break;
         case 'r':
@@ -250,11 +253,15 @@
           if (amt - s.inStreet > s.stack + EPS) fail(spotId, pos + ': nincs ennyi zsetonja a raise-hez (all-in = j)');
           put(s, amt - s.inStreet);
           currentBet = s.inStreet;
+          aggressor = s;
           shown = s.inStreet;
           break;
         case 'j':
           put(s, s.stack);
-          if (s.inStreet > currentBet) currentBet = s.inStreet;
+          if (s.inStreet > currentBet) {
+            currentBet = s.inStreet;
+            aggressor = s;
+          }
           shown = s.inStreet;
           break;
         default:
@@ -282,8 +289,10 @@
     const opps = seats.filter((s) => !s.hero && !s.folded);
     const maxOppTotal = opps.length ? Math.max.apply(null, opps.map((s) => s.stack + s.inStreet)) : 0;
     const eff = Math.min(hero.stack + hero.inStreet, maxOppTotal);
+    // effektív stack: ha tétre kell válaszolnod, az emelővel szemben; különben a legnagyobb még bent lévő ellenféllel
     const maxOppStart = opps.length ? Math.max.apply(null, opps.map((s) => s.start - s.dead)) : 0;
-    const effStart = Math.min(hero.start - hero.dead, maxOppStart);
+    const vs = aggressor && !aggressor.hero && !aggressor.folded ? aggressor.start - aggressor.dead : maxOppStart;
+    const effStart = Math.min(hero.start - hero.dead, vs);
     const toActAfter = [];
     if (street === 'pre') {
       // akik a hős után még döntenek (nem dobtak, nem all-in)

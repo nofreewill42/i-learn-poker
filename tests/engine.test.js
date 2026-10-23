@@ -93,6 +93,13 @@ test('spot-motor: fedező jam ellen csak a hívható rész számít (45,1%)', ()
   near(st.needEq, 16 / 35.5);
 });
 
+test('spot-motor: az effektív stack az emelővel szemben értendő', () => {
+  const st = PK.spot.simulate({ ante: 1, stacks: { default: 85, UTG: 25, HJ: 180 }, hero: 'HJ', actions: [['UTG', 'r', 3]] });
+  near(st.effStart, 25);
+  const open = PK.spot.simulate({ ante: 1, stacks: { default: 85, HJ: 180 }, hero: 'HJ', actions: [] });
+  near(open.effStart, 85);
+});
+
 test('spot-motor: postflop, SPR és kötelező akciók', () => {
   const table = {
     ante: 1,
