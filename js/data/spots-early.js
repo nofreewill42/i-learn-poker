@@ -72,7 +72,7 @@
     q: 'UTG és UTG+1 dob. Mit lépsz UTG+2-ről?',
     opts: [
       { id: 'limp', t: 'Limp 1bb', g: 'minor', why: 'A 77 nyitó kéz: a limp feladja a kezdeményezést, és olcsó multiway potot hív be, ahol a flopon csak kb. 12%-ban találsz drillt. Árulkodó: „párral limpelek, set miningre”.' },
-      { id: 'o2', t: 'Open 2bb', g: 'minor', why: 'A min-raise túl olcsó: a vakoknak 1bb-ért 5bb-s potot kell hívniuk (20% equity elég), és élőben, mélyen mögötted is sokan beszállnak. Árulkodó: online, ante-s méretet hozol át egy ante nélküli élő szintre.' },
+      { id: 'o2', t: 'Open 2bb', g: 'minor', why: 'A min-raise túl olcsó: a BB-nek 1bb-t kell hívnia egy 5bb-s végső potért (20% equity elég), és élőben, mélyen mögötted is sokan beszállnak. Árulkodó: online, ante-s méretet hozol át egy ante nélküli élő szintre.' },
       { id: 'o3', t: 'Open 2,5–3bb', g: 'best' },
       { id: 'o5', t: 'Open 5bb', g: 'minor', why: 'A 77-tel nem kell preflop nagy pot: 5bb-re főleg a jobb kezek folytatnak, és ha csak egyes kezeket nyitsz ekkorára, az élőben olvasható méret-tell. Árulkodó: „nagyot emelek, hogy ne hívjanak”.' },
     ],
@@ -114,17 +114,17 @@
       board: [],
       actions: [['UTG+1', 'l'], ['MP', 'l']],
     },
-    check: { pot: 4.5, toCall: 1, needEq: 0.182 },
+    check: { pot: 4.5, toCall: 1 },
     q: 'UTG+1 és MP (két rec) limpel, a köztük és utánuk ülők dobnak. Mit lépsz a BTN-ről?',
     opts: [
       { id: 'limp', t: 'Limp 1bb', g: 'minor', why: 'Overlimp egy value-kézzel: az AJo heads-up nagy előnyben van a limperek ellen, multiway viszont dominálható és nehezen realizál. Árulkodó: „limpelek mögé, olcsón megnézem”.' },
-      { id: 'i3', t: 'Iso 3bb-re', g: 'minor', why: 'A heads-up open méretét hoztad át limperek ellen: 3bb-re a limpereknek 2bb-ért 9,5bb-s potot kell hívniuk (kb. 21%), így multiway maradsz. Árulkodó: a limpereket nem számolod bele a méretbe.' },
+      { id: 'i3', t: 'Iso 3bb-re', g: 'minor', why: 'A heads-up open méretét hoztad át limperek ellen: 3bb-re az első limpernek 2bb-t kell hívnia egy 9,5bb-s végső potért (kb. 21% equity elég), így multiway maradsz. Árulkodó: a limpereket nem számolod bele a méretbe.' },
       { id: 'i6', t: 'Iso 6bb-re', g: 'best' },
       { id: 'fold', t: 'Fold', g: 'blunder', why: 'Pozícióban dobsz el egy kezet, ami a limp-range-ek ellen erős. Árulkodó: a limpereket „biztos erősnek” látod, pedig a recek limp-range-e széles és többnyire capped.' },
     ],
     ans: 'Iso 6bb-re (5–7bb): az AJo value két rec limper ellen, és a nagyobb méret heads-up potot csinál pozícióban.',
     exp:
-      'A potban 4,5bb van (két limp, a vakok és a BB ante). Az AJo egy laza rec limp-range ellen fej-fej kb. 63%-os, két hívó ellen már csak kb. 42%, négy ellenfél ellen kb. 24%: az értéke a heads-up potban van. Az ökölszabály pozícióban kb. 3bb + 1bb limperenként, azaz 5bb; élőben, hívogató recek ellen a 6–7bb jobb. A 3bb-s iso-ra a limpereknek 2bb-ért 9,5bb-s potot kell hívniuk (kb. 21% equity elég), így szinte mindenki marad.',
+      'A potban 4,5bb van (két limp, a vakok és a BB ante). Az AJo egy laza rec limp-range ellen fej-fej kb. 63%-os, két hívó ellen már csak kb. 42%, négy ellenfél ellen kb. 24%: az értéke a heads-up potban van. Az ökölszabály pozícióban kb. 3bb + 1bb limperenként, azaz 5bb; élőben, hívogató recek ellen a 6–7bb jobb. 3bb-re az első limpernek 2bb-t kell hívnia egy 9,5bb-s végső potért (kb. 21% equity elég), 6bb-re már 5bb-t egy 15,5bb-sért (kb. 32%): a nagyobb méret dobatja vagy rossz áron hívatja a gyenge limpeket.',
     mist: 'Tipikus hiba a „limpelek mögé” reflex erős kezekkel, és a heads-up 2,5–3bb-s méret limperek ellen.',
     factors: [
       { c: 'sizing', t: 'Iso-méret pozícióban: kb. 3bb + 1bb limperenként = 5bb; laza hívók ellen 6–7bb, OOP még +1bb.' },
@@ -159,7 +159,7 @@
     check: { pot: 4.5, toCall: 0.5, needEq: 0.1 },
     q: 'UTG, HJ és BTN limpel. Mit lépsz a SB-ből?',
     opts: [
-      { id: 'fold', t: 'Fold', g: 'minor', why: '0,5bb-ért 5bb-s potot dobsz el egy mélyen jól játszható kézzel. Árulkodó: a SB-t automatikusan „rossz pozíciónak” látod, és nem számolod az árat.' },
+      { id: 'fold', t: 'Fold', g: 'minor', why: '0,5bb-ért egy 5bb-s végső potba szállhatnál be egy mélyen jól játszható kézzel. Árulkodó: a SB-t automatikusan „rossz pozíciónak” látod, és nem számolod az árat.' },
       { id: 'comp', t: 'Complete 0,5bb', g: 'best' },
       { id: 'r6', t: 'Raise 6bb-re', g: 'blunder', why: 'Blöff-remény négy ellenfél ellen: a recek ritkán dobnak, így elsőként lépve, felfújt multiway potot játszol egy spekulatív kézzel. Árulkodó: „megemelem, elveszem a potot”.' },
     ],
