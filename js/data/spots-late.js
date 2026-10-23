@@ -40,7 +40,7 @@
     ],
     ans: 'Fold: a buborékon 68,4% equity kellene, a KJo még a CL any two range-e ellen is csak kb. 61%-os.',
     exp:
-      'ChipEV-ben 16bb-t hívsz egy 35,5bb-s potért, ehhez 45,1% elég, és a KJo egy széles CL-range ellen (a kezek kb. 70%-a) 58%-os, any two ellen 60,6%-os — chipEV-ben tehát hívás. A buborékon viszont a zsetonok nem egyformán érnek: ha veszítesz, 0-val kiesel, ha nyersz, a várható pénzed csak kb. 46%-kal nő (a díjalap 11,3%-áról 16,5%-ára). Az ICM-számítás (feltételezett kifizetéssel) ezért 68,4% equityt kér, a risk premium 23,3%; ráadásul a 4bb-s UTG a következő kézben a BB-ben lesz. Ilyen nyomás alatt egy széles range ellen is csak kb. TT+ hív, és még az AK is határeset (65–67%).',
+      'ChipEV-ben 16bb-t hívsz egy 35,5bb-s potért, ehhez 45,1% elég, és a KJo egy széles CL-range ellen (a kezek kb. 70%-a) 58%-os, any two ellen 60,6%-os — chipEV-ben tehát hívás. A buborékon viszont a zsetonok nem egyformán érnek: ha veszítesz, 0-val kiesel, ha nyersz, a várható pénzed csak kb. 46%-kal nő (a díjalap 11,3%-áról 16,5%-ára). Az ICM-számítás (feltételezett kifizetéssel) ezért 68,4% equityt kér, a risk premium 23,3%; ráadásul a 4bb-s UTG a következő kézben a BB-ben lesz. Ilyen nyomás alatt egy széles range ellen is csak kb. TT+ hív, az AK (65–67%) pedig a feltételezett kifizetéssel épp a küszöb alatt marad.',
     mist: 'A leggyakoribb buborékhiba a chipEV-hívás („széles a range-e, megvan az odds”). A másik véglet, ha a nagy stack lopásait mindig elengeded: a TT+ itt is hívás.',
     factors: [
       { c: 'icm', t: 'Pénzbuborék (8 bent, 7 fizet): a modell szerint 68,4% equity kell, chipEV-ben csak 45,1% — a risk premium 23,3%.' },
@@ -146,16 +146,16 @@
     scene: 'Egy nagyobb versenyen 110-en neveztetek, 11 hely fizet. Tizenketten maradtatok két asztalon: egy kiesés a pénzig, kettő a 10 fős döntőig.',
     q: 'Melyik állítás igaz erre a buborékra?',
     opts: [
-      { id: 'big', t: 'Olyan, mint egy nagy mezőny pénzbuboréka: főleg a rövid stackek vannak nyomás alatt', g: 'minor', why: 'Nagy mezőnyben a min-cash után még sokáig kicsik a lépcsők, ott tényleg a rövid stackek a legnyomottabbak. Itt a min-cash (3,3%) után rögtön nagy pay jumpok jönnek, így a közepes stackek is erősen nyomottak.' },
+      { id: 'big', t: 'Olyan, mint egy nagy mezőny pénzbuboréka: főleg a rövid stackek vannak nyomás alatt', g: 'minor', why: 'Nagy mezőnyben a buborék után még sok, közel azonos min-cash jön, ott tényleg a rövid stackek a legnyomottabbak. Itt a pénz után is szinte minden kiesés pay jump, ezért a közepes és nagyobb stackek is erősen nyomottak.' },
       { id: 'ft', t: 'Inkább döntő-buborék: a közepes stackek a legnyomottabbak, a legrövidebbek kevésbé', g: 'best' },
       { id: 'none', t: 'Nincs igazi ICM: a min-cash olyan kicsi, hogy chipEV-ben érdemes játszani', g: 'blunder', why: 'A 12. hely 0-t ér, a 11. 3,3%-ot, és innen meredek lépcsők jönnek: az ICM itt az egyik legerősebb. Árulkodó: „a min-cash úgyis kevés”.' },
     ],
     ans: 'Döntő-buborék dinamika: kis mezőnyben a pénzbuborék a döntő-buborékra hasonlít, a közepes stackek a legnyomottabbak.',
     exp:
-      'A GTO Wizard elemzése szerint kis mezőnyben a pénzbuborék a döntő-buborékra hasonlít, mert a pénzhelyek után rögtön a nagy pay jumpok jönnek. A feltételezett kifizetéssel számolva egy 4bb-s stack bubble factora az 58bb-s chip leader ellen 1,61, egy 14bb-sé 2,38, egy 30bb-sé 2,53: itt nem a legrövidebb stack a legnyomottabb, hanem a közepesek. A rövid stack ezért viszonylag bátrabban tolhat, a közepeseknek viszont nagyon szűken kell hívniuk — ellenük lehet lopni.',
+      'A GTO Wizard elemzése szerint kis mezőnyben a pénzbuborék a döntő-buborékra hasonlít: a pénz után is kevesen maradtok, és szinte minden további kiesés pay jumpot hoz (a feltételezett táblában a 11. hely 3,3%, a 7. már 5%, a 3. 12,5%). Ezzel a kifizetéssel egy 4bb-s stack bubble factora az 58bb-s chip leader ellen 1,61, egy 14bb-sé 2,38, egy 30bb-sé 2,53: itt nem a legrövidebb stack a legnyomottabb, hanem a közepes és nagyobb stackek. A rövid stack ezért viszonylag bátrabban tolhat, a közepeseknek viszont nagyon szűken kell hívniuk — ellenük lehet lopni.',
     mist: 'Tipikus hiba, hogy a kis versenyek buborékát egy nagy online verseny buborékaként kezeljük: ott a rövid stack a legnyomottabb, itt inkább a közepes.',
     factors: [
-      { c: 'icm', t: 'Kis mezőnyben a pénzhelyek után rögtön nagy pay jumpok jönnek: a buborék a döntő-buborékra hasonlít.' },
+      { c: 'icm', t: 'Kis mezőnyben a pénz után is szinte minden kiesés pay jump: a buborék a döntő-buborékra hasonlít.' },
       { c: 'math', t: 'Feltételezett kifizetéssel a CL ellen: 4bb-s stack BF 1,61, 14bb-s 2,38, 30bb-s 2,53.', kw: ['bubble factor', '\\bbf\\b'] },
       { c: 'stack', t: 'A közepes stackek a legnyomottabbak: nekik kell a legszűkebben hívniuk.' },
       { c: 'fe', t: 'A közepes stackek ellen nagy a fold equity: ők nem tudnak tágan védekezni.' },
@@ -178,17 +178,17 @@
     opts: [
       { id: 'push', t: 'Folytatod, majd jobban figyelsz', g: 'minor', why: 'A fáradt figyelem akaratból nem jön vissza. Árulkodó: „majd jobban figyelek”, miközben egyre rövidebbek a döntési idők.' },
       { id: 'nit', t: 'A szünetig mindent eldobsz, ami nem prémium', g: 'minor', why: 'A robotpilóta foldolva is drága: a buborékon kihagyod a lopásokat és a vakvédelmet. Ez nem reset, csak elhalasztott probléma.' },
-      { id: 'reset', t: 'Reset: a BB-d után kihagysz néhány kezet — víz, séta, 3 fókuszpont, aztán vissza', g: 'best' },
+      { id: 'reset', t: 'Reset most: kihagysz néhány kezet — víz, séta, 3 fókuszpont, aztán vissza', g: 'best' },
     ],
-    ans: 'Reset: állj fel a BB-d után (vagy a szünetben), igyál vizet, sétálj, és válassz 3 fókuszpontot a következő órára.',
+    ans: 'Reset most: állj fel néhány kézre (legolcsóbban az SB-d után), igyál vizet, sétálj, és válassz 3 fókuszpontot.',
     exp:
-      'Ha nem emlékszel az előző kezekre, a figyelmed elfáradt — ez akaratból nem javul, csak szünettel. A legolcsóbb reset a BB-d után: a következő 6–8 kézben nem vagy vakban, így a kihagyásuk zsetonba nem kerül, csak lehetőségbe. Igyál vizet, sétálj egyet, és válassz 3 fókuszpontot (pl. a stackek bb-ben, ki a legrövidebb, ki lop sokat). A buborékon egyetlen figyelmetlen hívás többe kerülhet, mint egy teljes kihagyott orbit (SB + BB + BB ante = 2,5bb).',
+      'Ha nem emlékszel az előző kezekre, a figyelmed elfáradt — ez akaratból nem javul, csak szünettel, és a szünetig még fél óra van. A legolcsóbb, ha az SB-d után állsz fel: 10 fős asztalnál a következő 8 kézben (BTN-tól UTG-ig) nincs kényszerbetéted, és a BB-dre visszaérsz; csak néhány lopási lehetőséget hagysz ki. Igyál vizet, sétálj egyet, és válassz 3 fókuszpontot (pl. a stackek bb-ben, ki a legrövidebb, ki lop sokat). A buborékon egyetlen figyelmetlen hívás többe kerülhet, mint akár egy teljes kihagyott orbit (SB + BB + BB ante = 2,5bb).',
     mist: 'A fáradtság jele nem az, hogy rosszul érzed magad, hanem hogy rövidülnek a döntési idők, és a döntéseidből kimarad a stack, a pozíció és az ellenfél.',
     factors: [
       { c: 'tilt', t: 'Nem emlékszel az előző 3 kézre: a figyelmed elfáradt, reset kell.' },
-      { c: 'plan', t: 'Terv: a BB-d után állj fel — a következő 6–8 kéz kihagyása zsetonba nem kerül.' },
+      { c: 'plan', t: 'Terv: az SB-d után állj fel — a következő 8 kézben nincs kényszerbetéted, a BB-dre visszaérsz.' },
       { c: 'icm', t: 'A buborékon a legdrágább egy figyelmetlen döntés: a kiesés itt 0-t ér.' },
-      { c: 'stack', t: 'Egy teljes kihagyott orbit 2,5bb (SB + BB + BB ante): 21bb-ből ez is olcsóbb, mint egy robotpilóta-hiba.' },
+      { c: 'stack', t: 'Ha az SB után állsz fel, a kihagyott kezek zsetonba nem kerülnek; még egy teljes orbit is csak 2,5bb (SB + BB + BB ante) a 21bb-dből.' },
     ],
     markers: [{ re: '\\bmajd (jobban )?figyelek|\\bcsak (nyomom|megyek tovabb|jatszom tovabb)|\\bnem emlekszem', msg: 'Robotpilóta-jel: a figyelem nem jön vissza akaratból — reset kell.' }],
     src: 'Mentális játék: edzői konszenzus (figyelem, fáradtság, reset-rutin); nem solver- vagy kutatási eredmény',
