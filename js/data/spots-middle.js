@@ -177,6 +177,93 @@
   });
 
   S.push({
+    id: 'B05',
+    title: 'BTN A5s laza CO-open ellen',
+    stage: 'middle',
+    cats: ['3B'],
+    diff: 3,
+    basis: 'gto',
+    conf: 'med',
+    ctx: { entrants: 70, left: 31, paid: 7, level: 11, blinds: '1200/2400', ante: 'BBA 2400', avgBb: 40 },
+    table: {
+      players: 10,
+      ante: 1,
+      anteType: 'bba',
+      stacks: { default: 45 },
+      profiles: { CO: 'lag' },
+      reads: { CO: 'Laza reg: a CO-ból sokat nyit, 3-betre gyakran dob.' },
+      hero: 'BTN',
+      cards: ['Ac', '5c'],
+      board: [],
+      actions: [['CO', 'r', 2.2]],
+    },
+    check: { pot: 4.7, toCall: 2.2, needEq: 0.319, eff: 45 },
+    q: 'A laza CO 2,2bb-re nyit. Te a BTN-en vagy A♣5♣-rel, 45bb-vel. Mit lépsz?',
+    opts: [
+      { id: 'fold', t: 'Fold', g: 'minor', why: 'Egy laza open ellen a 3-bet-blöff legjobb jelöltjét dobod el. Árulkodó: „csak prémiummal 3-betelek” — így a 3-beted átlátszó, és a lopásokat ingyen hagyod.' },
+      { id: 'call', t: 'Call 2,2bb', g: 'good', why: 'Játszható, pozícióban vagy — de a laza CO fold-hajlamát nem használod ki, és a vakok mögötted squeeze-elhetnek. Árulkodó: „megnézem a flopot pozícióban”.' },
+      { id: '3b', t: '3-bet 6bb-re', g: 'best' },
+      { id: 'jam', t: 'All-in 45bb', g: 'minor', why: '45bb-vel túl nagy a kockázat a 4,7bb-s potért: a laza CO sokat dob, de amivel hív, az ellen kb. 31–33%-os vagy. Árulkodó: „tolom, nem akarok gondolkodni”.' },
+    ],
+    ans: '3-bet 6bb-re: az A5s blockerrel és jó játszhatósággal ideális 3-bet-blöff egy laza CO-open ellen.',
+    exp:
+      'A laza CO 40bb körül kb. 30–36%-ot nyit; ha a 3-betre csak 22+, ATs+, AQo+, KQs, KJs, QJs, JTs körüli kezekkel folytat, az A5s ellen kb. 64–72%-ban dob. A 6bb-s 3-bet így magában is közel nyereséges, és ha hív, pozícióban vagy, kb. 42% equityvel a hívó range-e ellen. Az A♣ blokkolja az AA-t, az AK-t és az AQ-t, vagyis épp a legerősebb folytatásokat. 45bb-n a 3-bet/fold még működik: 4-bet all-inre 39bb a hívás 92,5bb-s végső potba (42,2% kell), a QQ+, AK ellen viszont kb. 30%-os vagy, tehát dobsz.',
+    mist: 'Tipikus hiba a „csak prémiummal 3-betelek” logika: így a 3-beted átlátszó, és laza nyitók ellen kimarad a legjobb blöff. A másik véglet a 45bb-s jam, ami túl sokat kockáztat.',
+    factors: [
+      { c: 'blockers', t: 'Az A♣ blokkolja az AA-t, az AK-t és az AQ-t — a CO legerősebb folytatásait.' },
+      { c: 'fe', t: 'A laza CO a 6bb-s 3-betre kb. 64–72%-ban dob.' },
+      { c: 'profile', t: 'Laza reg, sokat nyit és gyakran dob: ő a 3-bet célpontja.' },
+      { c: 'stack', t: '45bb-n a 3-bet/fold még működik: 4-bet all-inre kb. 30%-os vagy, 42,2% kellene, tehát dobsz.' },
+      { c: 'plan', t: 'Ha hív, pozícióban c-betelsz; 4-bet all-inre fold.' },
+    ],
+    markers: [{ re: '\\bcsak (premium|eros|jo) ?(kez|lap)?(pal|pel|bol|rel)? 3-?bet|\\b3-?betre (ez )?(gyenge|keves)', msg: 'Túl szűk, csak value-ra épülő 3-bet-logika.' }],
+    src: 'MTT-s 40–50bb-s 3-bet-stratégiák (GTO Wizard: suited Ax blöff-3-betek blockerrel); pot odds a motor számaival; equity: tools/equity.js',
+  });
+
+  S.push({
+    id: 'B06',
+    title: 'AJo 30bb agresszív BTN 3-bet ellen',
+    stage: 'middle',
+    cats: ['3B', 'STK'],
+    diff: 3,
+    basis: 'exploit',
+    conf: 'med',
+    ctx: { entrants: 70, left: 29, paid: 7, level: 12, blinds: '1500/3000', ante: 'BBA 3000', avgBb: 32 },
+    table: {
+      players: 10,
+      ante: 1,
+      anteType: 'bba',
+      stacks: { default: 40, CO: 30 },
+      profiles: { BTN: 'lag' },
+      reads: { BTN: 'Agresszív reg: late pozícióban sokat 3-betel, széles range-dzsel.' },
+      hero: 'CO',
+      cards: ['Ah', 'Jc'],
+      board: [],
+      actions: [['CO', 'r', 2.2], ['BTN', 'r', 5.5]],
+    },
+    check: { pot: 10.2, toCall: 3.3, needEq: 0.244, eff: 30 },
+    q: 'CO-ból 2,2bb-re nyitottál 30bb-vel, az agresszív BTN 5,5bb-re 3-betel, a vakok dobnak. Mit lépsz?',
+    opts: [
+      { id: 'fold', t: 'Fold', g: 'minor', why: 'Egy széles, agresszív 3-bet ellen túl erős kezet dobsz: az AJo a 3-bet range-e ellen kb. 50%-os. Árulkodó: „3-betelt, biztos van valamije”.' },
+      { id: 'call', t: 'Call 3,3bb', g: 'minor', why: 'OOP hívsz egy 1,8-as SPR-ű potba: a flopon gyakran nem tudod, mit csinálj, és a kéz nagy részét elveszted. Árulkodó: „hívok, megnézem a flopot”.' },
+      { id: 'jam', t: '4-bet all-in 30bb', g: 'best' },
+    ],
+    ans: 'All-in 30bb: egy agresszív BTN széles 3-bet range-e ellen az AJo erős jam.',
+    exp:
+      'A potban 10,2bb van; a 30bb-s jam kb. 5,5-szöröse a 3-betnek, így a BTN-nek 24,5bb-t kell rátennie. Egy agresszív BTN széles range-dzsel 3-betel (55+, A8s+, A2s–A5s, ATo+, K9s+, KJo+, Q9s+, J9s+ és suited connectorok, kb. 17%); ebből kb. 99+, AJs+, AQo+, KQs-sel hív, ami ellen kb. 32%-os vagy, a többivel dob. Így a jam nagyjából +4–6bb, mert a 10,2bb-s potot kb. 70–80%-ban azonnal elviszed. A call OOP 1,8-as SPR-t ad, a fold pedig túl sokat ad fel; egy szűk, csak QQ+/AK-val 3-betelő ellen viszont a fold a jó lépés (ott kb. 25%-os vagy).',
+    mist: 'Tipikus hiba az „OOP hívok, megnézem a flopot” alacsony SPR-nél, illetve hogy minden 3-betet erőnek veszünk, az ellenfél profiljától függetlenül.',
+    factors: [
+      { c: 'profile', t: 'Agresszív BTN, széles 3-bet range (kb. 17%) — egy szűk 3-betelő ellen ugyanez fold lenne.' },
+      { c: 'fe', t: 'A jamre kb. 70–80%-ban dob: csak 99+, AJs+, AQo+, KQs körül hív.' },
+      { c: 'range', t: 'A hívó range-e ellen kb. 32%-os vagy, de a 10,2bb-s pot elvitele miatt a jam kb. +4–6bb.' },
+      { c: 'spr', t: 'Call után a flopon kb. 1,8 az SPR, és OOP vagy: a call a legrosszabb opció.' },
+      { c: 'stack', t: '30bb-vel a jam kb. 5,5-szöröse a 3-betnek: elég nagy, hogy fold equityt vegyen.' },
+    ],
+    markers: [{ re: '\\bhivok,? (es )?megnezem a flopot|\\bmegnezem a flopot', msg: 'Alacsony SPR-nél OOP hívás a flop kedvéért: a jam vagy a fold tisztább.' }],
+    src: 'Rövid stackes 4-bet-jam elmélet (20–35bb, GTO Wizard és Upswing összefoglalók); a profil szerinti range-ek feltevések; chipEV: saját Monte Carlo számítás a motor és az equity-modul alapján',
+  });
+
+  S.push({
     id: 'B07',
     title: 'Top pár jó kickerrel, SPR 3,7',
     stage: 'middle',
